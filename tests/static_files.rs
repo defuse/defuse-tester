@@ -299,6 +299,35 @@ async fn upload_vim_zip() {
 }
 
 // =============================================================================
+// Files Directory (not yet implemented in Rust)
+// =============================================================================
+
+#[tokio::test]
+#[ignore = "files/ not yet implemented in Rust"]
+async fn files_eharmony_hashes() {
+    // Use HEAD request since this is a large file (~50MB)
+    let resp = client()
+        .head(url("/files/eharmony-hashes.txt"))
+        .send()
+        .await
+        .unwrap();
+    assert!(resp.status().is_success(), "/files/eharmony-hashes.txt should return 200");
+
+    // Must force download
+    let content_disp = resp
+        .headers()
+        .get("content-disposition")
+        .expect("/files/ should have Content-Disposition header")
+        .to_str()
+        .unwrap();
+    assert!(
+        content_disp.contains("attachment"),
+        "/files/ should force download, got: {}",
+        content_disp
+    );
+}
+
+// =============================================================================
 // Mirror Files (not yet implemented in Rust)
 // =============================================================================
 

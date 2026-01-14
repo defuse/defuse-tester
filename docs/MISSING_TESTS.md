@@ -45,7 +45,7 @@ Production-only redirects (can't test locally):
 
 Verify `Content-Disposition: attachment` on aliased directories:
 
-- [ ] `/files/*` forces download (no test file available)
+- [x] `/files/*` forces download
 - [x] `/mirrors/*` forces download
 - [x] `/upload/*` forces download
 
