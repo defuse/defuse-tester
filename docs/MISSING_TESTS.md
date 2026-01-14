@@ -41,15 +41,13 @@ Production-only redirects (can't test locally):
 - [x] www to non-www redirect (301) - `domain_redirects.rs`
 - [x] bin.defuse.ca redirect to defuse.ca/b/ - `domain_redirects.rs`
 
-## Content-Disposition Headers
+## Content-Disposition Headers - `static_files.rs`
 
-Need to verify `Content-Disposition: attachment` on aliased directories:
+Verify `Content-Disposition: attachment` on aliased directories:
 
-- [ ] `/files/*` forces download
-- [ ] `/mirrors/*` forces download
-- [ ] `/upload/*` forces download
-
-Note: We have existence tests for files in these directories, but need to verify the Content-Disposition header.
+- [ ] `/files/*` forces download (no test file available)
+- [x] `/mirrors/*` forces download
+- [x] `/upload/*` forces download
 
 ## Cache Headers
 

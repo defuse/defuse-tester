@@ -260,10 +260,17 @@ async fn upload_vim_vimrc() {
         .unwrap();
     assert!(resp.status().is_success(), "/upload/vim/vimrc should return 200");
 
-    let body = resp.text().await.unwrap();
+    // Must force download
+    let content_disp = resp
+        .headers()
+        .get("content-disposition")
+        .expect("/upload/ files should have Content-Disposition header")
+        .to_str()
+        .unwrap();
     assert!(
-        body.contains("set") || body.contains("map"),
-        "/upload/vim/vimrc should contain vim configuration"
+        content_disp.contains("attachment"),
+        "/upload/ files should force download, got: {}",
+        content_disp
     );
 }
 
@@ -276,6 +283,19 @@ async fn upload_vim_zip() {
         .await
         .unwrap();
     assert!(resp.status().is_success(), "/upload/vim/vim.zip should return 200");
+
+    // Must force download
+    let content_disp = resp
+        .headers()
+        .get("content-disposition")
+        .expect("/upload/ files should have Content-Disposition header")
+        .to_str()
+        .unwrap();
+    assert!(
+        content_disp.contains("attachment"),
+        "/upload/ files should force download, got: {}",
+        content_disp
+    );
 }
 
 // =============================================================================
@@ -292,4 +312,17 @@ async fn mirrors_zcash_blockchain() {
         .await
         .unwrap();
     assert!(resp.status().is_success(), "/mirrors/zcash-mainnet-2019-10.tar.bz2 should return 200");
+
+    // Must force download
+    let content_disp = resp
+        .headers()
+        .get("content-disposition")
+        .expect("/mirrors/ files should have Content-Disposition header")
+        .to_str()
+        .unwrap();
+    assert!(
+        content_disp.contains("attachment"),
+        "/mirrors/ files should force download, got: {}",
+        content_disp
+    );
 }
