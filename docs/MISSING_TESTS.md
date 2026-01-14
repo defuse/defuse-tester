@@ -43,41 +43,28 @@ These directories should return 403 Forbidden:
 
 ## Redirects
 
-- [ ] HTTP to HTTPS redirect (301)
-  - Note: Only testable against production, not localhost
-
-- [ ] www to non-www redirect (301)
-  - `www.defuse.ca/*` → `defuse.ca/*`
-  - Note: Only testable against production
-
 - [ ] Blog slug redirect (301)
   - `/blog/some-post-name` → `/blog/some-post-name.html`
 
-- [ ] bin.defuse.ca redirect
-  - `bin.defuse.ca/{key}` → `defuse.ca/b/{key}`
-  - Note: Only testable against production
+Production-only redirects (can't test locally):
+- [ ] HTTP to HTTPS redirect (301)
+- [ ] www to non-www redirect (301)
+- [ ] bin.defuse.ca redirect to defuse.ca/b/
 
-## Pastebin Routes
+## Content-Disposition Headers
 
-- [ ] `/b/` directory routing works
-  - Note: Full pastebin testing is separate; this is just route existence
+Need to verify `Content-Disposition: attachment` on aliased directories:
 
-## Aliased Directories with Content-Disposition
+- [ ] `/files/*` forces download
+- [ ] `/mirrors/*` forces download
+- [ ] `/upload/*` forces download
 
-These directories force downloads via `Content-Disposition: attachment`:
-
-- [ ] `/files/*` forces download (Content-Disposition: attachment)
-- [ ] `/files2/*` forces download (Content-Disposition: attachment)
-- [ ] `/mirrors/*` forces download (Content-Disposition: attachment)
-- [ ] `/upload/*` forces download (Content-Disposition: attachment)
-
-Note: We already have tests for files in these directories; need to verify Content-Disposition header.
+Note: We have existence tests for files in these directories, but need to verify the Content-Disposition header.
 
 ## Cache Headers
 
 - [ ] Images (.gif, .jpeg, .png) have `Expires` header set to 7 days
 - [ ] HTML pages have `Expires` header set to ~1 second
-- [ ] Pastebin view has `Cache-Control: no-cache, must-revalidate`
 
 ## Security Headers
 
@@ -93,11 +80,3 @@ Note: We already have tests for files in these directories; need to verify Conte
 - [ ] `/googlec56659c80ebb2d30.html` exists (Google site verification)
 - [ ] `/have-i-been-pwned-verification.txt` exists (HIBP verification)
 - [ ] `/b06c1611fa2dac4cc177a7a63c70902c453cdb92.html` exists (unknown verification)
-
-## Blog
-
-- [ ] `/blog/` index page exists and returns 200
-- [ ] `/blog/some-post.html` returns 200 (static HTML)
-- [ ] `/blog/some-post` (no .html) redirects to `/blog/some-post.html` with 301
-
-Note: Blog index and post tests already exist (ignored). Blog redirect test needed.
