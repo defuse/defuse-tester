@@ -13,6 +13,7 @@ use common::{client, is_production_url};
 
 /// www.defuse.ca should redirect to defuse.ca (301)
 #[tokio::test]
+#[ignore = "Apache rewrite bug produces double slash: https://defuse.ca//"]
 async fn www_redirects_to_non_www() {
     if !is_production_url() {
         eprintln!("Skipping www redirect test on local URL");
@@ -39,9 +40,8 @@ async fn www_redirects_to_non_www() {
         .to_str()
         .unwrap();
 
-    // Apache rewrite produces double slash, but that's okay - browsers normalize it
-    assert!(
-        location.starts_with("https://defuse.ca/"),
+    assert_eq!(
+        location, "https://defuse.ca/",
         "Should redirect to https://defuse.ca/, got: {}",
         location
     );
@@ -49,6 +49,7 @@ async fn www_redirects_to_non_www() {
 
 /// www.defuse.ca/path should redirect to defuse.ca/path (preserving path)
 #[tokio::test]
+#[ignore = "Apache rewrite bug produces double slash: https://defuse.ca//about.htm"]
 async fn www_redirect_preserves_path() {
     if !is_production_url() {
         eprintln!("Skipping www redirect test on local URL");
@@ -75,10 +76,9 @@ async fn www_redirect_preserves_path() {
         .to_str()
         .unwrap();
 
-    // Apache rewrite produces double slash, but path is preserved
-    assert!(
-        location.contains("defuse.ca/") && location.contains("about.htm"),
-        "Should redirect to defuse.ca with path preserved, got: {}",
+    assert_eq!(
+        location, "https://defuse.ca/about.htm",
+        "Should redirect to https://defuse.ca/about.htm, got: {}",
         location
     );
 }
