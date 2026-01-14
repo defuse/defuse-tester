@@ -5,9 +5,15 @@
 mod common;
 mod pages {
     pub mod home;
-    // Future page tests will be added here:
-    // pub mod checksums;
-    // pub mod about;
-    // pub mod passgen;
-    // etc.
+
+    // Dynamic services (currently todo!() placeholders)
+    pub mod trent;
+    pub mod pastebin;
+    pub mod passgen;
+    pub mod html_sanitize;
+    pub mod big_number_calculator;
+    pub mod online_x86_assembler;
+    pub mod quantum_time_capsule;
+    pub mod ip;
+    pub mod password_blocks;
 }

@@ -116,3 +116,65 @@ pub fn assert_javascript_content_type(response: &reqwest::Response, context: &st
         content_type
     );
 }
+
+/// Assert that a response is a 301 redirect to the expected location.
+/// The expected_location should be the path (e.g., "/about.htm") or full URL.
+pub fn assert_redirect(response: &reqwest::Response, expected_location: &str, context: &str) {
+    assert_eq!(
+        response.status().as_u16(),
+        301,
+        "{}: expected 301 redirect, got {}",
+        context,
+        response.status()
+    );
+
+    let location = response
+        .headers()
+        .get("location")
+        .expect(&format!("{}: missing Location header on redirect", context))
+        .to_str()
+        .expect(&format!("{}: invalid Location header value", context));
+
+    assert_eq!(
+        location, expected_location,
+        "{}: expected redirect to '{}', got '{}'",
+        context, expected_location, location
+    );
+}
+
+/// Assert that a header exists (regardless of value)
+pub fn assert_header_present(response: &reqwest::Response, header: &str, context: &str) {
+    assert!(
+        response.headers().contains_key(header),
+        "{}: expected {} header to be present",
+        context,
+        header
+    );
+}
+
+/// Assert that HTML body does NOT contain text
+pub fn assert_body_does_not_contain(body: &str, needle: &str, context: &str) {
+    assert!(
+        !body.contains(needle),
+        "{}: expected body NOT to contain '{}', but it did.\nBody preview: {}...",
+        context,
+        needle,
+        &body.chars().take(500).collect::<String>()
+    );
+}
+
+/// Helper to POST form data and return the response.
+/// Fields are key-value pairs.
+pub async fn post_form(path: &str, fields: &[(&str, &str)]) -> reqwest::Response {
+    let client = client();
+    let mut form = std::collections::HashMap::new();
+    for (key, value) in fields {
+        form.insert(*key, *value);
+    }
+    client
+        .post(url(path))
+        .form(&form)
+        .send()
+        .await
+        .expect("Failed to send POST request")
+}
