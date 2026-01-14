@@ -281,3 +281,35 @@ async fn source_blind_birthday_rb() {
         "/source/blind-birthday.rb should contain Ruby code"
     );
 }
+
+// =============================================================================
+// Upload Files (not yet implemented in Rust)
+// =============================================================================
+
+#[tokio::test]
+#[ignore = "upload/ not yet implemented in Rust"]
+async fn upload_vim_vimrc() {
+    let resp = client()
+        .get(url("/upload/vim/vimrc"))
+        .send()
+        .await
+        .unwrap();
+    assert!(resp.status().is_success(), "/upload/vim/vimrc should return 200");
+
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("set") || body.contains("map"),
+        "/upload/vim/vimrc should contain vim configuration"
+    );
+}
+
+#[tokio::test]
+#[ignore = "upload/ not yet implemented in Rust"]
+async fn upload_vim_zip() {
+    let resp = client()
+        .get(url("/upload/vim/vim.zip"))
+        .send()
+        .await
+        .unwrap();
+    assert!(resp.status().is_success(), "/upload/vim/vim.zip should return 200");
+}
