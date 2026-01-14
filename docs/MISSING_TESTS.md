@@ -2,26 +2,26 @@
 
 Tests for Apache/PHP behaviors not yet covered by our test suite.
 
-## Special PHP Endpoints
+## Special PHP Endpoints - `special_endpoints.rs`
 
-- [ ] `/s.php` - "Shout" page
-  - [ ] `?e=text` redirects to `?s=base64(text)` with 302
-  - [ ] `?s=base64text` displays decoded text in 300pt font
-  - [ ] No params shows form with input field
+- [x] `/s.php` - "Shout" page
+  - [x] `?e=text` redirects to `?s=base64(text)` with 302
+  - [x] `?s=base64text` displays decoded text in 300pt font
+  - [x] No params shows form with input field
 
-- [ ] `/rdrand.php` - Random bytes endpoint
-  - [ ] Returns `Content-Type: application/octet-stream`
-  - [ ] Returns `Content-Disposition: attachment; filename="rand.bin"`
-  - [ ] Returns binary data
+- [x] `/rdrand.php` - Random bytes endpoint (Note: returns 500 on defuse.ca)
+  - [x] Returns `Content-Type: application/octet-stream`
+  - [x] Returns `Content-Disposition: attachment; filename="rand.bin"`
+  - [x] Returns binary data
 
-- [ ] `/ip.php` - Raw IP address
-  - [ ] Returns plain text (not HTML)
-  - [ ] Returns client IP address with newline
+- [x] `/ip.php` - Raw IP address
+  - [x] Returns plain text (defuse.ca returns text/html but body is just IP)
+  - [x] Returns client IP address with newline
 
-- [ ] `/ip-insecure.php` - IP address HTML page
-  - [ ] Returns HTML page
-  - [ ] Shows "HTTP IP:" with IP address
-  - [ ] Uses 30pt font styling
+- [x] `/ip-insecure.php` - IP address HTML page
+  - [x] Returns HTML page
+  - [x] Shows "HTTP IP:" with IP address
+  - [x] Uses 30pt font styling
 
 ## Source Directory - Download Instead of Execute
 
