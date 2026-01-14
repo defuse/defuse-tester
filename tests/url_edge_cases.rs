@@ -81,6 +81,7 @@ async fn url_encoded_chars_in_slug_returns_404() {
 /// This is a convenience feature in our Rust implementation.
 /// Note: defuse.ca returns 404 for .html - this test will fail against it.
 #[tokio::test]
+#[ignore = "Rust-only feature; defuse.ca returns 404 for .html"]
 async fn html_extension_redirects_to_htm() {
     let resp = client().get(url("/about.html")).send().await.unwrap();
 
