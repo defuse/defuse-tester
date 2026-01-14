@@ -313,3 +313,19 @@ async fn upload_vim_zip() {
         .unwrap();
     assert!(resp.status().is_success(), "/upload/vim/vim.zip should return 200");
 }
+
+// =============================================================================
+// Mirror Files (not yet implemented in Rust)
+// =============================================================================
+
+#[tokio::test]
+#[ignore = "mirrors/ not yet implemented in Rust"]
+async fn mirrors_zcash_blockchain() {
+    // Use HEAD request since this is a large file
+    let resp = client()
+        .head(url("/mirrors/zcash-mainnet-2019-10.tar.bz2"))
+        .send()
+        .await
+        .unwrap();
+    assert!(resp.status().is_success(), "/mirrors/zcash-mainnet-2019-10.tar.bz2 should return 200");
+}
