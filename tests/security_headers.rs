@@ -12,13 +12,16 @@ use common::{client, is_production_url, url};
 
 /// All paths to test - covers different routing logic paths
 const TEST_PATHS: &[&str] = &[
-    "/",                          // Home page (dynamic)
-    "/about.htm",                 // Regular page (dynamic)
-    "/main.css",                  // Static CSS
-    "/images/1by1.gif",           // Static image
-    "/js/checksums.js",           // Static JS
-    "/files/eharmony-hashes.txt", // files/ alias (force download)
-    "/source/breach.php",         // source/ alias (force download)
+    "/",                                      // Home page (dynamic)
+    "/about.htm",                             // Regular page (dynamic)
+    "/main.css",                              // Static CSS
+    "/images/1by1.gif",                       // Static image
+    "/js/checksums.js",                       // Static JS
+    "/files/eharmony-hashes.txt",             // files/ alias (force download)
+    "/files2/poc/pocorgtfo00.pdf",            // files2/ alias (force download, large files)
+    "/mirrors/zcash-mainnet-2019-10.tar.bz2", // mirrors/ alias (force download)
+    "/upload/vim/vimrc",                      // upload/ alias (force download)
+    "/source/breach.php",                     // source/ alias (force download)
 ];
 
 // =============================================================================
