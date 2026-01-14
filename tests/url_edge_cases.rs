@@ -72,3 +72,35 @@ async fn url_encoded_chars_in_slug_returns_404() {
     let resp = client().get(url("/%61bout.htm")).send().await.unwrap(); // %61 = 'a'
     assert_status(&resp, 404, "/%61bout.htm (encoded 'a')");
 }
+
+// =============================================================================
+// File Extension Tests
+// =============================================================================
+
+/// .html extension redirects to .htm (301)
+/// This is a convenience feature in our Rust implementation.
+/// Note: defuse.ca returns 404 for .html - this test will fail against it.
+#[tokio::test]
+async fn html_extension_redirects_to_htm() {
+    let resp = client().get(url("/about.html")).send().await.unwrap();
+
+    assert_eq!(
+        resp.status().as_u16(),
+        301,
+        "/about.html should redirect with 301, got: {}",
+        resp.status()
+    );
+
+    let location = resp
+        .headers()
+        .get("location")
+        .expect(".html redirect should have Location header")
+        .to_str()
+        .unwrap();
+
+    assert!(
+        location.ends_with("/about.htm"),
+        "/about.html should redirect to /about.htm, got: {}",
+        location
+    );
+}

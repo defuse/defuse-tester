@@ -84,6 +84,84 @@ async fn www_redirect_preserves_path() {
 }
 
 // =============================================================================
+// Combined redirects (HTTP + www + canonicalization in single redirect)
+// =============================================================================
+
+/// http://www.defuse.ca/about should redirect to https://defuse.ca/about.htm in one redirect
+/// This tests HTTP→HTTPS + www strip + extension normalization all at once
+#[tokio::test]
+#[ignore = "defuse.ca uses multiple redirects, not single; also www strip has double-slash bug"]
+async fn full_redirect_chain_no_extension() {
+    if !is_production_url() {
+        eprintln!("Skipping full redirect chain test on local URL");
+        return;
+    }
+
+    let resp = client()
+        .get("http://www.defuse.ca/about")
+        .send()
+        .await
+        .unwrap();
+
+    assert_eq!(
+        resp.status().as_u16(),
+        301,
+        "Should redirect with 301, got: {}",
+        resp.status()
+    );
+
+    let location = resp
+        .headers()
+        .get("location")
+        .expect("Redirect should have Location header")
+        .to_str()
+        .unwrap();
+
+    assert_eq!(
+        location, "https://defuse.ca/about.htm",
+        "http://www.defuse.ca/about should redirect to https://defuse.ca/about.htm in single redirect, got: {}",
+        location
+    );
+}
+
+/// http://www.defuse.ca/aBouT.htm should redirect to https://defuse.ca/about.htm in one redirect
+/// This tests HTTP→HTTPS + www strip + case normalization all at once
+#[tokio::test]
+#[ignore = "defuse.ca lacks single-redirect canonicalization; uses multiple redirects"]
+async fn full_redirect_chain_case_insensitive() {
+    if !is_production_url() {
+        eprintln!("Skipping full redirect chain test on local URL");
+        return;
+    }
+
+    let resp = client()
+        .get("http://www.defuse.ca/aBouT.htm")
+        .send()
+        .await
+        .unwrap();
+
+    assert_eq!(
+        resp.status().as_u16(),
+        301,
+        "Should redirect with 301, got: {}",
+        resp.status()
+    );
+
+    let location = resp
+        .headers()
+        .get("location")
+        .expect("Redirect should have Location header")
+        .to_str()
+        .unwrap();
+
+    assert_eq!(
+        location, "https://defuse.ca/about.htm",
+        "http://www.defuse.ca/aBouT.htm should redirect to https://defuse.ca/about.htm in single redirect, got: {}",
+        location
+    );
+}
+
+// =============================================================================
 // bin.defuse.ca redirect
 // =============================================================================
 
