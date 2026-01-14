@@ -49,10 +49,19 @@ Verify `Content-Disposition: attachment` on aliased directories:
 - [x] `/mirrors/*` forces download
 - [x] `/upload/*` forces download
 
-## Cache Headers
+## Cache Headers - `cache_headers.rs`
 
-- [ ] Images (.gif, .jpeg, .png) have `Expires` header set to 7 days
-- [ ] HTML pages have `Expires` header set to ~1 second
+Static files should have ETag and Last-Modified for conditional caching.
+Dynamic HTML pages should not have these headers.
+
+- [x] Images have Last-Modified header
+- [x] Images have ETag header (fails on Rust - NOT ignored)
+- [x] CSS has Last-Modified header
+- [x] CSS has ETag header (fails on Rust - NOT ignored)
+- [x] JS has Last-Modified header
+- [x] JS has ETag header (fails on Rust - NOT ignored)
+- [x] HTML pages do NOT have ETag
+- [x] HTML pages do NOT have Last-Modified
 
 ## Security Headers
 
