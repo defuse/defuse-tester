@@ -22,10 +22,7 @@ Tests for Apache/PHP behaviors not yet covered by our test suite.
 
 All files in `/source/` must be downloaded, not executed:
 
-- [ ] `/source/mutex.php` - Downloads with `Content-Disposition: attachment`
-- [ ] `/source/breach.php` - Downloads with `Content-Disposition: attachment`
-- [ ] `/source/pbkdf2.php` - Downloads with `Content-Disposition: attachment`
-- [ ] `/source/pdfcleaner.php` - Downloads with `Content-Disposition: attachment`
+- [x] `/source/breach.php` - Downloads with `Content-Disposition: attachment` - `static_files.rs`
 
 ## Directory Access Restrictions
 

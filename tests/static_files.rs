@@ -282,6 +282,32 @@ async fn source_blind_birthday_rb() {
     );
 }
 
+/// PHP files in /source/ must be downloaded (Content-Disposition: attachment), not executed
+#[tokio::test]
+#[ignore = "source/ not yet implemented in Rust"]
+async fn source_php_downloads_not_executes() {
+    let resp = client()
+        .get(url("/source/breach.php"))
+        .send()
+        .await
+        .unwrap();
+    assert!(resp.status().is_success(), "/source/breach.php should return 200");
+
+    // Must have Content-Disposition: attachment to force download
+    let content_disp = resp
+        .headers()
+        .get("content-disposition")
+        .expect("/source/breach.php should have Content-Disposition header")
+        .to_str()
+        .unwrap();
+
+    assert!(
+        content_disp.contains("attachment"),
+        "/source/breach.php should force download with Content-Disposition: attachment, got: {}",
+        content_disp
+    );
+}
+
 // =============================================================================
 // Upload Files (not yet implemented in Rust)
 // =============================================================================
