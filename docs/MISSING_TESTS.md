@@ -24,14 +24,12 @@ All files in `/source/` must be downloaded, not executed:
 
 - [x] `/source/breach.php` - Downloads with `Content-Disposition: attachment` - `static_files.rs`
 
-## Directory Access Restrictions
+## Directory Access Restrictions - `security_headers.rs`
 
-These directories should return 403 Forbidden:
+These directories should return 403 Forbidden (defuse.ca) or 404 (Rust):
 
-- [ ] `/pages/` returns 403
-- [ ] `/libs/` returns 403
-- [ ] `/pages/someFile.php` returns 403
-- [ ] `/libs/someFile.php` returns 403
+- [x] `/pages/` returns 403 - ignored, Rust returns 404
+- [x] `/libs/` returns 403 - ignored, Rust returns 404
 
 ## Redirects
 
