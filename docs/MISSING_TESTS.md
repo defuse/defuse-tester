@@ -47,7 +47,7 @@ These directories should return 403 Forbidden:
   - `/blog/some-post-name` → `/blog/some-post-name.html`
 
 Production-only redirects (can't test locally):
-- [ ] HTTP to HTTPS redirect (301)
+- [x] HTTP to HTTPS redirect (301) - `security_headers.rs`
 - [ ] www to non-www redirect (301)
 - [ ] bin.defuse.ca redirect to defuse.ca/b/
 
@@ -68,11 +68,11 @@ Note: We have existence tests for files in these directories, but need to verify
 
 ## Security Headers
 
-- [ ] HSTS header present on HTTPS responses
+- [x] HSTS header present on HTTPS responses - `security_headers.rs`
   - `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`
-  - Note: Should NOT be present on localhost/HTTP
+  - Note: Test skips on localhost/HTTP
 
-- [ ] X-Frame-Options header present
+- [x] X-Frame-Options header present - `security_headers.rs`
   - `X-Frame-Options: SAMEORIGIN`
 
 ## Verification Files
