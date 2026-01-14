@@ -200,68 +200,6 @@ async fn content_type_js() {
 }
 
 // =============================================================================
-// Blog Posts (not yet implemented in Rust)
-// =============================================================================
-
-#[tokio::test]
-#[ignore = "blog not yet implemented in Rust"]
-async fn blog_index_exists() {
-    let resp = client().get(url("/blog/")).send().await.unwrap();
-    assert!(resp.status().is_success(), "/blog/ should return 200");
-}
-
-#[tokio::test]
-#[ignore = "blog not yet implemented in Rust"]
-async fn blog_post_password_hashing() {
-    let resp = client()
-        .get(url("/blog/the-economics-of-password-cracking.html"))
-        .send()
-        .await
-        .unwrap();
-    assert!(resp.status().is_success(), "blog post should return 200");
-
-    let body = resp.text().await.unwrap();
-    assert!(
-        body.contains("password"),
-        "blog post should contain 'password'"
-    );
-}
-
-#[tokio::test]
-#[ignore = "blog not yet implemented in Rust"]
-async fn blog_post_crackstation_linkedin() {
-    let resp = client()
-        .get(url("/blog/cracking-linkedin-hashes-with-crackstation.html"))
-        .send()
-        .await
-        .unwrap();
-    assert!(resp.status().is_success(), "blog post should return 200");
-
-    let body = resp.text().await.unwrap();
-    assert!(
-        body.contains("LinkedIn"),
-        "blog post should contain 'LinkedIn'"
-    );
-}
-
-#[tokio::test]
-#[ignore = "blog not yet implemented in Rust"]
-async fn blog_post_full_disclosure() {
-    let resp = client()
-        .get(url("/blog/full-disclosure-vs-coordinated-disclosure.html"))
-        .send()
-        .await
-        .unwrap();
-    assert!(resp.status().is_success(), "blog post should return 200");
-
-    let body = resp.text().await.unwrap();
-    assert!(
-        body.contains("disclosure"),
-        "blog post should contain 'disclosure'"
-    );
-}
-
-// =============================================================================
 // Source Files (not yet implemented in Rust)
 // =============================================================================
 

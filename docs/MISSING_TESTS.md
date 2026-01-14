@@ -33,7 +33,7 @@ These directories should return 403 Forbidden (defuse.ca) or 404 (Rust):
 
 ## Redirects
 
-- [ ] Blog slug redirect (301)
+- [x] Blog slug redirect (301) - `blog.rs`
   - `/blog/some-post-name` → `/blog/some-post-name.html`
 
 Production-only redirects (can't test locally):
