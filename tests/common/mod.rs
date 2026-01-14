@@ -16,9 +16,9 @@ pub fn client() -> Client {
 }
 
 /// Get the base URL to test against.
-/// Set DEFUSE_URL environment variable to override (default: http://localhost:3000)
+/// DEFUSE_URL environment variable must be set.
 pub fn base_url() -> String {
-    std::env::var("DEFUSE_URL").unwrap_or_else(|_| "http://localhost:3000".to_string())
+    std::env::var("DEFUSE_URL").expect("DEFUSE_URL environment variable must be set")
 }
 
 /// Build a full URL from a path
@@ -96,5 +96,23 @@ pub fn assert_body_contains(body: &str, needle: &str, context: &str) {
         context,
         needle,
         &body.chars().take(500).collect::<String>()
+    );
+}
+
+/// Assert that a response has a JavaScript content-type.
+/// Accepts both text/javascript and application/javascript (both are valid).
+pub fn assert_javascript_content_type(response: &reqwest::Response, context: &str) {
+    let content_type = response
+        .headers()
+        .get("content-type")
+        .expect(&format!("{}: missing content-type header", context))
+        .to_str()
+        .expect(&format!("{}: invalid content-type header", context));
+
+    assert!(
+        content_type.starts_with("text/javascript") || content_type.starts_with("application/javascript"),
+        "{}: expected JavaScript content-type, got '{}'",
+        context,
+        content_type
     );
 }
