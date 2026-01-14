@@ -2,7 +2,6 @@
 //!
 //! These are utility endpoints that don't fit the normal page pattern:
 //! - /s.php - "Shout" page (display large text)
-//! - /rdrand.php - Random bytes download
 //! - /ip.php - Raw IP address
 //! - /ip-insecure.php - IP address HTML page
 
@@ -87,59 +86,6 @@ async fn shout_s_param_displays_decoded_text() {
     assert!(
         body.contains("300pt") || body.contains("300px"),
         "/s.php should use 300pt font styling"
-    );
-}
-
-// =============================================================================
-// /rdrand.php - Random bytes endpoint
-// Note: defuse.ca returns 500 (RDRAND instruction may not be available on server)
-// =============================================================================
-
-/// /rdrand.php returns binary data with correct headers
-#[tokio::test]
-#[ignore = "rdrand.php not yet implemented in Rust; also returns 500 on defuse.ca"]
-async fn rdrand_returns_binary_with_correct_headers() {
-    let resp = client().get(url("/rdrand.php")).send().await.unwrap();
-    assert!(resp.status().is_success(), "/rdrand.php should return 200");
-
-    let content_type = resp
-        .headers()
-        .get("content-type")
-        .expect("/rdrand.php should have Content-Type header")
-        .to_str()
-        .unwrap();
-
-    assert_eq!(
-        content_type, "application/octet-stream",
-        "/rdrand.php should return application/octet-stream, got: {}",
-        content_type
-    );
-
-    let content_disp = resp
-        .headers()
-        .get("content-disposition")
-        .expect("/rdrand.php should have Content-Disposition header")
-        .to_str()
-        .unwrap();
-
-    assert!(
-        content_disp.contains("attachment") && content_disp.contains("rand.bin"),
-        "/rdrand.php should have Content-Disposition: attachment; filename=\"rand.bin\", got: {}",
-        content_disp
-    );
-}
-
-/// /rdrand.php returns non-empty binary data
-#[tokio::test]
-#[ignore = "rdrand.php not yet implemented in Rust; also returns 500 on defuse.ca"]
-async fn rdrand_returns_binary_data() {
-    let resp = client().get(url("/rdrand.php")).send().await.unwrap();
-    assert!(resp.status().is_success());
-
-    let bytes = resp.bytes().await.unwrap();
-    assert!(
-        !bytes.is_empty(),
-        "/rdrand.php should return non-empty binary data"
     );
 }
 

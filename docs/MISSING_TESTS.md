@@ -9,11 +9,6 @@ Tests for Apache/PHP behaviors not yet covered by our test suite.
   - [x] `?s=base64text` displays decoded text in 300pt font
   - [x] No params shows form with input field
 
-- [x] `/rdrand.php` - Random bytes endpoint (Note: returns 500 on defuse.ca)
-  - [x] Returns `Content-Type: application/octet-stream`
-  - [x] Returns `Content-Disposition: attachment; filename="rand.bin"`
-  - [x] Returns binary data
-
 - [x] `/ip.php` - Raw IP address
   - [x] Returns plain text (defuse.ca returns text/html but body is just IP)
   - [x] Returns client IP address with newline
