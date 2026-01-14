@@ -21,6 +21,22 @@ pub fn base_url() -> String {
     std::env::var("DEFUSE_URL").expect("DEFUSE_URL environment variable must be set")
 }
 
+/// Check if tests are running against a local URL (localhost, 127.0.0.1, ::1).
+/// Use this to skip tests that only make sense against production (e.g., HSTS, HTTP→HTTPS redirects).
+pub fn is_local_url() -> bool {
+    let base = base_url().to_lowercase();
+    base.contains("localhost")
+        || base.contains("127.0.0.1")
+        || base.contains("[::1]")
+        || base.contains("0.0.0.0")
+}
+
+/// Check if tests are running against a production URL (not local).
+/// Use this to conditionally run tests that require HTTPS or domain-specific behavior.
+pub fn is_production_url() -> bool {
+    !is_local_url()
+}
+
 /// Build a full URL from a path
 pub fn url(path: &str) -> String {
     let base = base_url();
