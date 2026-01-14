@@ -48,8 +48,8 @@ These directories should return 403 Forbidden:
 
 Production-only redirects (can't test locally):
 - [x] HTTP to HTTPS redirect (301) - `security_headers.rs`
-- [ ] www to non-www redirect (301)
-- [ ] bin.defuse.ca redirect to defuse.ca/b/
+- [x] www to non-www redirect (301) - `domain_redirects.rs`
+- [x] bin.defuse.ca redirect to defuse.ca/b/ - `domain_redirects.rs`
 
 ## Content-Disposition Headers
 
