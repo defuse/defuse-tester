@@ -72,8 +72,8 @@ Dynamic HTML pages should not have these headers.
 - [x] X-Frame-Options header present - `security_headers.rs`
   - `X-Frame-Options: SAMEORIGIN`
 
-## Verification Files
+## Verification Files - `verification_files.rs`
 
-- [ ] `/googlec56659c80ebb2d30.html` exists (Google site verification)
-- [ ] `/have-i-been-pwned-verification.txt` exists (HIBP verification)
-- [ ] `/b06c1611fa2dac4cc177a7a63c70902c453cdb92.html` exists (unknown verification)
+- [x] `/googlec56659c80ebb2d30.html` exists (Google site verification)
+- [x] `/have-i-been-pwned-verification.txt` exists (HIBP verification)
+- [x] `/b06c1611fa2dac4cc177a7a63c70902c453cdb92.html` exists (unknown verification)
