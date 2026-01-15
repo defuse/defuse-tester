@@ -152,5 +152,10 @@ fn normalize_html(html: &str) -> String {
     // Normalize JS hex escapes to literal chars
     // PHP's jse() escapes all non-alphanumeric chars, Rust doesn't need to
     let result = result.replace("\\x2D", "-");
-    result.replace("\\x5F", "_")
+    let result = result.replace("\\x5F", "_");
+
+    // Normalize encfs audit URLs (old vs new naming)
+    // Replace longer string first to avoid partial match
+    let result = result.replace("auditencfsOLD", "ELIDED_ENCFS_AUDIT");
+    result.replace("auditencfs", "ELIDED_ENCFS_AUDIT")
 }
