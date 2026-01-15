@@ -434,24 +434,24 @@ Here's the source code:
 </p>
 
 <div class="vimhighlight"><pre id='vimCodeElement'>
-<span class="Comment"># Blind Birthday Attack. Proof of concept.</span>
-<span class="Comment"># <a href="https://defuse.ca/blind-birthday-attack.htm">https://defuse.ca/blind-birthday-attack.htm</a></span>
+ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
 
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 
-<span class="Comment"># Use 32-bit HMAC so that it's actually possible to perform the attack in</span>
-<span class="Comment"># a reasonable amount of time. This value must be a multiple of 8.</span>
+ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 
-<span class="Comment"># Compute HMAC-SHA256</span>
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 <span class="PreProc">end</span>
 
-<span class="Comment"># Here's the oracle, which we are attackking.  t has a 256-bit random secret</span>
-<span class="Comment"># key. When we give it two inputs a and b, it HMACs them both, and tells us how</span>
-<span class="Comment"># much of the HMACs match.</span>
+ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
   h1 = hmac(<span class="Type">KEY</span>, a)
@@ -466,60 +466,60 @@ ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 <span class="PreProc">end</span>
 
-<span class="Comment"># Here's an implementation of the attack.</span>
+ELIDED_VIM_SYNTAX_LINE
 
-<span class="Comment"># We organize messages into a tree to find collisions.</span>
+ELIDED_VIM_SYNTAX_LINE
 <span class="PreProc">class</span> <span class="Type">TreeNode</span>
 ELIDED_VIM_SYNTAX_LINE
 <span class="PreProc">end</span>
 
-<span class="Comment"># We need a good supply of unique messages.</span>
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 <span class="PreProc">end</span>
 
 ELIDED_VIM_SYNTAX_LINE
-  <span class="Comment"># Start the tree with one random message.</span>
+ELIDED_VIM_SYNTAX_LINE
   root = <span class="Type">TreeNode</span>.new
   root.message = random()
 
-  <span class="Comment"># Keep track of how much resources we use for the attack.</span>
 ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
+
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 
-  <span class="Comment"># Each time this outer loop iterates, a new message is added to the tree.</span>
 ELIDED_VIM_SYNTAX_LINE
-
-    <span class="Comment"># Generate a new random message to add to the tree.</span>
     newnode = <span class="Type">TreeNode</span>.new
     newnode.message = random()
 
-    <span class="Comment"># Start inserting at the root of the tree.</span>
+ELIDED_VIM_SYNTAX_LINE
     current = root
 
-    <span class="Comment"># Keep track of how deep we are into the tree.</span>
-    <span class="Comment"># This is the number of HMAC bits that are known to match between the</span>
-    <span class="Comment"># 'current' node's message and the newnode's message.</span>
+ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 
 
-    <span class="Comment"># Each time this inner loop iterates, we go one level deeper into the tree.</span>
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 
-      <span class="Comment"># Ask the oracle how many bits the two HMACs match.</span>
+ELIDED_VIM_SYNTAX_LINE
       thismatch = oracle(current.message, newnode.message)
 ELIDED_VIM_SYNTAX_LINE
 
-      <span class="Comment"># If we have a better match than ever before, tell the user, so that they</span>
-      <span class="Comment"># don't get bored and quit the attack before it finishes.</span>
+ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
         closest = thismatch
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 
-      <span class="Comment"># If we found a collision, tell the user and stop the attack.</span>
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
@@ -527,28 +527,28 @@ ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 
-      <span class="Comment"># If the (matching+1)st HMAC bit matches, we go right. Else, left.</span>
 ELIDED_VIM_SYNTAX_LINE
-        <span class="Comment"># If the right node is nil, this is where we add the new node.</span>
+ELIDED_VIM_SYNTAX_LINE
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
           current.right = newnode
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
-        <span class="Comment"># Otherwise, just move on to the next level.</span>
+ELIDED_VIM_SYNTAX_LINE
         current = current.right
 ELIDED_VIM_SYNTAX_LINE
-        <span class="Comment"># If the left node is nil, this is where we add the new node.</span>
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
           current.left = newnode
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
-        <span class="Comment"># Otherwise, just move on to the next level.</span>
+ELIDED_VIM_SYNTAX_LINE
         current = current.left
 ELIDED_VIM_SYNTAX_LINE
 
-      <span class="Comment"># We've moved down to the next level.</span>
+ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 ELIDED_VIM_SYNTAX_LINE
 

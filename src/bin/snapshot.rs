@@ -142,7 +142,7 @@ fn normalize_html(html: &str) -> String {
     let result = hits_re.replace_all(&result, "");
 
     // Elide vim syntax highlighting lines that differ between vim versions
-    let vim_syntax_re = Regex::new(r#"(?m)^.*<span class="(Identifier|Constant|Special|Statement).*$"#).unwrap();
+    let vim_syntax_re = Regex::new(r#"(?m)^.*<span class="(Identifier|Constant|Special|Statement|LineNr|Comment).*$"#).unwrap();
     let result = vim_syntax_re.replace_all(&result, "ELIDED_VIM_SYNTAX_LINE");
 
     // Elide "information" and "informaion" typo so contact page matches

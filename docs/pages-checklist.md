@@ -46,11 +46,11 @@ All real pages from URLParse.php (excludes redirects).
 - [x] wordlists
 - [x] gpucrack
 - [x] php-hit-counter
-- [x] php-pbkdf2 (SKIP: uses printSourceFile PHP function)
-- [x] generating-random-passwords (SKIP: uses printHlString PHP function)
+- [x] php-pbkdf2
+- [x] generating-random-passwords
 - [x] bochs-images
 - [x] secure-php-encryption
-- [x] gnutls-psk-client-server-example (SKIP: uses printSourceFile PHP function)
+- [x] gnutls-psk-client-server-example
 - [x] email-spoofing-in-ruby
 - [x] online-free-computer-science-education
 - [x] syntax-highlighting-in-php-with-vim (SKIP: uses printHlString PHP function)
@@ -65,7 +65,7 @@ All real pages from URLParse.php (excludes redirects).
 - [x] flush-reload-side-channel
 - [x] in-browser-port-scanning
 - [x] instruction-filters
-- [ ] exploiting-cpp-vtables (SKIP: uses printSourceFile/printHlString PHP functions)
+- [x] exploiting-cpp-vtables
 - [x] cracking-synergy-bad-cryptography
 - [ ] mitigating-breach-tls-attack-in-php (SKIP: uses printSourceFile and breach_visual_html dynamic PHP)
 - [x] race-conditions-in-web-applications
@@ -101,10 +101,10 @@ All real pages from URLParse.php (excludes redirects).
 
 ## Research - Other
 - [x] bochs-hacking-guide
-- [x] microsoft-reads-your-skype-messages (SKIP: uses printHlString PHP function)
+- [x] microsoft-reads-your-skype-messages
 - [x] bitcoin-pool-ddos
 - [x] ssl-fundamental-flaw-fix
-- [x] internetdangers (SKIP: contains include PHP code)
+- [x] internetdangers
 - [x] softwaresecurity
 - [x] web-application-security
 - [x] cryptographyunderattack
