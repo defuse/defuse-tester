@@ -1,0 +1,707 @@
+{
+    "": {
+        "file": "home.html"
+    },
+    "index": {
+        "redirect": ""
+    },
+    "index.html": {
+        "redirect": ""
+    },
+    "index.php": {
+        "redirect": ""
+    },
+    "key": {
+        "redirect": "contact"
+    },
+    "audits/": {
+        "redirect": "software-security-auditing"
+    },
+    "about": {
+        "file": "about.html",
+        "description": "About Defuse Security."
+    },
+    "all-pages": {
+        "file": "all-pages.php",
+        "description": "A list of all pages on defuse.ca, sorted by popularity."
+    },
+    "honestyware": {
+        "file": "honestyware.php",
+        "title": "Honestyware - The right way to sell software.",
+        "keywords": "honestyware, free software, trust user",
+        "description": "Honestyware is a revolutionary way to sell software that embraces piracy."
+    },
+    "donated": {
+        "file": "donated.html"
+    },
+    "reading-list": {
+        "file": "reading-list.php",
+        "title": "Reading List - Defuse Security",
+        "description": "Everything I have read so far.",
+        "keywords": "reading list, infosec"
+    },
+    "vimrc": {
+        "file": "vimrc.php",
+        "title": "My .vimrc - Defuse Security",
+        "description": "My Vim configuration file",
+        "keywords": "vim, vimrc, vim configuration"
+    },
+    "transparency": {
+        "file": "transparency.php",
+        "title": "Transparency Report",
+        "description": "",
+        "keywords": ""
+    },
+    "the-universe-is-made-of-cheese": {
+        "file": "misc/the-universe-is-made-of-cheese.php",
+        "title": "The Universe is Made of Cheese - A Formal Proof",
+        "description": "A logical proof that the universe consists entirely of cheese.",
+        "keywords": "cheese paradox, universe made of cheese, logical proof"
+    },
+    "fractal-zoom": {
+        "file": "misc/fractal-zoom.php",
+        "title": "Fractal Zoom",
+        "description": "A psychedelic short story.",
+        "keywords": "fractal zoom, short story, sci-fi, psychedelic"
+    },
+    "advice-to-aspiring-computer-engineers": {
+        "file": "misc/advice-to-aspiring-computer-engineers.php",
+        "title": "Advice to Aspiring Computer Engineers and Scientists",
+        "description": "Advice for new computer science students.",
+        "keywords": "advice, computer science"
+    },
+    "new-york-times-algebra": {
+        "file": "misc/new-york-times-algebra.php",
+        "title": "Does the New York Times Fail at Algebra? (No.)",
+        "description": "The New York Times does not (necessarily) fail at algebra.",
+        "keywords": "new york times, the interview, algebra, sales"
+    },
+    "centripetal-acceleration": {
+        "file": "misc/centripetal-acceleration.php",
+        "title": "Centripetal Acceleration",
+        "description": "A derivation of the Centripetal Acceleration equation",
+        "keywords": "centripetal force, centripetal acceleration"
+    },
+    "jobs": {
+        "file": "jobs.php",
+        "title": "Jobs",
+        "description": "Small jobs that you can do.",
+        "keywords": "small jobs"
+    },
+    "security-contact-vulnerability-disclosure": {
+        "file": "security-contact-vulnerability-disclosure.php",
+        "title": "Security Contact and Vulnerability Disclosure",
+        "description": "How to disclose vulnerabilities in Defuse Security services",
+        "keywords": "full disclosure, security contact, vulnerabilities"
+    },
+    "pocorgtfo": {
+        "file": "misc/pocorgtfo.php",
+        "title": "PoC || GTFO Mirror",
+        "description": "Mirror of all the Poc || GTFO issues.",
+        "keywords": "proof, of, concept, or, get, the, fuck, out"
+    },
+    "truecrypt-7.1a-hashes": {
+        "file": "misc/truecrypt-7.1a-hashes.php",
+        "title": "TrueCrypt 7.1a Hashes",
+        "description": "SHA256 and SHA1 hashes of the last version of TrueCrypt.",
+        "keywords": "TrueCrypt, 7.1a, 7.1, SHA256, MD5, SHA1"
+    },
+    "ideas": {
+        "file": "misc/ideas.php",
+        "title": "Ideas",
+        "description": "Lots of ideas.",
+        "keywords": "ideas, useless ideas, crazy ideas, list"
+    },
+    "known-unknowns": {
+        "file": "misc/known-unknowns.php",
+        "title": "Known Unknowns",
+        "description": "Things that I am aware of which I do not understand.",
+        "keywords": "known unknowns, learning"
+    },
+    "contributors": {
+        "file": "misc/contributors.php",
+        "title": "Contributors",
+        "description": "A list of people and organizations that have contributed to Defuse Security",
+        "keywords": "contribution, donation, thanks"
+    },
+    "rules-for-working-with-me": {
+        "file": "misc/rules-for-working-with-me.php",
+        "title": "Rules For Working With Me",
+        "description": "How to get along with me.",
+        "keywords": "employment, working with me, teamwork"
+    },
+    "x-plane-combat": {
+        "file": "misc/x-plane-combat.php",
+        "title": "Combat in X-Plane: Weapon Setup, Enemy Aircraft, and Targeting",
+        "description": "How to fight in the X-Plane simulator.",
+        "keywords": "x-plane combat, fighter jet, flight simulator, weapon select, enemy aircraft"
+    },
+    "writing-tips": {
+        "file": "misc/writing-tips.php",
+        "title": "Writing Tips",
+        "description": "Some tips to make your writing better.",
+        "keywords": "writing tips, good writing, clear writing"
+    },
+    "the-meaning-of-if": {
+        "file": "misc/the-meaning-of-if.php",
+        "title": "The meaning of \"IF\" -- An Introduction to Formal Logic",
+        "description": "What the word \"If\" means in formal logic",
+        "keywords": "formal logic introduction, meaning of if, what if means"
+    },
+    "web-browser-negative-feedback": {
+        "file": "projects/web-browser-negative-feedback.php",
+        "title": "Negative Feedback for Insecure Connections",
+        "description": "Should web browser interfaces provide negative feedback when the connection is insecure?",
+        "keywords": "negative feedback, insecure connections, http, https, ssl, tls, ev"
+    },
+    "blowfish": {
+        "file": "projects/blowfish.html",
+        "title": "Blowfish C# and C++ Source Code - Defuse Security",
+        "description": "C# and C++ implementation of the BLOWFISH block cipher."
+    },
+    "bochs-images": {
+        "file": "projects/bochs-images.php",
+        "title": "Disk Images for the Bochs x86 Emulator",
+        "description": "Various operating systems installed on disk images for Bochs."
+    },
+    "secure-php-encryption": {
+        "file": "projects/secure-php-encryption.php",
+        "title": "Encrypting Data in PHP (HowTo) - Defuse Security",
+        "description": "Source code for encrypting data in PHP with mcrypt. The right way to do it.",
+        "keywords": "php encrypiton, php aes, encryption in php, php decryption"
+    },
+    "gnutls-psk-client-server-example": {
+        "file": "projects/gnutls-psk-client-server-example.php",
+        "title": "GnuTLS Pre-Shared Key (PSK) Client-Server Example Code",
+        "description": "How to establish an SSL/TLS connection with GnuTLS and PSK authentication.",
+        "keywords": "gnutls, ssl, tls, https, client, server, psk, authentication"
+    },
+    "email-spoofing-in-ruby": {
+        "file": "projects/email-spoofing-in-ruby.php",
+        "title": "Spoofing SMTP email with a Ruby script - Defuse Security",
+        "description": "Example script for communicating with an SMTP server in Ruby to send spoofed email.",
+        "keywords": "email spoofing, smtp spoofing, ruby email, ruby smtp"
+    },
+    "online-free-computer-science-education": {
+        "file": "projects/online-free-computer-science-education.php",
+        "title": "Computer Science Video Lecture Collection",
+        "description": "A collection of computer science related videos from various universities.",
+        "keywords": "computer science lecture, programming lecture, education, free education"
+    },
+    "syntax-highlighting-in-php-with-vim": {
+        "file": "projects/syntax-highlighting-in-php-with-vim.php",
+        "title": "Scripting Vim's HTML syntax highlighting in PHP",
+        "description": "Using the Vim editor to highlight code syntax from PHP"
+    },
+    "inn-private-newsgroup-server-setup": {
+        "file": "projects/inn-private-newsgroup-server-setup.php",
+        "title": "Configuring a Private (Local) News Server with INN2",
+        "description": "How to configure a private local newsgroup server (non-UseNet) on Debian",
+        "keywords": "inn2 configuration, news server configuration, local newsgroups, cecil-id, private newsgroups"
+    },
+    "sockstress": {
+        "file": "software/sockstress.php",
+        "title": "Sockstress Denial of Service Tool & Source Code - Defuse Security",
+        "description": "A C implementation of the sockstress attack from 2008.",
+        "keywords": "sockstress, source code, denial of service, proof of concept, dos, ddos"
+    },
+    "php-hash-cracker": {
+        "file": "software/php-hash-cracker.php",
+        "title": "Salted Hash Cracking PHP Script - Defuse Security",
+        "description": "Dictionary hash cracking PHP scripts (supports LOTS of hash types!!)",
+        "keywords": "hash cracking, dictionary attack, php hash cracking script"
+    },
+    "wordlists": {
+        "file": "projects/wordlists.html",
+        "title": "Password Cracking Wordlists - Defuse Security",
+        "description": "The best password cracking wordlists and dictionaries on the internet.",
+        "keywords": "password cracking, word list, wordlist, dictionary, md5, hash cracking"
+    },
+    "projects": {
+        "file": "projects/projects.html",
+        "title": "Defuse Security's Projects",
+        "description": "All of Defuse Security's projects.",
+        "keywords": "security, computer security, projects"
+    },
+    "php-hit-counter": {
+        "file": "projects/php-hit-counter.html",
+        "title": "PHP & MySQL Unique Hit Count Tracker - Defuse Security",
+        "description": "A unique hit counter for PHP. Tracks unique hits without storing the IP address.",
+        "keywords": "hit counter, php, secure, private, anonymous, unique hits, track"
+    },
+    "php-pbkdf2": {
+        "file": "projects/php-pbkdf2.php",
+        "title": "PBKDF2 Password Hashing for PHP",
+        "description": "Standards compliant PBKDF2 implementation for PHP.",
+        "keywords": "pbkdf2 for php, key derivation, password hashing"
+    },
+    "generating-random-passwords": {
+        "file": "projects/generating-random-passwords.php",
+        "title": "Generating Unbiased Random Passwords in PHP",
+        "description": "Code for generating SECURE random passwords in PHP.",
+        "keywords": "generating passwords with php, generating passwords, php, random passwords"
+    },
+    "helloworld-cms": {
+        "file": "software/helloworld-cms.html",
+        "title": "Secure and Light CMS for PHP - Defuse Security",
+        "description": "A lightweight, ultra-secure CMS for PHP",
+        "keywords": "secure cms, php cms, light cms, small cms, tiny cms, cms"
+    },
+    "backup-verify-script": {
+        "file": "software/backup-verify-script.php",
+        "title": "Script for Comparing Folders and Validating Backups",
+        "description": "A command-line script for verifying backups by comparing two folders in Linux",
+        "keywords": "backup validate, backup verify, compare folders, linux, ruby"
+    },
+    "ip": {
+        "file": "services/ip.php",
+        "title": "Your IP Address",
+        "description": "Your IP Address!",
+        "keywords": "online IP address, what is my ip, ip address, ssl ip address"
+    },
+    "softwaredevelopment": {
+        "file": "services/softwaredevelopment.html",
+        "title": "Custom Software Development - Defuse Security",
+        "description": "Custom secure software development to suit your needs.",
+        "keywords": "software development, custom software, programming, security"
+    },
+    "software-security-auditing": {
+        "file": "services/software-security-auditing.php",
+        "title": "Software Security Auditing",
+        "description": "Get your software audited for security bugs.",
+        "keywords": "software security, exploits, auditing"
+    },
+    "online-x86-assembler": {
+        "file": "services/online-x86-assembler.php",
+        "title": "Online x86 and x64 Intel Instruction Assembler",
+        "description": "Easily find out which bytes your x86 ASM instructions assemble to.",
+        "keywords": "assembler, opcode finder, opcode lookup, online assembler, x86, intel"
+    },
+    "quantum-computer-time-capsule": {
+        "file": "services/quantum-computer-time-capsule.php",
+        "title": "Send a Message to the Future (Digital Time Capsule)",
+        "description": "Save a message that will become readable after quantum computers are built.",
+        "keywords": "digital time capsule, quantum computers"
+    },
+    "web-server-scan": {
+        "file": "services/scan.php",
+        "title": "Web Server Security Scan - Defuse Security",
+        "description": "Test your web server for common configuration problems such as open relay, zone transfer, and much more.",
+        "keywords": "security scan, web server scan, zone transfer test, open relay test"
+    },
+    "pdftribute": {
+        "file": "pdftribute.php",
+        "title": "#pdftribute",
+        "description": "#pdftribute",
+        "keywords": "#pdftribute"
+    },
+    "webdevelopment": {
+        "file": "services/webdevelopment.html",
+        "title": "Custom Web Design and Development - Defuse Security",
+        "description": "Custom web software development."
+    },
+    "services": {
+        "file": "services/services.html",
+        "title": "Defuse Security's Services",
+        "description": "Defuse Security's Services."
+    },
+    "peerreview": {
+        "file": "services/peerreview.html",
+        "title": "Peer Review and Security Testing Service - Defuse Security",
+        "description": "Free peer review and security testing service.",
+        "keywords": "security, peer review, testing, software security"
+    },
+    "trent": {
+        "redirect": "trustedthirdparty"
+    },
+    "trustedthirdparty": {
+        "file": "services/trustedthirdparty.php",
+        "title": "TRENT - FREE Third party Drawing Service - Defuse Security",
+        "description": "TRENT, the trusted random number generator for contests and drawings.",
+        "keywords": "contest drawing, third party, trusted, lottory, trent, random number generator"
+    },
+    "contact": {
+        "file": "contact.html",
+        "title": "Defuse Security's Contact Information",
+        "description": "Defuse Security's contact informaion."
+    },
+    "concentration-bounds-from-parallel-repetition-theorems": {
+        "file": "research/concentration-bounds-from-parallel-repetition-theorems.php",
+        "title": "Concentration Bounds from Parallel Repetition Theorems",
+        "description": "My master's thesis, showing how concentration bounds can be derived from parallel repetition theorems for nonlocal games and interactive proofs.",
+        "keywords": "concentration bounds, parallel repetition theorems, quantum information, symmetric key strengthening"
+    },
+    "in-browser-port-scanning": {
+        "file": "research/in-browser-port-scanning.php",
+        "title": "Port Scanning Local Network From a Web Browser",
+        "description": "Malicious web pages can port scan your local network.",
+        "keywords": "browser, port scan, security"
+    },
+    "godel-second-incompleteness-theorem-by-turing-machines": {
+        "file": "research/godel-second-incompleteness-theorem-by-turing-machines.php",
+        "title": "A Simple Proof of G\u00f6del's Second Incompleteness Theorem Using Turing Machines",
+        "description": "Proving G\u00f6del's second incompleteness theorem in a simpler way using Turing machines.",
+        "keywords": "godel, second incompleteness theorem, simple proof, turing machines, computability"
+    },
+    "is-security-local": {
+        "file": "research/is-security-local.php",
+        "title": "Is Security Local?",
+        "description": "Is security a locally-verifiable property of computation?",
+        "keywords": "langsec, security, locality, verification"
+    },
+    "how-do-we-model-this-robot": {
+        "file": "research/how-do-we-model-this-robot.php",
+        "title": "How do we model this robot?",
+        "description": "Modeling Computational Ability and Informational Ability.",
+        "keywords": "langsec, robot, modeling, computational, informational"
+    },
+    "side-channel-attacks-on-everyday-applications": {
+        "file": "research/side-channel-attacks-on-everyday-applications.php",
+        "title": "Side-Channel Attacks on Everyday Applications (Black Hat 2016)",
+        "description": "Data and code for my paper applying FLUSH+RELOAD to break privacy.",
+        "keywords": "cache side channel, experiment data, flush, reload, privacy"
+    },
+    "mitigating-breach-tls-attack-in-php": {
+        "file": "research/mitigating-breach-tls-attack-in-php.php",
+        "title": "PHP Code for Mitigating the BREACH attack on SSL/TLS.",
+        "description": "PHP functions for defending secrets against the BREACH attack.",
+        "keywords": "BREACH, BREACH attack, compression side-channel, php source code"
+    },
+    "triangle-of-secure-code-delivery": {
+        "file": "research/triangle-of-secure-code-delivery.php",
+        "title": "Triangle of Secure Code Delivery",
+        "description": "What's necessary and sufficient for delivering code securely?",
+        "keywords": "code delivery, triangle, reproducible build, signing"
+    },
+    "blind-birthday-attack": {
+        "file": "research/blind-birthday-attack.php",
+        "title": "Blind Birthday Attack",
+        "description": "Birthday attack without seeing the values.",
+        "keywords": "birthday attack, blind, double hmac, cryptography"
+    },
+    "plausible-reason-p-noteq-np-is-hard-to-prove": {
+        "file": "research/plausible-reason-p-noteq-np-is-hard-to-prove.php",
+        "title": "A Plausible Reason It's So Hard To Prove P!=NP",
+        "description": "Attempting to show why P!=NP is hard to prove using hash functions.",
+        "keywords": "p versus np, hard to prove, hash functions, language collisions"
+    },
+    "side-channels-in-encoding-functions": {
+        "file": "research/side-channels-in-encoding-functions.php",
+        "title": "Side Channel Attacks in Hex and Base64 Encoding",
+        "description": "Do encoding functions like bin2hex and base64_encode create side channels?",
+        "keywords": "side channel, side channel attack, encoding, bin2hex, base64"
+    },
+    "audits/encfs": {
+        "file": "audits/encfs.php",
+        "title": "EncFS Security Audit",
+        "description": "Security audit of the EncFS encrypted filesystem.",
+        "keywords": "encfs, security audit, cryptography"
+    },
+    "audits/hash0": {
+        "file": "audits/hash0.php",
+        "title": "Hash0 Security Audit",
+        "description": "Security audit of the Hash0 password system",
+        "keywords": "hash0, security audit, cryptography, passwords"
+    },
+    "audits/encfs-old": {
+        "file": "audits/encfs-old.php",
+        "title": "EncFS Security Audit",
+        "description": "Security audit of the EncFS encrypted filesystem.",
+        "keywords": "encfs, security audit, cryptography"
+    },
+    "audits/ecryptfs": {
+        "file": "audits/ecryptfs.php",
+        "title": "eCryptfs Security Audit",
+        "description": "Security audit of the eCryptfs encrypted filesystem.",
+        "keywords": "eCryptfs, security audit, cryptography"
+    },
+    "audits/pefs": {
+        "file": "audits/pefs.php",
+        "title": "PEFS Security Audit",
+        "description": "Security audit of the PEFS encrypted filesystem.",
+        "keywords": "PEFS, security audit, cryptography"
+    },
+    "audits/zerobin": {
+        "file": "audits/zerobin.php",
+        "title": "ZeroBin Security Audit",
+        "description": "Security audit of the ZeroBin Zero-Knowledge Pastebin",
+        "keywords": "secure pastebin, security audit, zerobin"
+    },
+    "audits/gocryptfs": {
+        "file": "audits/gocryptfs.php",
+        "title": "Gocryptfs Security Audit",
+        "description": "Security audit of the gocryptfs encrypted filesystem",
+        "keywords": "gocryptfs, encrypted filesystem, security audit "
+    },
+    "manual-random-number-generator": {
+        "file": "research/manual-random-number-generator.php",
+        "title": "Manually Generating Random Numbers",
+        "description": "Manually generating random numbers for cryptographic use.",
+        "keywords": "random numbers, true random, csprng, cryptographically secure"
+    },
+    "instruction-filters": {
+        "file": "research/instruction-filters.php",
+        "title": "Instruction Filters as an Exploitation Defense",
+        "description": "Disabling CPU instructions to thwart ROP and other attacks.",
+        "keywords": "instruction set filters, insfilter, research"
+    },
+    "flush-reload-side-channel": {
+        "file": "research/flush-reload-side-channel.php",
+        "title": "Implications of the FLUSH+RELOAD Side-Channel Attack",
+        "description": "The FLUSH+RELOAD side-channel attack breaks security in multi-user environments.",
+        "keywords": "FLUSH+RELOAD, side channel attack, multi-user security"
+    },
+    "website-key-stretching-feasibility": {
+        "file": "research/website-key-stretching-feasibility.php",
+        "title": "Feasibility of Using Key Stretching in Web Applications",
+        "description": "How much does using key stretching to hash passwords cost? Is it reasonable?",
+        "keywords": "web application, key stretching feasibility, password hashing, cpu intensive hash function"
+    },
+    "password-hashing-after-phc": {
+        "file": "research/password-hashing-after-phc.php",
+        "title": "Password Hashing After PHC",
+        "description": "Giving authenticators an advantage over password crackers with cache.",
+        "keywords": "password hashing competition, key stretching, caching"
+    },
+    "bochs-hacking-guide": {
+        "file": "research/bochs-hacking-guide.php",
+        "title": "Bochs Hacking Guide",
+        "description": "Hacking the Bochs x86 CPU emulator. Changing and adding instructions.",
+        "keywords": "bochs, emulator, cpu, architecture, x86, intel, ia-32"
+    },
+    "microsoft-reads-your-skype-messages": {
+        "file": "research/microsoft-reads-your-skype-messages.php",
+        "title": "Confirmation of H-Online's Skype Results: Microsoft Visits Links",
+        "description": "An independent confirmation of Microsoft's skype spying.",
+        "keywords": "h-online skype, skype spying, microsoft, skype security"
+    },
+    "cracking-synergy-bad-cryptography": {
+        "file": "research/cracking-synergy-bad-cryptography.php",
+        "title": "Cracking Synergy's Bad Cryptography",
+        "description": "A tool to crack Synergy's homebrew cryptography",
+        "keywords": "synergy, cryptography, crack, homebrew, keyboard sharing, mouse sharing"
+    },
+    "exploiting-cpp-vtables": {
+        "file": "research/exploiting-cpp-vtables.php",
+        "title": "Instance Replacement: Exploiting C++ VTABLES",
+        "description": "How C++ classes are represented, how VTABLES work, and how to exploit them.",
+        "keywords": "vtable overwriting, vtable exploit, buffer overflow, vulnerability"
+    },
+    "truecrypt-plausible-deniability-useless-by-game-theory": {
+        "file": "research/truecrypt-plausible-deniability-useless-by-game-theory.php",
+        "title": "TrueCrypt's Plausible Deniability (Hidden Volumes) is Theoretically Useless",
+        "description": "How game theory shows that TrueCrypt's hidden volume feature is provably useless in some scenarios.",
+        "keywords": "game theory, truecrypt plausible deniability"
+    },
+    "web-browser-javascript-cryptography": {
+        "file": "research/web-browser-javascript-cryptography.php",
+        "title": "Web Browser Cryptography is a Good Thing",
+        "description": "Arguments for and against doing cryptography in the browser.",
+        "keywords": "javascript cryptography, web browser cryptography, browser cryptography, encryption"
+    },
+    "grc-passwords-not-secure": {
+        "file": "research/grc-passwords-not-secure.php",
+        "title": "GRC's Perfect Password Generator is Not Cryptographically Secure",
+        "description": "Why GRC's Perfect Password Generator is not a CSPRNG",
+        "keywords": "grc perfect passwords, security of grc perfect passwords, csprng, cryptographically secure, state compromise extension"
+    },
+    "password-reset-key-escrow": {
+        "file": "research/password-reset-key-escrow.php",
+        "title": "Modernizing Password Reset & Key Escrow",
+        "description": "Why our password reset methods suck and how we can make them better.",
+        "keywords": "password reset security, key escrow, password recovery"
+    },
+    "blockwise-factoring": {
+        "file": "research/blockwise-factoring.php",
+        "title": "Blockwise Factoring - An efficient and simple method for factoring small integers. ",
+        "description": "Blockwise Factoring is a method for factoring the product of two primes that uses only addition, subtraction, and comparison."
+    },
+    "race-conditions-in-web-applications": {
+        "file": "research/race-conditions-in-web-applications.php",
+        "title": "Practical Race Condition (TOCTTOU) Vulnerabilities in Web Applications - Defuse Security",
+        "description": "Query-level race conditions can lead to serious but hard to find vulnerabilities in web applications."
+    },
+    "choosing-good-passwords-longer-is-better": {
+        "file": "research/choosing-good-passwords-longer-is-better.html",
+        "title": "How to Pick a Good Password - Longer is Better - Defuse Security",
+        "description": "The length of passwords is far more important than their character set or randomness."
+    },
+    "bitcoin-pool-ddos": {
+        "file": "research/bitcoin-pool-ddos.html",
+        "title": "BitCoin Centralization - DDoS Attacks on Pools & Mt. Gox Hacked - Defuse Security",
+        "description": "Centralization is harmful to the BitCoin network and community.",
+        "keywords": "bitcoin, ddos, denial of service, pool, mining, mtgox, centralization, hacked"
+    },
+    "ssl-fundamental-flaw-fix": {
+        "file": "research/ssl-fundamental-flaw-fix.html",
+        "title": "Fixing the Flaw in the SSL Certificate Authority Architecture - Defuse Security",
+        "description": "Dangers of the Internet, an explanation of the dangers you face online."
+    },
+    "internetdangers": {
+        "file": "research/internetdangers.html",
+        "title": "Dangers of the Internet - Defuse Security",
+        "description": "Dangers of the Internet, an explanation of the dangers you face online."
+    },
+    "softwaresecurity": {
+        "file": "research/softwaresecurity.html",
+        "title": "Software Security - Bypassing KeyScrambler and Avira - Defuse Security",
+        "description": "The fundamental flaw in the software security model. Bypassing KeyScrambler and Avira",
+        "keywords": "software security, antivirus, keyscrambler, antivir"
+    },
+    "web-application-security": {
+        "file": "research/web-application-security.html",
+        "title": "Web Application Security - Defuse Security",
+        "description": "Why are websites so insecure? What design patterns will help solve these problems?",
+        "keywords": "web application security, cross site scripting, sql injection, remote code execution, php, asp, scripting"
+    },
+    "research": {
+        "file": "research/research.html",
+        "title": "Defuse Security's Research",
+        "description": "Research projects by Defuse Security"
+    },
+    "cryptographyunderattack": {
+        "file": "research/cryptographyunderattack.html",
+        "title": "Cryptography Under Attack - Defuse Security",
+        "description": "Cryptography under attack essay."
+    },
+    "passwordinsecurity": {
+        "file": "research/passwordinsecurity.html",
+        "title": "Are Passwords Secure? - Defuse Security",
+        "description": "Finding out if passwords are right way to be authenticating users."
+    },
+    "keyboarddefect": {
+        "redirect": "asuskeyboarddefect"
+    },
+    "asuskeyboarddefect": {
+        "file": "research/asuskeyboarddefect.html",
+        "title": "ASUS G50 G51 Keyboard Problem: Backspace, P, and 1 keys don't work. - Defuse Security",
+        "description": "Solution to the keyboard problem for the ASUS G50, G51, and G51VX series laptops.",
+        "keywords": "asus keyboard, g series, g51, g50, g51vx, backspace, p, q, keys, broken"
+    },
+    "passwords": {
+        "redirect": "passgen"
+    },
+    "password": {
+        "redirect": "passgen"
+    },
+    "pass": {
+        "redirect": "passgen"
+    },
+    "passgen": {
+        "file": "software/passgen.html",
+        "title": "Secure Windows & Linux Password Generator - Defuse Security",
+        "description": "A secure random password generator for Windows,  Linux and Macintosh. Generates ASCII and HEX.",
+        "keywords": "password generator, secure, encryption, windows, linux, macintosh"
+    },
+    "software": {
+        "file": "software/software.html",
+        "title": "Defuse Security's Software",
+        "description": "Software created by Defuse Security"
+    },
+    "winrrng": {
+        "file": "software/winrrng.html",
+        "title": "Real Random Number Generator for Windows - Defuse Security",
+        "description": "A real random number generator for Windows"
+    },
+    "eotp": {
+        "file": "research/eotp.html",
+        "title": "Encrypting One Time Passwords System - Defuse Security",
+        "description": "A One Time Password protocol that can be used with encryption.",
+        "keywords": "encrypting one time passwords, static key, one time password"
+    },
+    "cbcmodeiv": {
+        "file": "research/cbcmodeiv.html",
+        "title": "Should CBC Mode Initialization Vector Be Secret - Defuse Security",
+        "description": "Should the initialization vector used for CBC mode be kept secret?",
+        "keywords": "cbc mode, encryption, initialization vector, iv, secret, secure"
+    },
+    "password-policy-statistics": {
+        "file": "research/password-policy-statistics.php",
+        "title": "Password Policy Statistics - Defuse Security",
+        "description": "Password length and character restriction statistics. Top 100 sites.",
+        "keywords": "password, statistics, restrictions, maximum length, symbols, plain text, hashing, salt"
+    },
+    "bh2016": {
+        "redirect": "side-channel-attacks-on-everyday-applications"
+    },
+    "BH2016": {
+        "redirect": "side-channel-attacks-on-everyday-applications"
+    },
+    "pphos": {
+        "redirect": "password-policy-hall-of-shame"
+    },
+    "password-policy-hall-of-shame": {
+        "file": "research/hallofshame.php",
+        "title": "Password Policy Hall of SHAME - Defuse Security",
+        "description": "List of websites and services that impose password restrictions and may be storing passwords in plaintext.",
+        "keywords": "hall of shame, password hall of shame, plaintext, password restrictions, maximum password length, restriction, insecure"
+    },
+    "gpucrack": {
+        "file": "projects/gpucrack.html",
+        "title": "CUDA Salted MD5 GPU Cracker Source Code - Defuse Security",
+        "description": "Source code for a salted MD5 hash cracker using nvidia graphics cards (CUDA).",
+        "keywords": "salted md5, hash cracking, gpu, graphics cards, nvidia, cuda"
+    },
+    "force-print-background": {
+        "file": "projects/force-print-background.php",
+        "title": "HTML/CSS Force Printing of Background Color - Defuse Security",
+        "description": "HTML/CSS Hack to get browsers to print background colors.",
+        "keywords": "print background color, html, css, force print background color, print stylesheet"
+    },
+    "checksums": {
+        "file": "services/checksums.php",
+        "title": "Online Text and File Hash Calculator - MD5, SHA1, SHA256, SHA512, WHIRLPOOL Hash Calculator - Defuse Security",
+        "description": "Online Hash Tool. Calculate hash of file or text. MD5, SHA1, SHA256, SHA512 and more...",
+        "keywords": "file hasher, online, hash, md5, sha256, sha1, text hash, checksum"
+    },
+    "html-sanitize": {
+        "file": "services/html-sanitize.php",
+        "title": "Online HTML Sanitizer Tool - htmlspecialchars - Defuse Security",
+        "description": "Convert text containing special characters into proper HTML.",
+        "keywords": "html sanitizer, htmlspecialchars, htmlencode"
+    },
+    "big-number-calculator": {
+        "file": "services/big-number-calculator.php",
+        "title": "Online Big Number Calculator",
+        "description": "Calculate enormous mathematical equations from within your browser.",
+        "keywords": "big number calculator, online calculator, bigint, galactic calculator"
+    },
+    "stopspying": {
+        "file": "research/stopspying.php",
+        "title": "Stop Spying! Bills C-50, C-51, C-52. Warrantless Wiretaps in Canada.",
+        "description": "canada, warrant-less wiretap, isp, c51, c52, c50, spying, law, bill, internet privacy"
+    },
+    "filesystem-events-ntfs-permissions": {
+        "file": "research/filesystemevents.html",
+        "title": "File System Events Disclose NTFS Protected Folder Contents - Defuse Security",
+        "description": "Obtain list of files in folder protected with NTFS permissions via filesystem events"
+    },
+    "pastebin": {
+        "file": "services/pastebin.html",
+        "title": "Encrypted Pastebin - Keep your data private and secure! - Defuse Security",
+        "description": "An Encrypted, Anonymous, Secure, and PRIVATE Pastebin. Send large amounts of text to your friends without it being leaked onto the internet!",
+        "keywords": "private pastebin, encrypted pastebin, secure pastebin, anonymous pastebin, privacy"
+    },
+    "passwordblocks": {
+        "file": "services/passwordblocks.php",
+        "title": "Password Building Blocks - The HUMAN Password Generator",
+        "description": "Design your own highly memorable high security password.",
+        "keywords": "password generator, easy to remember password, secure password, password building blocks, human password"
+    },
+    "onedetection": {
+        "file": "research/onedetection.html",
+        "title": "The PUP Confusion Antivirus Detection Evasion Technique - Defuse Security",
+        "description": "The PUP Confusion Antivirus Detection Evasion Technique. Multiple detections per file.",
+        "keywords": "antivirus, single detection, only one detection, can't detect more than one, multiple virus, two viruses in one file"
+    },
+    "scratch": {
+        "file": "scratch.html",
+        "title": "",
+        "description": ""
+    },
+    "privacy-policy": {
+        "file": "privacy.html",
+        "title": "",
+        "description": ""
+    }
+}
