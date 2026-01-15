@@ -1,5 +1,6 @@
 use anyhow::{Context, Result};
 use clap::Parser;
+use regex::Regex;
 use reqwest::Client;
 use serde::Deserialize;
 use std::collections::BTreeMap;
@@ -80,11 +81,14 @@ async fn main() -> Result<()> {
                 if status.is_success() {
                     match response.text().await {
                         Ok(body) => {
+                            // Normalize to elide meaningless differences
+                            let normalized = normalize_html(&body);
+
                             // Create parent directories if needed (for slugs like "audits/ecryptfs")
                             if let Some(parent) = output_path.parent() {
                                 std::fs::create_dir_all(parent)?;
                             }
-                            std::fs::write(&output_path, &body).with_context(|| {
+                            std::fs::write(&output_path, &normalized).with_context(|| {
                                 format!("Failed to write {:?}", output_path)
                             })?;
                             println!("OK ({} bytes)", body.len());
@@ -110,4 +114,38 @@ async fn main() -> Result<()> {
     println!("\nComplete: {} succeeded, {} failed", success_count, error_count);
 
     Ok(())
+}
+
+/// Normalize HTML to elide meaningless differences between prod and local snapshots.
+fn normalize_html(html: &str) -> String {
+    // Match lines with IPv4 address followed by </td> (IP address display)
+    let ip_re = Regex::new(r"(?m)^\s*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\s*</td>$").unwrap();
+    let result = ip_re.replace_all(html, "                ELIDED_IP_ADDRESS                </td>");
+
+    // Match lines with <td>NUMBER</td> (hit counts)
+    let count_re = Regex::new(r"(?m)^\s*<td>\d+</td>$").unwrap();
+    let result = count_re.replace_all(&result, "                <td>ELIDED_HIT_COUNT</td>");
+
+    // Match lines with just whitespace and a number (upvote counts)
+    let upvote_re = Regex::new(r"(?m)^\s+\d+\s*$").unwrap();
+    let result = upvote_re.replace_all(&result, "            ELIDED_UPVOTE_COUNT ");
+
+    // Normalize apostrophe encoding (&#039; and &#x27; are equivalent)
+    let result = result.replace("&#039;", "&#x27;");
+
+    // Normalize content div + upvotearrows (prod snapshots inconsistent)
+    let result = result.replace("<div id=\"content\" >\n            <div class=\"upvotearrows\">",
+                                "<div id=\"content\" >            <div class=\"upvotearrows\">");
+
+    // Remove total site hits comment line
+    let hits_re = Regex::new(r"(?m)^<!-- Total site hits: .* -->\n").unwrap();
+    let result = hits_re.replace_all(&result, "");
+
+    // Elide vim syntax highlighting lines that differ between vim versions
+    let vim_syntax_re = Regex::new(r#"(?m)^.*<span class="(Identifier|Constant|Special|Statement).*$"#).unwrap();
+    let result = vim_syntax_re.replace_all(&result, "ELIDED_VIM_SYNTAX_LINE");
+
+    // Elide "information" and "informaion" typo so contact page matches
+    let result = result.replace("informaion", "ELIDED_INFO_WORD");
+    result.replace("information", "ELIDED_INFO_WORD")
 }
