@@ -147,5 +147,10 @@ fn normalize_html(html: &str) -> String {
 
     // Elide "information" and "informaion" typo so contact page matches
     let result = result.replace("informaion", "ELIDED_INFO_WORD");
-    result.replace("information", "ELIDED_INFO_WORD")
+    let result = result.replace("information", "ELIDED_INFO_WORD");
+
+    // Normalize JS hex escapes to literal chars
+    // PHP's jse() escapes all non-alphanumeric chars, Rust doesn't need to
+    let result = result.replace("\\x2D", "-");
+    result.replace("\\x5F", "_")
 }

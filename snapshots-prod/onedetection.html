@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>The PUP Confusion Antivirus Detection Evasion Technique - Defuse Security</title>
+<meta name="description" content="The PUP Confusion Antivirus Detection Evasion Technique. Multiple detections per file." />
+<meta name="keywords" content="antivirus, single detection, only one detection, can&#x27;t detect more than one, multiple virus, two viruses in one file" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" >            <div class="upvotearrows">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/onedetection.htm" 
+                method="post"
+                onsubmit="return upvote.submit('pupconfusion', 'up')"
+                class="upvoteform upvoteUpFormpupconfusion"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="pupconfusion" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagepupconfusion"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterpupconfusion" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/onedetection.htm" 
+                method="post"
+                onsubmit="return upvote.submit('pupconfusion', 'down')"
+                class="upvoteform upvoteDownFormpupconfusion"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="pupconfusion" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagepupconfusion"
+                    />
+                            </form>
+        </div>
+                </div>
+        <div class="pagedate">
+June 12, 2011
+</div>
+<h1>The PUP Confusion Technique</h1>
+
+<p>I would like to demonstrate for you an antivirus detection evasion technique. I'll be using McAfee to demo this, but the problem exists in ALL personal antivirus software. Before we get going, I'd like you to meet two of my friends...</p>
+
+<h3>Cain</h3>
+<p>Cain is a pretty cool guy. Any Windows penetration tester has probably heard of him. He's really good at WEP cracking, password cracking, and network sniffing. A really cool tool for us hackers, but probably not something a sysadmin would want to find on one of their workstations. This kind of program is classified by antivirus programs as a Potentially Unwanted Program (or PUP for short).
+</p>
+
+<p>Here's what McAfee has to say about him:</p>
+<center><img src="images/cainnormal.jpg" alt="McAfee Cain Detection" title="McAfee Cain Detection" /></center>
+<h3>Bifrost</h3>
+<p>Bifrost was designed to be dangerous. His main purpose is to be a full featured, remote access backdoor to any Windows system. He's got so many dangerous features that you really should be scared of him. You definitely don't want this guy running on your PC. Bifrost is very well known, so antivirus software shouldn't have a problem detecting him.
+</p>
+
+<p>Here's what McAfee has to say about him:</p>
+<center><img src="images/bifrostnormal.jpg" alt="McAfee Bifrost Detection" title="McAfee Bifrost Detection" /></center>
+<h2>The Problem</h2>
+<p>Antivirus programs use signature databases and heuristic algorithms to determine if a file is a virus or not. This means they have to scan a file, and if this file matches any of their MANY virus definitions, it will be reported to the user as a variant of that virus.</p>
+
+<p>
+We can use that to our advantage. All personal antivirus programs as of today only assign one "detection" to a file. It would violate our common sense if our antivirus program started telling us a single .exe is is two viruses at the same time, so they simply don't. It's one detection to a file and that's it.
+</p>
+
+<p>
+Cain, being classified as a PUP, may not be detected by some antivirus software with default settings. Simply because antivirus companies want to avoid complaints about false positives. For this example I'm using McAfee, which detects PUPs by default, so I'll have to modify my attack scenario a little bit just to prove my point. Say you want a copy of Cain, but their website was down. You ask a friend that you don't really trust for a copy, and you scan the .exe he sends you just to make sure it's not backdoored.
+</p>
+
+<p>
+This problem, what I call the "PUP Confusion Technique", lets your "friend" make you run a backdoor program on your computer even if it is well known and easily detected by any AV software. The attack is simple. Append Cain to the Bifrost executable, and change the icon to look like Cain. When you append data to a .exe file it gets completely ignored by the operating system when it gets executed. Bifrost will still run like normal. The cool thing is: Even though executing the file runs Bifrost, Mcafee only detects the combination of Bifrost and Cain as "PWCrack-Cain." So, you, expecting to get a copy of Cain, won't suspect a thing when your AV is telling you the file is exactly what you think it is.
+</p>
+
+<h4>McAfee detects Bifrost as Cain:</h4>
+<center><img src="images/combined_bifrostfirst.jpg" alt="McAfee Detects Bifrost as Cain" title="McAfee Detects Bifrost as Cain" /></center>
+<p>
+To see how many AVs fall for this trick, I uploaded Bifrost with 10 copies of Cain appended, to VirusTotal. Most detect it as Bifrost, but a few (Nod32, eSafe and McAfee) detect it as a Cain. Prevx, Panda, nProtect, and Avity don't detect anything at all, even though they detect "normal" Bifrost. With a little more work, it's probably possible to fool even more of them.
+</p>
+<h4>VirusTotal scan results:</h4>
+<center>
+	<img src="images/scanresult.jpg" alt="VirusTotal scan of Bifrost and 10 Cains" title="VirusTotal scan of Bifrost and 10 Cains" />
+
+	<br />
+	<a href="http://www.virustotal.com/file-scan/report.html?id=9621dc5eb10080f97ad8fb8d27391ac3d30b06ea5d01d80d35e2b79b8123bbdf-1298755389" rel="nofollow">VirusTotal Page</a>&nbsp;&nbsp;&nbsp;
+	<a href="http://www.virustotal.com/file-scan/report.html?id=26ef00de683604fb6dcd2da5a40da53442d2374fe8c0926241f2cc16b78f4c26-1298497794" rel="nofollow">Control Test - Cain</a>&nbsp;&nbsp;&nbsp;
+
+	<a href="http://www.virustotal.com/file-scan/report.html?id=c4322aa673886e53526258f10c725543c5a42ac89345a8ad0611f64675ead6ff-1298229574" rel="nofollow" >Control Test - Bifrost</a>
+
+</center>
+<p>
+This attack can be improved too. Like I said, many AV software's default configuration is to ignore PUPs. If you append a bunch of PUP programs to the end of a real virus, it's very likely that the AV will detect the PUP first, and not even report it to the user. This is a very practical attack, and I would argue it's even more effective than hex editing or "crypting" undetection techniques.
+</p>
+<p>
+You can imagine that once a file like this starts infecting lots of computers, AV software will automatically catch on. But once malware gets in, it could stop itself from being detected by disabling the AV software, or by making it's files larger than the "don't scan files larger than" setting in the AV. 
+</p>
+<p>
+This could also be used to sabotage legitimate software. If you appended a legitamete piece of software (or portions of it) to the end of a real virus, and distributed it throughout a botnet, AV software might catch on and start falsely reporting the legit software as a virus. I wouldn't be suprised of an evil software company did that to ruin their competition.
+</p>
+<h2>Test Files</h2>
+<p>
+You can use these files to test your antivirus software. This zip file contains Cain, Bifrost, Cain with Bifrost appended, and Bifrost with Cain appended.
+</p>
+
+<p><b><span style="color:red;">WARNING: </span>THE ZIP FILE CONTAINS VERY DANGEROUS PROGRAMS. DO NOT RUN THESE PROGRAMS, ONLY SCAN THEM.<br /> I AM NOT RESPONSIBLE FOR WHAT HAPPENS TO YOUR COMPUTER IF YOU RUN THEM!</b></p>
+<p>
+Copy and paste this URL into your browser and replace hxxp with http to download the file:<br />
+hxxps://defuse.ca/downloads/pupevasion.zip <br />
+<b>Note:</b> You will have to turn off your AV software to download and extract the file.
+</p>
+
+<p>Note: Yes, I know I'm using the Bifrost builder and not an actual Bifrost server. It's just a demo, and the builder contains the server anyway.</p>
+
+<h2>The Solution</h2>
+<p>This is a fundamental problem with AV software. They only make one detection per file. The only way I can see this being fixed is if AV software starts reporting multiple detections per file, and that's a big change. Virus databases and multi-engine scanning services rely on the one detection per file model. However, I strongly urge all antivirus companies to take this technique seriously, and improve your products accordingly.</p>
+
+<p>In the meantime, users of antivirus software can protect themselves by making sure PUP detection is turned ON and only obtaining software from the developer's website. Remember that antivirus software can't protect you from everything. Your best defense is being smart and only downloading what you trust and need.</p>
+
+
+
+
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                ELIDED_IP_ADDRESS                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>ELIDED_HIT_COUNT</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>ELIDED_HIT_COUNT</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>

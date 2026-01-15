@@ -1,0 +1,3352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>Defuse Security Research and Development</title>
+<meta name="description" content="A list of all pages on defuse.ca, sorted by popularity." />
+<meta name="keywords" content="defuse security, encryption, privacy, programming, code, research" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" ><h1>All Pages (By Popularity)</h1>
+<p>
+This is a list of all pages on this web site, sorted on the amount of upvotes and downvotes visitors
+have given them. Please upvote the pages you like and downvote the ones you don't.
+</p>
+<table class="upvote_pagelist">            <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('onlinex86assembler', 'up')"
+                class="upvoteform upvoteUpFormonlinex86assembler"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="onlinex86assembler" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageonlinex86assembler"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounteronlinex86assembler" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('onlinex86assembler', 'down')"
+                class="upvoteform upvoteDownFormonlinex86assembler"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="onlinex86assembler" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageonlinex86assembler"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/online-x86-assembler.htm">
+                        Online x86 / x64 Assembler                    </a>
+                    <div class="upvote_list_desc">
+                        Assemble x86 and x64 code in your browser!                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('bignumbercalculator', 'up')"
+                class="upvoteform upvoteUpFormbignumbercalculator"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="bignumbercalculator" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagebignumbercalculator"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterbignumbercalculator" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('bignumbercalculator', 'down')"
+                class="upvoteform upvoteDownFormbignumbercalculator"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="bignumbercalculator" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagebignumbercalculator"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/big-number-calculator.htm">
+                        Big Number Calculator                    </a>
+                    <div class="upvote_list_desc">
+                        A tool for calculating with huge numbers.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('pastebin', 'up')"
+                class="upvoteform upvoteUpFormpastebin"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="pastebin" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagepastebin"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterpastebin" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('pastebin', 'down')"
+                class="upvoteform upvoteDownFormpastebin"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="pastebin" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagepastebin"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/pastebin.htm">
+                        PIE Bin                    </a>
+                    <div class="upvote_list_desc">
+                        A pastebin with both client-side and server-side encryption.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('inbrowserportscanner', 'up')"
+                class="upvoteform upvoteUpForminbrowserportscanner"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="inbrowserportscanner" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageinbrowserportscanner"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterinbrowserportscanner" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('inbrowserportscanner', 'down')"
+                class="upvoteform upvoteDownForminbrowserportscanner"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="inbrowserportscanner" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageinbrowserportscanner"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/in-browser-port-scanning.htm">
+                        Timing Side Channel Port Scanner in the Browser                    </a>
+                    <div class="upvote_list_desc">
+                        How web pages can use a timing side channel to &quot;scan&quot; your local network.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('onlinechecksums', 'up')"
+                class="upvoteform upvoteUpFormonlinechecksums"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="onlinechecksums" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageonlinechecksums"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounteronlinechecksums" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('onlinechecksums', 'down')"
+                class="upvoteform upvoteDownFormonlinechecksums"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="onlinechecksums" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageonlinechecksums"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/checksums.htm">
+                        Online Hash Calculator                    </a>
+                    <div class="upvote_list_desc">
+                        A tool for computing hashes (MD5, SHA1, SHA2, etc.) of text and files.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('pphos', 'up')"
+                class="upvoteform upvoteUpFormpphos"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="pphos" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagepphos"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterpphos" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('pphos', 'down')"
+                class="upvoteform upvoteDownFormpphos"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="pphos" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagepphos"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/password-policy-hall-of-shame.htm">
+                        Password Policy Hall of Shame                    </a>
+                    <div class="upvote_list_desc">
+                        A list of web sites that store passwords in plain text, restrict password length, or restrict password characters                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('phppbkdf2', 'up')"
+                class="upvoteform upvoteUpFormphppbkdf2"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="phppbkdf2" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagephppbkdf2"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterphppbkdf2" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('phppbkdf2', 'down')"
+                class="upvoteform upvoteDownFormphppbkdf2"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="phppbkdf2" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagephppbkdf2"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/php-pbkdf2.htm">
+                        PBKDF2 for PHP                    </a>
+                    <div class="upvote_list_desc">
+                        A fast implementation of the PBKDF2 key stretching function in PHP.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditencfs', 'up')"
+                class="upvoteform upvoteUpFormauditencfs"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="auditencfs" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageauditencfs"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterauditencfs" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditencfs', 'down')"
+                class="upvoteform upvoteDownFormauditencfs"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="auditencfs" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageauditencfs"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/audits/encfs.htm">
+                        EncFS Security Audit                    </a>
+                    <div class="upvote_list_desc">
+                        The results of an EncFS security audit.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('trent', 'up')"
+                class="upvoteform upvoteUpFormtrent"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="trent" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagetrent"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountertrent" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('trent', 'down')"
+                class="upvoteform upvoteDownFormtrent"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="trent" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagetrent"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/trustedthirdparty.htm">
+                        TRENT - Trusted Random Entropy                    </a>
+                    <div class="upvote_list_desc">
+                        A free trusted third party random number generator.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('truecrypthashes', 'up')"
+                class="upvoteform upvoteUpFormtruecrypthashes"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="truecrypthashes" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagetruecrypthashes"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountertruecrypthashes" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('truecrypthashes', 'down')"
+                class="upvoteform upvoteDownFormtruecrypthashes"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="truecrypthashes" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagetruecrypthashes"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/truecrypt-7.1a-hashes.htm">
+                        Hashes of TrueCrypt Version 7.1a Files                    </a>
+                    <div class="upvote_list_desc">
+                        Hashes of all files from the last version of TrueCrypt                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('howdowemodelthisrobot', 'up')"
+                class="upvoteform upvoteUpFormhowdowemodelthisrobot"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="howdowemodelthisrobot" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagehowdowemodelthisrobot"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterhowdowemodelthisrobot" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('howdowemodelthisrobot', 'down')"
+                class="upvoteform upvoteDownFormhowdowemodelthisrobot"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="howdowemodelthisrobot" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagehowdowemodelthisrobot"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/how-do-we-model-this-robot.htm">
+                        How do we model this robot?                    </a>
+                    <div class="upvote_list_desc">
+                        The difference between Computational Ability and Informational Ability                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('onlinehtmlsanitize', 'up')"
+                class="upvoteform upvoteUpFormonlinehtmlsanitize"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="onlinehtmlsanitize" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageonlinehtmlsanitize"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounteronlinehtmlsanitize" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('onlinehtmlsanitize', 'down')"
+                class="upvoteform upvoteDownFormonlinehtmlsanitize"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="onlinehtmlsanitize" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageonlinehtmlsanitize"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/html-sanitize.htm">
+                        HTML Escape Tool                    </a>
+                    <div class="upvote_list_desc">
+                        A tool for HTML-escaping text so that it looks and behaves exactly like it does in a text editor.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('blindbirthdayattack', 'up')"
+                class="upvoteform upvoteUpFormblindbirthdayattack"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="blindbirthdayattack" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageblindbirthdayattack"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterblindbirthdayattack" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('blindbirthdayattack', 'down')"
+                class="upvoteform upvoteDownFormblindbirthdayattack"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="blindbirthdayattack" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageblindbirthdayattack"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/blind-birthday-attack.htm">
+                        Blind Birthday Attack                    </a>
+                    <div class="upvote_list_desc">
+                        A birthday attack without knowing what the collision actually is.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('cbcmodeiv', 'up')"
+                class="upvoteform upvoteUpFormcbcmodeiv"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="cbcmodeiv" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagecbcmodeiv"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountercbcmodeiv" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('cbcmodeiv', 'down')"
+                class="upvoteform upvoteDownFormcbcmodeiv"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="cbcmodeiv" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagecbcmodeiv"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/cbcmodeiv.htm">
+                        Encryption - CBC Mode IV: Secret or Not?                    </a>
+                    <div class="upvote_list_desc">
+                        Should the IV in CBC mode be kept secret?                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('honestyware', 'up')"
+                class="upvoteform upvoteUpFormhonestyware"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="honestyware" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagehonestyware"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterhonestyware" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('honestyware', 'down')"
+                class="upvoteform upvoteDownFormhonestyware"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="honestyware" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagehonestyware"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/honestyware.htm">
+                        Honestyware                    </a>
+                    <div class="upvote_list_desc">
+                        A philosophy for selling software and other digital content on the internet.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('bochsdiskimages', 'up')"
+                class="upvoteform upvoteUpFormbochsdiskimages"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="bochsdiskimages" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagebochsdiskimages"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterbochsdiskimages" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('bochsdiskimages', 'down')"
+                class="upvoteform upvoteDownFormbochsdiskimages"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="bochsdiskimages" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagebochsdiskimages"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/bochs-images.htm">
+                        Bochs Disk Images                    </a>
+                    <div class="upvote_list_desc">
+                        Disk images for the Bochs x86 emulator.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('reading\x5Flist', 'up')"
+                class="upvoteform upvoteUpFormreading_list"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="reading_list" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagereading_list"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterreading_list" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('reading\x5Flist', 'down')"
+                class="upvoteform upvoteDownFormreading_list"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="reading_list" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagereading_list"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/reading-list.htm">
+                        Reading List                    </a>
+                    <div class="upvote_list_desc">
+                        A list of the books I have read.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('truecryptgametheory', 'up')"
+                class="upvoteform upvoteUpFormtruecryptgametheory"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="truecryptgametheory" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagetruecryptgametheory"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountertruecryptgametheory" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('truecryptgametheory', 'down')"
+                class="upvoteform upvoteDownFormtruecryptgametheory"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="truecryptgametheory" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagetruecryptgametheory"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/truecrypt-plausible-deniability-useless-by-game-theory.htm">
+                        TrueCrypt&#x27;s Plausible Deniability is Theoretically Useless                    </a>
+                    <div class="upvote_list_desc">
+                        Why you really ought to have a hidden volume, even if you don&#x27;t need one.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('backupverifyscript', 'up')"
+                class="upvoteform upvoteUpFormbackupverifyscript"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="backupverifyscript" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagebackupverifyscript"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterbackupverifyscript" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('backupverifyscript', 'down')"
+                class="upvoteform upvoteDownFormbackupverifyscript"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="backupverifyscript" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagebackupverifyscript"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/backup-verify-script.htm">
+                        Backup Verifier Script (Ruby)                    </a>
+                    <div class="upvote_list_desc">
+                        A Ruby script that compares two directories and reports the differences.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('myvimrc', 'up')"
+                class="upvoteform upvoteUpFormmyvimrc"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="myvimrc" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagemyvimrc"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountermyvimrc" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('myvimrc', 'down')"
+                class="upvoteform upvoteDownFormmyvimrc"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="myvimrc" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagemyvimrc"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/vimrc.htm">
+                        My Vim Configuration                    </a>
+                    <div class="upvote_list_desc">
+                        My configuration of the Vim text and code editor.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('issecuritylocal', 'up')"
+                class="upvoteform upvoteUpFormissecuritylocal"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="issecuritylocal" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageissecuritylocal"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterissecuritylocal" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('issecuritylocal', 'down')"
+                class="upvoteform upvoteDownFormissecuritylocal"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="issecuritylocal" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageissecuritylocal"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/is-security-local.htm">
+                        Is Security Local?                    </a>
+                    <div class="upvote_list_desc">
+                        Is security a locally-verifiable property of computation?                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('eotp', 'up')"
+                class="upvoteform upvoteUpFormeotp"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="eotp" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageeotp"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountereotp" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('eotp', 'down')"
+                class="upvoteform upvoteDownFormeotp"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="eotp" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageeotp"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/eotp.htm">
+                        Encrypting One Time Passwords (EOTP)                    </a>
+                    <div class="upvote_list_desc">
+                        EOTP is a cryptographic One Time Password (OTP) protocol designed to provide a static encryption key across login sessions.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('passgen', 'up')"
+                class="upvoteform upvoteUpFormpassgen"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="passgen" />
+                                    <input
+                        type="image" src="/images/upvote-selected.gif" alt="Upvote" 
+                        name="upvoteUpImagepassgen"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount_upvoted upvoteCounterpassgen" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('passgen', 'down')"
+                class="upvoteform upvoteDownFormpassgen"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="passgen" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagepassgen"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/passgen.htm">
+                        High-Security Offline Password Generator                    </a>
+                    <div class="upvote_list_desc">
+                        A secure random password generator for Windows, Linux, and Mac.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditecryptfs', 'up')"
+                class="upvoteform upvoteUpFormauditecryptfs"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="auditecryptfs" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageauditecryptfs"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterauditecryptfs" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditecryptfs', 'down')"
+                class="upvoteform upvoteDownFormauditecryptfs"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="auditecryptfs" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageauditecryptfs"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/audits/ecryptfs.htm">
+                        eCryptfs Security Audit                    </a>
+                    <div class="upvote_list_desc">
+                        The results of an eCryptfs security audit.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('advicetocs', 'up')"
+                class="upvoteform upvoteUpFormadvicetocs"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="advicetocs" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageadvicetocs"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounteradvicetocs" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('advicetocs', 'down')"
+                class="upvoteform upvoteDownFormadvicetocs"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="advicetocs" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageadvicetocs"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/advice-to-aspiring-computer-engineers.htm">
+                        Advice to Aspiring Computer Security Engineers/Scientists                    </a>
+                    <div class="upvote_list_desc">
+                        Some advice for new computer science students based on my experience.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('pupconfusion', 'up')"
+                class="upvoteform upvoteUpFormpupconfusion"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="pupconfusion" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagepupconfusion"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterpupconfusion" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('pupconfusion', 'down')"
+                class="upvoteform upvoteDownFormpupconfusion"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="pupconfusion" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagepupconfusion"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/onedetection.htm">
+                        The PUP Confusion Technique                    </a>
+                    <div class="upvote_list_desc">
+                        Undetecting malware by making it look like a Potentially Unwanted Program (PUP).                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditzerobin', 'up')"
+                class="upvoteform upvoteUpFormauditzerobin"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="auditzerobin" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageauditzerobin"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterauditzerobin" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditzerobin', 'down')"
+                class="upvoteform upvoteDownFormauditzerobin"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="auditzerobin" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageauditzerobin"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/audits/zerobin.htm">
+                        ZeroBin Security Audit                    </a>
+                    <div class="upvote_list_desc">
+                        A security audit of the ZeroBin pastebin.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('helloworld', 'up')"
+                class="upvoteform upvoteUpFormhelloworld"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="helloworld" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagehelloworld"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterhelloworld" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('helloworld', 'down')"
+                class="upvoteform upvoteDownFormhelloworld"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="helloworld" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagehelloworld"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/helloworld-cms.htm">
+                        HelloWorld! - A Light &amp; Secure CDS for PHP                    </a>
+                    <div class="upvote_list_desc">
+                        A lightweight, ultra-secure, CMS/CDS for PHP                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('syntaxhighlightingvim', 'up')"
+                class="upvoteform upvoteUpFormsyntaxhighlightingvim"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="syntaxhighlightingvim" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagesyntaxhighlightingvim"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountersyntaxhighlightingvim" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('syntaxhighlightingvim', 'down')"
+                class="upvoteform upvoteDownFormsyntaxhighlightingvim"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="syntaxhighlightingvim" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagesyntaxhighlightingvim"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/syntax-highlighting-in-php-with-vim.htm">
+                        Using the Vim Editor for Syntax Highlighting in PHP                    </a>
+                    <div class="upvote_list_desc">
+                        Generate syntax-highlighted code automatically in PHP with Vim.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('asuskeyboarddefect', 'up')"
+                class="upvoteform upvoteUpFormasuskeyboarddefect"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="asuskeyboarddefect" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageasuskeyboarddefect"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterasuskeyboarddefect" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('asuskeyboarddefect', 'down')"
+                class="upvoteform upvoteDownFormasuskeyboarddefect"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="asuskeyboarddefect" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageasuskeyboarddefect"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/asuskeyboarddefect.htm">
+                        Asus G Series Keyboard Design Error                    </a>
+                    <div class="upvote_list_desc">
+                        Fixing a problem with the keyboard in an ASUS laptop.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('raceconditions', 'up')"
+                class="upvoteform upvoteUpFormraceconditions"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="raceconditions" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageraceconditions"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterraceconditions" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('raceconditions', 'down')"
+                class="upvoteform upvoteDownFormraceconditions"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="raceconditions" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageraceconditions"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/race-conditions-in-web-applications.htm">
+                        Practical Race Condition Vulnerabilities in Web Applications                    </a>
+                    <div class="upvote_list_desc">
+                        An example of a web application (PHP) vulnerable to a race condition, and how to fix it.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('webbrowsercryptography', 'up')"
+                class="upvoteform upvoteUpFormwebbrowsercryptography"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="webbrowsercryptography" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagewebbrowsercryptography"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterwebbrowsercryptography" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('webbrowsercryptography', 'down')"
+                class="upvoteform upvoteDownFormwebbrowsercryptography"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="webbrowsercryptography" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagewebbrowsercryptography"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/web-browser-javascript-cryptography.htm">
+                        Web Browser Cryptography is a Good Thing                    </a>
+                    <div class="upvote_list_desc">
+                        Why we should support the development of browser-based crypto applications.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('gnutlspsk', 'up')"
+                class="upvoteform upvoteUpFormgnutlspsk"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="gnutlspsk" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagegnutlspsk"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountergnutlspsk" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('gnutlspsk', 'down')"
+                class="upvoteform upvoteDownFormgnutlspsk"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="gnutlspsk" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagegnutlspsk"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/gnutls-psk-client-server-example.htm">
+                        GnuTLS Pre-Shared Key Client-Server Example                    </a>
+                    <div class="upvote_list_desc">
+                        How to establish an SSL/TLS connection with GnuTLS and PSK authentication.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('insanepasswordrestrict', 'up')"
+                class="upvoteform upvoteUpForminsanepasswordrestrict"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="insanepasswordrestrict" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageinsanepasswordrestrict"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterinsanepasswordrestrict" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('insanepasswordrestrict', 'down')"
+                class="upvoteform upvoteDownForminsanepasswordrestrict"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="insanepasswordrestrict" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageinsanepasswordrestrict"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/passwordrestrictions.htm">
+                        Insane Password Restrictions                    </a>
+                    <div class="upvote_list_desc">
+                        Why do some websites enforce a maximum password length? Why aren&#x27;t certain characters allowed?                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('phphitcounter', 'up')"
+                class="upvoteform upvoteUpFormphphitcounter"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="phphitcounter" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagephphitcounter"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterphphitcounter" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('phphitcounter', 'down')"
+                class="upvoteform upvoteDownFormphphitcounter"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="phphitcounter" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagephphitcounter"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/php-hit-counter.htm">
+                        &quot;Privacy Aware&quot; Unique Hit Counter for PHP                    </a>
+                    <div class="upvote_list_desc">
+                        A simple hit counter that stores only a hash of your visitor&#x27;s IP address.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('cppvtables', 'up')"
+                class="upvoteform upvoteUpFormcppvtables"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="cppvtables" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagecppvtables"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountercppvtables" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('cppvtables', 'down')"
+                class="upvoteform upvoteDownFormcppvtables"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="cppvtables" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagecppvtables"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/exploiting-cpp-vtables.htm">
+                        Exploiting C++ VTABLES: Instance Replacement                    </a>
+                    <div class="upvote_list_desc">
+                        Use a memory corruption vulnerability to change an instance of class A into an instance of class B.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('email\x5Fspoofing\x5Fruby', 'up')"
+                class="upvoteform upvoteUpFormemail_spoofing_ruby"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="email_spoofing_ruby" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageemail_spoofing_ruby"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounteremail_spoofing_ruby" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('email\x5Fspoofing\x5Fruby', 'down')"
+                class="upvoteform upvoteDownFormemail_spoofing_ruby"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="email_spoofing_ruby" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageemail_spoofing_ruby"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/email-spoofing-in-ruby.htm">
+                        Email Spoofing in Ruby                    </a>
+                    <div class="upvote_list_desc">
+                        A Ruby script for spoofing email to SMTP servers.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('flushreload', 'up')"
+                class="upvoteform upvoteUpFormflushreload"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="flushreload" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageflushreload"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterflushreload" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('flushreload', 'down')"
+                class="upvoteform upvoteDownFormflushreload"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="flushreload" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageflushreload"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/flush-reload-side-channel.htm">
+                        FLUSH+RELOAD: Multi-User Systems are Doomed                    </a>
+                    <div class="upvote_list_desc">
+                        The FLUSH+RELOAD side-channel attack breaks the security of multi-user systems.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('writing\x5Ftips', 'up')"
+                class="upvoteform upvoteUpFormwriting_tips"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="writing_tips" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagewriting_tips"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterwriting_tips" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('writing\x5Ftips', 'down')"
+                class="upvoteform upvoteDownFormwriting_tips"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="writing_tips" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagewriting_tips"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/writing-tips.htm">
+                        Writing Tips                    </a>
+                    <div class="upvote_list_desc">
+                        Short tips to make your writing better.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('webappsec', 'up')"
+                class="upvoteform upvoteUpFormwebappsec"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="webappsec" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagewebappsec"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterwebappsec" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('webappsec', 'down')"
+                class="upvoteform upvoteDownFormwebappsec"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="webappsec" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagewebappsec"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/web-application-security.htm">
+                        Data Flow in Web Applications                    </a>
+                    <div class="upvote_list_desc">
+                        A look at the flow of data in web applications and how it can be tamed for security.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('synergy\x5Fcracking', 'up')"
+                class="upvoteform upvoteUpFormsynergy_cracking"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="synergy_cracking" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagesynergy_cracking"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountersynergy_cracking" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('synergy\x5Fcracking', 'down')"
+                class="upvoteform upvoteDownFormsynergy_cracking"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="synergy_cracking" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagesynergy_cracking"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/cracking-synergy-bad-cryptography.htm">
+                        Cracking Synergy&#x27;s Bad Cryptography                    </a>
+                    <div class="upvote_list_desc">
+                        A tool to crack Synergy&#x27;s homebrew cryptography.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('centripetalaccel', 'up')"
+                class="upvoteform upvoteUpFormcentripetalaccel"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="centripetalaccel" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagecentripetalaccel"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountercentripetalaccel" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('centripetalaccel', 'down')"
+                class="upvoteform upvoteDownFormcentripetalaccel"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="centripetalaccel" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagecentripetalaccel"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/centripetal-acceleration.htm">
+                        Centripetal Acceleration                    </a>
+                    <div class="upvote_list_desc">
+                        Deriving the centripetal acceleration equation.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('trianglesecurecodedelivery', 'up')"
+                class="upvoteform upvoteUpFormtrianglesecurecodedelivery"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="trianglesecurecodedelivery" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagetrianglesecurecodedelivery"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountertrianglesecurecodedelivery" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('trianglesecurecodedelivery', 'down')"
+                class="upvoteform upvoteDownFormtrianglesecurecodedelivery"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="trianglesecurecodedelivery" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagetrianglesecurecodedelivery"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/triangle-of-secure-code-delivery.htm">
+                        Triangle of Secure Code Delivery                    </a>
+                    <div class="upvote_list_desc">
+                        Three properties necessary and sufficient for delivering code safely.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('passhashingphc', 'up')"
+                class="upvoteform upvoteUpFormpasshashingphc"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="passhashingphc" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagepasshashingphc"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterpasshashingphc" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('passhashingphc', 'down')"
+                class="upvoteform upvoteDownFormpasshashingphc"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="passhashingphc" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagepasshashingphc"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/password-hashing-after-phc.htm">
+                        Password Hashing After the PHC                    </a>
+                    <div class="upvote_list_desc">
+                        Giving authenticators an advantage over password crackers with cache.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('bitcoinpoolddos', 'up')"
+                class="upvoteform upvoteUpFormbitcoinpoolddos"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="bitcoinpoolddos" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagebitcoinpoolddos"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterbitcoinpoolddos" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('bitcoinpoolddos', 'down')"
+                class="upvoteform upvoteDownFormbitcoinpoolddos"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="bitcoinpoolddos" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagebitcoinpoolddos"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/bitcoin-pool-ddos.htm">
+                        Centralization is Killing Bitcoin                    </a>
+                    <div class="upvote_list_desc">
+                        An article on Bitcoin, centralization, and DDoS attacks.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('forceprinthtmlbg', 'up')"
+                class="upvoteform upvoteUpFormforceprinthtmlbg"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="forceprinthtmlbg" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageforceprinthtmlbg"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterforceprinthtmlbg" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('forceprinthtmlbg', 'down')"
+                class="upvoteform upvoteDownFormforceprinthtmlbg"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="forceprinthtmlbg" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageforceprinthtmlbg"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/force-print-background.htm">
+                        Forcing HTML/CSS Background Color to Print                    </a>
+                    <div class="upvote_list_desc">
+                        How to force browsers to print the background color of HTML elements (using images).                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('securephpencryption', 'up')"
+                class="upvoteform upvoteUpFormsecurephpencryption"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="securephpencryption" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagesecurephpencryption"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountersecurephpencryption" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('securephpencryption', 'down')"
+                class="upvoteform upvoteDownFormsecurephpencryption"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="securephpencryption" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagesecurephpencryption"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/secure-php-encryption.htm">
+                        How to Encrypt Data in PHP                    </a>
+                    <div class="upvote_list_desc">
+                        The right way to encrypt data in PHP.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('universeOfCheese', 'up')"
+                class="upvoteform upvoteUpFormuniverseOfCheese"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="universeOfCheese" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageuniverseOfCheese"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounteruniverseOfCheese" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('universeOfCheese', 'down')"
+                class="upvoteform upvoteDownFormuniverseOfCheese"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="universeOfCheese" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageuniverseOfCheese"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/the-universe-is-made-of-cheese.htm">
+                        The Cheese Universe Paradox                    </a>
+                    <div class="upvote_list_desc">
+                        A formal proof that the universe is made entirely of cheese.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('bochshacking', 'up')"
+                class="upvoteform upvoteUpFormbochshacking"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="bochshacking" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagebochshacking"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterbochshacking" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('bochshacking', 'down')"
+                class="upvoteform upvoteDownFormbochshacking"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="bochshacking" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagebochshacking"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/bochs-hacking-guide.htm">
+                        Bochs Hacking Guide                    </a>
+                    <div class="upvote_list_desc">
+                        Hacking the Bochs x86 CPU emulator.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('newyorktimesalgebra', 'up')"
+                class="upvoteform upvoteUpFormnewyorktimesalgebra"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="newyorktimesalgebra" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagenewyorktimesalgebra"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounternewyorktimesalgebra" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('newyorktimesalgebra', 'down')"
+                class="upvoteform upvoteDownFormnewyorktimesalgebra"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="newyorktimesalgebra" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagenewyorktimesalgebra"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/new-york-times-algebra.htm">
+                        The New York Times and Algebra                    </a>
+                    <div class="upvote_list_desc">
+                        The New York Times does not (necessarily) fail at algebra.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('sockstress', 'up')"
+                class="upvoteform upvoteUpFormsockstress"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="sockstress" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagesockstress"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountersockstress" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('sockstress', 'down')"
+                class="upvoteform upvoteDownFormsockstress"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="sockstress" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagesockstress"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/sockstress.htm">
+                        Sockstress DoS Tool                    </a>
+                    <div class="upvote_list_desc">
+                        A public domain C implementation of the sockstress DoS attack.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('manualrng', 'up')"
+                class="upvoteform upvoteUpFormmanualrng"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="manualrng" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagemanualrng"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountermanualrng" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('manualrng', 'down')"
+                class="upvoteform upvoteDownFormmanualrng"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="manualrng" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagemanualrng"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/manual-random-number-generator.htm">
+                        A Manual Random Number Generator                    </a>
+                    <div class="upvote_list_desc">
+                        Generating random numbers with paper coins.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('breachmitigate', 'up')"
+                class="upvoteform upvoteUpFormbreachmitigate"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="breachmitigate" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagebreachmitigate"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterbreachmitigate" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('breachmitigate', 'down')"
+                class="upvoteform upvoteDownFormbreachmitigate"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="breachmitigate" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagebreachmitigate"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/mitigating-breach-tls-attack-in-php.htm">
+                        Mitigating BREACH in PHP                    </a>
+                    <div class="upvote_list_desc">
+                        PHP code for mitigating the BREACH attack.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('audithashzero', 'up')"
+                class="upvoteform upvoteUpFormaudithashzero"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="audithashzero" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageaudithashzero"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounteraudithashzero" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('audithashzero', 'down')"
+                class="upvoteform upvoteDownFormaudithashzero"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="audithashzero" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageaudithashzero"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/audits/hash0.htm">
+                        Hash0 Security Audit                    </a>
+                    <div class="upvote_list_desc">
+                        A security audit of the Hash0 pastebin.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('phphashcracker', 'up')"
+                class="upvoteform upvoteUpFormphphashcracker"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="phphashcracker" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagephphashcracker"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterphphashcracker" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('phphashcracker', 'down')"
+                class="upvoteform upvoteDownFormphphashcracker"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="phphashcracker" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagephphashcracker"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/php-hash-cracker.htm">
+                        Salted Hash Cracking PHP Script                    </a>
+                    <div class="upvote_list_desc">
+                        A script for cracking hashes when all you have is PHP.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditpefs', 'up')"
+                class="upvoteform upvoteUpFormauditpefs"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="auditpefs" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageauditpefs"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterauditpefs" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditpefs', 'down')"
+                class="upvoteform upvoteDownFormauditpefs"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="auditpefs" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageauditpefs"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/audits/pefs.htm">
+                        PEFS Security Audit                    </a>
+                    <div class="upvote_list_desc">
+                        Security audit of the Private Encrypted File System (PEFS).                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('skypemitm', 'up')"
+                class="upvoteform upvoteUpFormskypemitm"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="skypemitm" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageskypemitm"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterskypemitm" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('skypemitm', 'down')"
+                class="upvoteform upvoteDownFormskypemitm"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="skypemitm" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageskypemitm"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/microsoft-reads-your-skype-messages.htm">
+                        Confirmed: Microsoft Visits Links You Send In Skype                    </a>
+                    <div class="upvote_list_desc">
+                        I sent a link through Skype and Microsoft visted it, confirming The H&#x27;s claims.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('quantumcomputertimecapsule', 'up')"
+                class="upvoteform upvoteUpFormquantumcomputertimecapsule"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="quantumcomputertimecapsule" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagequantumcomputertimecapsule"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterquantumcomputertimecapsule" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('quantumcomputertimecapsule', 'down')"
+                class="upvoteform upvoteDownFormquantumcomputertimecapsule"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="quantumcomputertimecapsule" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagequantumcomputertimecapsule"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/quantum-computer-time-capsule.htm">
+                        Send a Message to the Future                    </a>
+                    <div class="upvote_list_desc">
+                        Save a message that will become readable after quantum computers are built.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('mastersthesis', 'up')"
+                class="upvoteform upvoteUpFormmastersthesis"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="mastersthesis" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagemastersthesis"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountermastersthesis" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('mastersthesis', 'down')"
+                class="upvoteform upvoteDownFormmastersthesis"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="mastersthesis" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagemastersthesis"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/concentration-bounds-from-parallel-repetition-theorems.htm">
+                        Concentration Bounds from Parallel Repetition Theorems                    </a>
+                    <div class="upvote_list_desc">
+                        My master&#x27;s thesis, showing how concentration bounds can be derived from parallel repetition theorems for nonlocal games and interactive proofs.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditgocryptfs0', 'up')"
+                class="upvoteform upvoteUpFormauditgocryptfs0"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="auditgocryptfs0" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageauditgocryptfs0"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterauditgocryptfs0" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditgocryptfs0', 'down')"
+                class="upvoteform upvoteDownFormauditgocryptfs0"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="auditgocryptfs0" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageauditgocryptfs0"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/audits/gocryptfs.htm">
+                        Gocryptfs Security Audit                    </a>
+                    <div class="upvote_list_desc">
+                        A security audit of the gocryptfs encrypted filesystem.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('godelsecondtms', 'up')"
+                class="upvoteform upvoteUpFormgodelsecondtms"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="godelsecondtms" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagegodelsecondtms"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountergodelsecondtms" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('godelsecondtms', 'down')"
+                class="upvoteform upvoteDownFormgodelsecondtms"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="godelsecondtms" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagegodelsecondtms"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/godel-second-incompleteness-theorem-by-turing-machines.htm">
+                        A Simple Proof of G&ouml;del&#x27;s Second Incompleteness Theorem Using Turing Machines                    </a>
+                    <div class="upvote_list_desc">
+                        Proving G&ouml;del&#x27;s second incompleteness theorem in a way that should be understandable to anyone who understands the proof that the halting problem is undecidable.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('plausiblepneqnpprove', 'up')"
+                class="upvoteform upvoteUpFormplausiblepneqnpprove"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="plausiblepneqnpprove" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageplausiblepneqnpprove"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterplausiblepneqnpprove" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('plausiblepneqnpprove', 'down')"
+                class="upvoteform upvoteDownFormplausiblepneqnpprove"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="plausiblepneqnpprove" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageplausiblepneqnpprove"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/plausible-reason-p-noteq-np-is-hard-to-prove.htm">
+                        A Plausible Reason It&#x27;s So Hard To Prove P!=NP                    </a>
+                    <div class="upvote_list_desc">
+                        Attempting to show why P!=NP is hard to prove using hash functions.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditgocryptfs', 'up')"
+                class="upvoteform upvoteUpFormauditgocryptfs"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="auditgocryptfs" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageauditgocryptfs"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterauditgocryptfs" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('auditgocryptfs', 'down')"
+                class="upvoteform upvoteDownFormauditgocryptfs"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="auditgocryptfs" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageauditgocryptfs"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/audits/gocryptfs.htm">
+                        Gocryptfs Security Audit                    </a>
+                    <div class="upvote_list_desc">
+                        A security audit of the gocryptfs encrypted filesystem.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('fractalzoom', 'up')"
+                class="upvoteform upvoteUpFormfractalzoom"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="fractalzoom" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagefractalzoom"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterfractalzoom" >
+            -2 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('fractalzoom', 'down')"
+                class="upvoteform upvoteDownFormfractalzoom"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="fractalzoom" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagefractalzoom"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/fractal-zoom.htm">
+                        Fractal Zoom                    </a>
+                    <div class="upvote_list_desc">
+                        A psychedelic short story.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('side-channel-attacks-on-everyday-applications', 'up')"
+                class="upvoteform upvoteUpFormside-channel-attacks-on-everyday-applications"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="side-channel-attacks-on-everyday-applications" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageside-channel-attacks-on-everyday-applications"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterside-channel-attacks-on-everyday-applications" >
+            -7 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('side-channel-attacks-on-everyday-applications', 'down')"
+                class="upvoteform upvoteDownFormside-channel-attacks-on-everyday-applications"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="side-channel-attacks-on-everyday-applications" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageside-channel-attacks-on-everyday-applications"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/side-channel-attacks-on-everyday-applications.htm">
+                        Side-Channel Attacks on Everyday Applications                    </a>
+                    <div class="upvote_list_desc">
+                        My Black Hat USA 2016 talk about the Flush+Reload side channel.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('filesystemevents', 'up')"
+                class="upvoteform upvoteUpFormfilesystemevents"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="filesystemevents" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagefilesystemevents"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterfilesystemevents" >
+            -19 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('filesystemevents', 'down')"
+                class="upvoteform upvoteDownFormfilesystemevents"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="filesystemevents" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagefilesystemevents"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/filesystem-events-ntfs-permissions.htm">
+                        File System Events Leak Folder Contents                    </a>
+                    <div class="upvote_list_desc">
+                        An ELIDED_INFO_WORD disclosure vulnerability in Windows shared folders that lets you see what&#x27;s in folers you can&#x27;t access.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('xplanecombat', 'up')"
+                class="upvoteform upvoteUpFormxplanecombat"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="xplanecombat" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagexplanecombat"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterxplanecombat" >
+            -107 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('xplanecombat', 'down')"
+                class="upvoteform upvoteDownFormxplanecombat"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="xplanecombat" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagexplanecombat"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/x-plane-combat.htm">
+                        Combat in X-Plane 10                    </a>
+                    <div class="upvote_list_desc">
+                        How to configure X-Plane 10 for combat.                    </div>
+                </td>
+            </tr>
+                    <tr>
+                <td class="upvote_list_arrowcell">
+                                <div class="upvotearrowsinlist">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('generatingrandompasswords', 'up')"
+                class="upvoteform upvoteUpFormgeneratingrandompasswords"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="generatingrandompasswords" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagegeneratingrandompasswords"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountergeneratingrandompasswords" >
+            -144 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/all-pages.htm" 
+                method="post"
+                onsubmit="return upvote.submit('generatingrandompasswords', 'down')"
+                class="upvoteform upvoteDownFormgeneratingrandompasswords"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="generatingrandompasswords" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagegeneratingrandompasswords"
+                    />
+                            </form>
+        </div>
+                </div>
+                        </td>
+                <td class="upvote_list_titlecell">
+                    <a class="upvote_list_title" href="https://defuse.ca/generating-random-passwords.htm">
+                        Generating Random Passwords in PHP                    </a>
+                    <div class="upvote_list_desc">
+                        How to generate unbiased passwords in PHP (plus some common mistakes).                    </div>
+                </td>
+            </tr>
+        </table>
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                ELIDED_IP_ADDRESS                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>ELIDED_HIT_COUNT</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>ELIDED_HIT_COUNT</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>
