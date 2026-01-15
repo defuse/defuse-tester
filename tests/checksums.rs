@@ -88,24 +88,24 @@ const EXPECTED_HASH_NAMES: &[&str] = &[
     "whirlpool",
 ];
 
-/// Check if a string looks like a hex hash value (only hex chars, reasonable length)
-fn is_hex_hash(s: &str) -> bool {
-    !s.is_empty()
-        && s.len() >= 8  // Shortest hashes are 8 chars (adler32, crc32, etc.)
-        && s.chars().all(|c| c.is_ascii_hexdigit())
-}
-
 /// Extract hash name/value pairs from checksums page HTML response.
 /// Returns a map from hash name to hash value.
 fn extract_hashes(html: &str) -> HashMap<String, String> {
     let document = Html::parse_document(html);
+
+    // Target the specific checksums table: the table following the checksums anchor
+    let table_selector = Selector::parse("a[name=\"checksums\"] ~ table").unwrap();
     let tr_selector = Selector::parse("tr").unwrap();
     let th_selector = Selector::parse("th").unwrap();
     let td_selector = Selector::parse("td").unwrap();
 
     let mut hashes = HashMap::new();
 
-    for tr in document.select(&tr_selector) {
+    // Get the checksums table specifically
+    let table = document.select(&table_selector).next()
+        .expect("Could not find checksums table (a[name=\"checksums\"] ~ table)");
+
+    for tr in table.select(&tr_selector) {
         let ths: Vec<_> = tr.select(&th_selector).collect();
         let tds: Vec<_> = tr.select(&td_selector).collect();
 
@@ -113,9 +113,7 @@ fn extract_hashes(html: &str) -> HashMap<String, String> {
             let hash_name = th.text().collect::<String>();
             let hash_value = td.text().collect::<String>();
 
-            // Only include if value looks like a hex hash and name doesn't contain ':'
-            // (filters out footer rows like "Page Hits:" which have numeric values)
-            if !hash_name.is_empty() && !hash_name.contains(':') && is_hex_hash(&hash_value) {
+            if !hash_name.is_empty() && !hash_value.is_empty() {
                 hashes.insert(hash_name, hash_value);
             }
         }
