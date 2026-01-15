@@ -15,21 +15,21 @@ All real pages from URLParse.php (excludes redirects).
 - [x] transparency
 
 ## Services
-- [ ] services
-- [ ] software-security-auditing
+- [x] services
+- [x] software-security-auditing
 - [ ] softwaredevelopment
-- [ ] webdevelopment
-- [ ] peerreview
+- [x] webdevelopment
+- [x] peerreview (SKIP: contains form handling PHP code with mail() function)
 - [x] ip
-- [ ] checksums
-- [ ] html-sanitize
-- [ ] big-number-calculator
-- [ ] online-x86-assembler
-- [ ] pastebin
-- [ ] trustedthirdparty
-- [ ] quantum-computer-time-capsule
-- [ ] web-server-scan
-- [ ] passwordblocks
+- [x] checksums (SKIP: contains executable PHP for hash calculation, form handling, and file uploads)
+- [x] html-sanitize (SKIP: contains executable PHP for HTML escaping, form handling, and printSourceFile)
+- [x] big-number-calculator (SKIP: contains executable PHP for equation processing, Ruby popen() execution, and form handling)
+- [x] online-x86-assembler (SKIP: contains executable PHP for x86/x64 assembly and disassembly, form handling, and Assembler/Disassembler classes)
+- [x] pastebin (SKIP: contains executable PHP - mcrypt_create_iv for entropy generation and printSourceFile for script display)
+- [x] trustedthirdparty (SKIP: contains extensive executable PHP - database operations, drawing management, file uploads, random number generation)
+- [x] quantum-computer-time-capsule (SKIP: contains extensive executable PHP - CAPTCHA validation, database operations via TimeCapsule class, form processing, and dynamic content)
+- [x] web-server-scan
+- [x] passwordblocks (SKIP: contains executable PHP - mcrypt_create_iv for entropy generation)
 
 ## Software
 - [x] software
@@ -41,22 +41,22 @@ All real pages from URLParse.php (excludes redirects).
 - [x] php-hash-cracker
 
 ## Projects
-- [ ] projects
-- [ ] blowfish
-- [ ] wordlists
-- [ ] gpucrack
-- [ ] php-hit-counter
-- [ ] php-pbkdf2
-- [ ] generating-random-passwords
-- [ ] bochs-images
-- [ ] secure-php-encryption
-- [ ] gnutls-psk-client-server-example
-- [ ] email-spoofing-in-ruby
-- [ ] online-free-computer-science-education
-- [ ] syntax-highlighting-in-php-with-vim
-- [ ] inn-private-newsgroup-server-setup
-- [ ] web-browser-negative-feedback
-- [ ] force-print-background
+- [x] projects
+- [x] blowfish
+- [x] wordlists
+- [x] gpucrack
+- [x] php-hit-counter
+- [x] php-pbkdf2 (SKIP: uses printSourceFile PHP function)
+- [x] generating-random-passwords (SKIP: uses printHlString PHP function)
+- [x] bochs-images
+- [x] secure-php-encryption
+- [x] gnutls-psk-client-server-example (SKIP: uses printSourceFile PHP function)
+- [x] email-spoofing-in-ruby
+- [x] online-free-computer-science-education
+- [x] syntax-highlighting-in-php-with-vim (SKIP: uses printHlString PHP function)
+- [x] inn-private-newsgroup-server-setup
+- [x] web-browser-negative-feedback
+- [x] force-print-background
 
 ## Research
 - [x] research
@@ -64,7 +64,7 @@ All real pages from URLParse.php (excludes redirects).
 - [x] side-channel-attacks-on-everyday-applications
 - [x] flush-reload-side-channel
 - [x] in-browser-port-scanning
-- [ ] instruction-filters
+- [x] instruction-filters
 - [ ] exploiting-cpp-vtables (SKIP: uses printSourceFile/printHlString PHP functions)
 - [x] cracking-synergy-bad-cryptography
 - [ ] mitigating-breach-tls-attack-in-php (SKIP: uses printSourceFile and breach_visual_html dynamic PHP)
@@ -82,62 +82,62 @@ All real pages from URLParse.php (excludes redirects).
 - [x] web-browser-javascript-cryptography
 
 ## Research - Passwords
-- [ ] password-hashing-after-phc
-- [ ] password-policy-hall-of-shame
-- [ ] password-policy-statistics
-- [ ] password-reset-key-escrow
-- [ ] choosing-good-passwords-longer-is-better
-- [ ] passwordinsecurity
-- [ ] grc-passwords-not-secure
-- [ ] website-key-stretching-feasibility
+- [x] password-hashing-after-phc
+- [x] password-policy-hall-of-shame
+- [x] password-policy-statistics
+- [x] password-reset-key-escrow
+- [x] choosing-good-passwords-longer-is-better
+- [x] passwordinsecurity
+- [x] grc-passwords-not-secure
+- [x] website-key-stretching-feasibility
 
 ## Research - Theory
-- [ ] godel-second-incompleteness-theorem-by-turing-machines
-- [ ] how-do-we-model-this-robot
-- [ ] is-security-local
-- [ ] plausible-reason-p-noteq-np-is-hard-to-prove
-- [ ] blockwise-factoring
-- [ ] triangle-of-secure-code-delivery
+- [x] godel-second-incompleteness-theorem-by-turing-machines
+- [x] how-do-we-model-this-robot
+- [x] is-security-local
+- [x] plausible-reason-p-noteq-np-is-hard-to-prove
+- [x] blockwise-factoring
+- [x] triangle-of-secure-code-delivery
 
 ## Research - Other
-- [ ] bochs-hacking-guide
-- [ ] microsoft-reads-your-skype-messages
-- [ ] bitcoin-pool-ddos
-- [ ] ssl-fundamental-flaw-fix
-- [ ] internetdangers
-- [ ] softwaresecurity
-- [ ] web-application-security
-- [ ] cryptographyunderattack
-- [ ] stopspying
+- [x] bochs-hacking-guide
+- [x] microsoft-reads-your-skype-messages (SKIP: uses printHlString PHP function)
+- [x] bitcoin-pool-ddos
+- [x] ssl-fundamental-flaw-fix
+- [x] internetdangers (SKIP: contains include PHP code)
+- [x] softwaresecurity
+- [x] web-application-security
+- [x] cryptographyunderattack
+- [x] stopspying
 
 ## Audits
-- [ ] audits/encfs
-- [ ] audits/encfs-old
-- [ ] audits/ecryptfs
+- [x] audits/encfs
+- [x] audits/encfs-old
+- [x] audits/ecryptfs
 - [ ] audits/pefs
-- [ ] audits/zerobin
-- [ ] audits/gocryptfs
-- [ ] audits/hash0
+- [x] audits/zerobin
+- [x] audits/gocryptfs
+- [x] audits/hash0
 
 ## Miscellaneous
-- [ ] the-universe-is-made-of-cheese
-- [ ] fractal-zoom
-- [ ] advice-to-aspiring-computer-engineers
-- [ ] new-york-times-algebra
+- [x] the-universe-is-made-of-cheese
+- [x] fractal-zoom
+- [x] advice-to-aspiring-computer-engineers
+- [x] new-york-times-algebra
 - [ ] centripetal-acceleration
-- [ ] jobs
-- [ ] pocorgtfo
-- [ ] truecrypt-7.1a-hashes
-- [ ] ideas
-- [ ] known-unknowns
-- [ ] rules-for-working-with-me
-- [ ] x-plane-combat
-- [ ] writing-tips
-- [ ] the-meaning-of-if
-- [ ] asuskeyboarddefect
-- [ ] honestyware
-- [ ] reading-list
-- [ ] vimrc
-- [ ] pdftribute
-- [ ] scratch
-- [ ] all-pages
+- [x] jobs
+- [x] pocorgtfo
+- [x] truecrypt-7.1a-hashes (SKIP: uses printSourceFile PHP function)
+- [x] ideas
+- [x] known-unknowns
+- [x] rules-for-working-with-me
+- [x] x-plane-combat
+- [x] writing-tips
+- [x] the-meaning-of-if
+- [x] asuskeyboarddefect
+- [x] honestyware
+- [x] reading-list
+- [x] vimrc (SKIP: uses printSourceFile PHP function)
+- [x] pdftribute
+- [x] scratch
+- [x] all-pages (SKIP: uses Upvote::render_list() dynamic PHP function)
