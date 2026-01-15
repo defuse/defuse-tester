@@ -1,58 +1,50 @@
-# Automated Content Comparison Tests
+# Content Snapshot Binary
 
-**File:** `tests/content_snapshot.rs` and `tests/content_snapshot/`
+**Binary:** `src/bin/snapshot.rs`
 
-This is a separate test module that compares page content against snapshots from defuse.ca.
+A standalone tool for capturing page snapshots from any server, enabling manual diff-based comparison between implementations.
 
-## Prerequisites
+## Usage
 
-**Add `--export-pages` flag to defuse-rust** that outputs JSON of all registry pages:
-```json
-[
-  {"slug": "", "title": "..."},
-  {"slug": "about", "title": "About - Defuse Security"},
-  {"slug": "contact", "title": "..."},
+```bash
+# Capture snapshots from production
+cargo run --bin snapshot -- https://defuse.ca/ ./snapshots-prod
+
+# Capture snapshots from local dev server
+cargo run --bin snapshot -- http://localhost:3000/ ./snapshots-local
+
+# Compare the two
+diff -r ./snapshots-prod ./snapshots-local
+# or use meld, vimdiff, etc.
+```
+
+## Behavior
+
+1. Reads `data/pages.json` (exported from PHP's `URLParse::$PAGE_INFO`)
+2. Filters to real pages only (has `file` key, no `redirect` key)
+3. Fetches each page in deterministic order (sorted by slug)
+4. Saves full HTML response to `{output_dir}/{slug}.html`
+   - Home page (empty slug) saves as `_index.html`
+
+## Dynamic Content
+
+Some pages have dynamic content that will always differ:
+- Hit counters
+- Upvote counts
+- Timestamps
+
+These differences are expected and can be filtered when reviewing diffs:
+```bash
+diff -r ./snapshots-prod ./snapshots-local | grep -v 'hit-counter\|upvote'
+```
+
+## File Structure
+
+```
+snapshots-prod/
+  _index.html        # Home page
+  about.html
+  checksums.html
+  contact.html
   ...
-]
 ```
-
-## Setup Script (one-time, or refresh)
-
-1. Run `defuse-rust --export-pages > pages.json`
-2. For each page, fetch from defuse.ca, extract `<div id="content">...</div>`
-3. Save to `tests/content_snapshot/snapshots/{slug}.html` (use `_index.html` for home page)
-
-## Test Cases
-
-| Test | Description |
-|------|-------------|
-| `content_matches_snapshot` | For each snapshot file, fetch page from target, extract content div, compare exactly |
-
-## Expected Failures
-
-Pages with dynamic content:
-- Home page (vote counts)
-- Pages with hit counters in content
-
-## Directory Structure
-
-```
-tests/
-  content_snapshot.rs        # mod declarations
-  content_snapshot/
-    mod.rs                   # Snapshot test logic
-    snapshots/               # HTML snapshot files (generated)
-      _index.html            # Home page (slug "")
-      about.html
-      contact.html
-      ...
-```
-
-## Implementation Notes
-
-- Create `tests/content_snapshot.rs` with `mod common;` at top
-- Create `tests/content_snapshot/` directory for snapshot files
-- This is separate from `tests/pages/` which is for service-specific tests
-- Snapshots are generated from production defuse.ca
-- Tests compare extracted content div using `scraper` crate, not full page HTML
-- Useful for catching unintended content changes during Rust port
