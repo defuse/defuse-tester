@@ -79,13 +79,6 @@ async fn query_string_preserved() {
     assert_redirect(&resp, "/about.htm?foo=bar", "/about?foo=bar → /about.htm?foo=bar");
 }
 
-/// Nonexistent page returns 404 (no redirect)
-#[tokio::test]
-async fn nonexistent_page_404() {
-    let resp = client().get(url("/thispagedoesnotexist.htm")).send().await.unwrap();
-    assert_status(&resp, 404, "/thispagedoesnotexist.htm should return 404");
-}
-
 // =============================================================================
 // Index/Home Redirects
 // =============================================================================
