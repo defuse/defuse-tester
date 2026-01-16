@@ -165,7 +165,16 @@ Key features:
 | `xss_prevention_name` | Check HTML escaping in name | Special chars escaped with htmlentities |
 | `xss_prevention_description` | Check HTML escaping in description | Special chars escaped |
 
-### 11. Content and Headers
+### 11. Review Period Timing
+
+| Test | Description | Expected |
+|------|-------------|----------|
+| `review_period_blocks_then_allows` | Reserve with prereview=5, try immediately (fail), wait 8s, try again (success) | First attempt blocked, second succeeds after wait |
+| `review_period_custom_value` | Reserve with non-standard prereview (e.g., 3) | Server accepts custom value (no dropdown validation) |
+
+Note: The PHP code does `(int)$_POST['prereview']` without validating against dropdown options, so we can use small values like 5 seconds for testing.
+
+### 12. Content and Headers
 
 | Test | Description | Expected |
 |------|-------------|----------|
