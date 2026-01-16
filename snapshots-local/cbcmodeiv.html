@@ -309,7 +309,7 @@ those capabilities.
 
 <p>
 The IV must be random. To see why, consider what would happen if a counter,
-starting from zero, was used as an IV<sup>[1]</sup>. Suppose the first message sent is
+starting from zero, was used as an IV<sup><a href="#cite_1">[1]</a></sup>. Suppose the first message sent is
 0x0000000000000000. The IV would be 0x0000000000000000, so the input to the
 block cipher is 0x0000000000000000. Now, suppose a second message
 0x0000000000000001 is encrypted. This time, the IV is 0x0000000000000001,
@@ -331,7 +331,7 @@ likely for the IV to coincide with the first plaintext block by accident.
 <h3>Chosen-Plaintext Attacks</h3>
 
 <p>
-Randomness is not enough, though. IVs have to be unpredictable, too<sup>[2]</sup>.
+Randomness is not enough, though. IVs have to be unpredictable, too<sup><a href="#cite_2">[2]</a></sup>.
 </p>
 
 <p>
@@ -413,12 +413,9 @@ The above sections explain why, when encrypting with CBC mode:
     <li>The IV and ciphertext must be authenticated with a MAC.</li>
 </ul>
 
-<h2>References</h2>
 
-<ol>
-    <li>Phil Rogaway. "Problems with Proposed IP Cryptography". April 3, 1995. <a href="http://www.vpnc.org/ietf-ipsec/92.ipsec/msg01847.html">http://www.vpnc.org/ietf-ipsec/92.ipsec/msg01847.html</a></li>
-    <li>Twitter discussion between @DefuseSec and @tqbf. <a href="https://twitter.com/tqbf/status/376873119199137792">https://twitter.com/tqbf/status/376873119199137792</a></li>
-</ol>
+<div id="references"><h2>References and Notes</h2><div class="ref_item"><a name="cite_1"></a>1. <span id="cite_1">Phil Rogaway. April 3, 1995. <a href="http://www.vpnc.org/ietf-ipsec/92.ipsec/msg01847.html">Problems with Proposed IP Cryptography.</a></span></div><div class="ref_item"><a name="cite_2"></a>2. <span id="cite_2"><a href="https://twitter.com/tqbf/status/376873119199137792">Twitter discussion between @DefuseSec and @tqbf</a></span></div></div>
+
 
 </div>
 </div> <!-- Wrap -->
