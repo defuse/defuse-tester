@@ -402,6 +402,37 @@ async fn view_paste_content_escaped() {
 }
 
 #[tokio::test]
+async fn view_paste_tabs_converted() {
+    let content = "X\tY";
+    let key = create_paste(content).await;
+
+    let resp = get_paste(&key).await;
+    let body = resp.text().await.unwrap();
+
+    // In the display div (.codebox), tabs are converted to 4 nbsp
+    // The textarea preserves the raw tab for re-editing
+    assert!(
+        body.contains("X&nbsp;&nbsp;&nbsp;&nbsp;Y"),
+        "Tab should be converted to 4 nbsp in display area"
+    );
+}
+
+#[tokio::test]
+async fn view_paste_double_spaces() {
+    let content = "A  B";
+    let key = create_paste(content).await;
+
+    let resp = get_paste(&key).await;
+    let body = resp.text().await.unwrap();
+
+    // Double spaces become double nbsp in the display area
+    assert!(
+        body.contains("A&nbsp;&nbsp;B"),
+        "Double spaces should be converted to double nbsp in display"
+    );
+}
+
+#[tokio::test]
 async fn view_paste_has_form() {
     let content = test_content("form test");
     let key = create_paste(&content).await;
