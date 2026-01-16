@@ -1,4 +1,5 @@
-//! Placeholder tests - not yet implemented
+mod common;
+// Placeholder tests - not yet implemented
 
 #[tokio::test]
 #[ignore = "tests not yet defined"]

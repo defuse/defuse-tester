@@ -1,13 +1,14 @@
-//! Tests for /online-x86-assembler.htm - Online x86/x64 Assembler
-//!
-//! Verifies:
-//! - Assembly (x86 and x64 architectures)
-//! - Disassembly with multiple input formats
-//! - Nul byte highlighting in output
-//! - Output formats (hex, string literal, array literal)
-//! - Error handling for invalid/unsafe input
+mod common;
+// Tests for /online-x86-assembler.htm - Online x86/x64 Assembler
+//
+// Verifies:
+// - Assembly (x86 and x64 architectures)
+// - Disassembly with multiple input formats
+// - Nul byte highlighting in output
+// - Output formats (hex, string literal, array literal)
+// - Error handling for invalid/unsafe input
 
-use crate::common::{client, url};
+use common::{client, url};
 
 /// POST to assemble code and return the response body
 async fn assemble(code: &str, arch: &str) -> String {

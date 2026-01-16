@@ -1,6 +1,7 @@
-//! Tests for the home page (/)
+mod common;
+// Tests for the home page (/)
 
-use crate::common::{client, url};
+use common::{client, url};
 use scraper::{Html, Selector};
 
 /// Checks that the dynamically generated list of pages on the homepage is present and populated.

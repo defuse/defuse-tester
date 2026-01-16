@@ -1,13 +1,14 @@
-//! Tests for /html-sanitize.htm
-//!
-//! Verifies:
-//! - Tab-to-spaces conversion (cursor-position-aware)
-//! - HTML entity escaping (<, >, &, ", ')
-//! - Smart space handling (preserves whitespace using &nbsp;)
-//! - Line ending normalization with optional <br /> tags
-//! - Configurable tab width
+mod common;
+// Tests for /html-sanitize.htm
+//
+// Verifies:
+// - Tab-to-spaces conversion (cursor-position-aware)
+// - HTML entity escaping (<, >, &, ", ')
+// - Smart space handling (preserves whitespace using &nbsp;)
+// - Line ending normalization with optional <br /> tags
+// - Configurable tab width
 
-use crate::common::{client, url};
+use common::{client, url};
 
 // =============================================================================
 // Helper Functions

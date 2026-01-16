@@ -1,11 +1,12 @@
-//! Tests for /passgen.htm - Password Generator
-//!
-//! Verifies:
-//! - Cache-control headers disable caching
-//! - Passwords are well-formed (correct character sets)
-//! - Passwords change on each request
+mod common;
+// Tests for /passgen.htm - Password Generator
+//
+// Verifies:
+// - Cache-control headers disable caching
+// - Passwords are well-formed (correct character sets)
+// - Passwords change on each request
 
-use crate::common::{client, url};
+use common::{client, url};
 
 /// Extract password from HTML table cell following a label
 fn extract_password(html: &str, label: &str) -> Option<String> {
@@ -47,7 +48,6 @@ fn is_printable_ascii(s: &str) -> bool {
 }
 
 #[tokio::test]
-#[ignore = "passgen not yet implemented in Rust"]
 async fn cache_control_disables_caching() {
     let resp = client().get(url("/passgen.htm")).send().await.unwrap();
     assert!(resp.status().is_success(), "/passgen.htm should return 200");
@@ -67,7 +67,6 @@ async fn cache_control_disables_caching() {
 }
 
 #[tokio::test]
-#[ignore = "passgen not yet implemented in Rust"]
 async fn passwords_are_well_formed() {
     let resp = client().get(url("/passgen.htm")).send().await.unwrap();
     assert!(resp.status().is_success());
@@ -119,7 +118,6 @@ async fn passwords_are_well_formed() {
 }
 
 #[tokio::test]
-#[ignore = "passgen not yet implemented in Rust"]
 async fn passwords_change_on_refresh() {
     // First request
     let resp1 = client().get(url("/passgen.htm")).send().await.unwrap();

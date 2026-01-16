@@ -1,14 +1,15 @@
-//! Tests for /big-number-calculator.htm
-//!
-//! Verifies:
-//! - Basic math operations (+, -, *, /, %, ^)
-//! - Bitwise operations (OR, AND, XOR, SHL, SHR)
-//! - Input base prefixes (0x hex, 0 octal)
-//! - Output base conversion (decimal, hex, octal)
-//! - Digit grouping with spaces
-//! - Security: character whitelist, error handling
+mod common;
+// Tests for /big-number-calculator.htm
+//
+// Verifies:
+// - Basic math operations (+, -, *, /, %, ^)
+// - Bitwise operations (OR, AND, XOR, SHL, SHR)
+// - Input base prefixes (0x hex, 0 octal)
+// - Output base conversion (decimal, hex, octal)
+// - Digit grouping with spaces
+// - Security: character whitelist, error handling
 
-use crate::common::{client, url};
+use common::{client, url};
 
 // =============================================================================
 // Helper Functions
