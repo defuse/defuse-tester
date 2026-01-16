@@ -377,3 +377,42 @@ async fn bin_subdomain_redirects_to_b_path() {
         location
     );
 }
+
+// =============================================================================
+// Time Capsule HTTP → HTTPS enforcement
+// =============================================================================
+
+/// HTTP requests to time capsule archive download should redirect to HTTPS
+/// This ensures the archive integrity (no MITM tampering) during download
+#[tokio::test]
+async fn timecapsule_download_http_redirects_to_https() {
+    if !is_production_url() {
+        eprintln!("Skipping HTTP→HTTPS redirect test on local URL");
+        return;
+    }
+
+    let resp = client()
+        .get("http://defuse.ca/timecapsule/quantum-computer-time-capsule-download.php")
+        .send()
+        .await
+        .unwrap();
+
+    assert!(
+        resp.status().is_redirection(),
+        "HTTP timecapsule download should redirect, got: {}",
+        resp.status()
+    );
+
+    let location = resp
+        .headers()
+        .get("location")
+        .expect("Redirect should have Location header")
+        .to_str()
+        .unwrap();
+
+    assert!(
+        location.starts_with("https://"),
+        "Should redirect to HTTPS, got: {}",
+        location
+    );
+}

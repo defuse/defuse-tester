@@ -1,6 +1,6 @@
 # Quantum Computer Time Capsule Test Plan
 
-**Status:** PLANNED
+**Status:** DONE (37 tests, 8 ignored)
 
 **File:** `tests/quantum_time_capsule.rs`
 
