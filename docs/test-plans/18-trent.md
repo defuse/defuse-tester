@@ -1,6 +1,6 @@
 # TRENT (Trusted Random Entropy) Test Plan
 
-**Status:** PLANNED
+**Status:** DONE (88 tests, 2 ignored)
 
 **File:** `tests/trent.rs`
 
