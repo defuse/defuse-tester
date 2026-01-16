@@ -162,6 +162,149 @@ async fn full_redirect_chain_case_insensitive() {
 }
 
 // =============================================================================
+// HTTP → HTTPS enforcement for sensitive endpoints
+// =============================================================================
+
+/// HTTP requests to pastebin view should redirect to HTTPS
+/// This is important because pastes may contain sensitive information
+#[tokio::test]
+async fn pastebin_view_http_redirects_to_https() {
+    if !is_production_url() {
+        eprintln!("Skipping HTTP→HTTPS redirect test on local URL");
+        return;
+    }
+
+    let resp = client()
+        .get("http://defuse.ca/b/test123")
+        .send()
+        .await
+        .unwrap();
+
+    assert!(
+        resp.status().is_redirection(),
+        "HTTP /b/key should redirect, got: {}",
+        resp.status()
+    );
+
+    let location = resp
+        .headers()
+        .get("location")
+        .expect("Redirect should have Location header")
+        .to_str()
+        .unwrap();
+
+    assert!(
+        location.starts_with("https://"),
+        "Should redirect to HTTPS, got: {}",
+        location
+    );
+}
+
+/// HTTP requests to view.php directly should redirect to HTTPS
+#[tokio::test]
+async fn pastebin_viewphp_http_redirects_to_https() {
+    if !is_production_url() {
+        eprintln!("Skipping HTTP→HTTPS redirect test on local URL");
+        return;
+    }
+
+    let resp = client()
+        .get("http://defuse.ca/bin/view.php")
+        .send()
+        .await
+        .unwrap();
+
+    assert!(
+        resp.status().is_redirection(),
+        "HTTP /bin/view.php should redirect, got: {}",
+        resp.status()
+    );
+
+    let location = resp
+        .headers()
+        .get("location")
+        .expect("Redirect should have Location header")
+        .to_str()
+        .unwrap();
+
+    assert!(
+        location.starts_with("https://"),
+        "Should redirect to HTTPS, got: {}",
+        location
+    );
+}
+
+/// HTTP requests to add.php should redirect to HTTPS
+/// This is critical since paste content would be sent in plaintext otherwise
+#[tokio::test]
+async fn pastebin_addphp_http_redirects_to_https() {
+    if !is_production_url() {
+        eprintln!("Skipping HTTP→HTTPS redirect test on local URL");
+        return;
+    }
+
+    // GET request to add.php (POST would create a paste)
+    let resp = client()
+        .get("http://defuse.ca/bin/add.php")
+        .send()
+        .await
+        .unwrap();
+
+    assert!(
+        resp.status().is_redirection(),
+        "HTTP /bin/add.php should redirect, got: {}",
+        resp.status()
+    );
+
+    let location = resp
+        .headers()
+        .get("location")
+        .expect("Redirect should have Location header")
+        .to_str()
+        .unwrap();
+
+    assert!(
+        location.starts_with("https://"),
+        "Should redirect to HTTPS, got: {}",
+        location
+    );
+}
+
+/// HTTP requests to pastebin main page should redirect to HTTPS
+#[tokio::test]
+async fn pastebin_main_http_redirects_to_https() {
+    if !is_production_url() {
+        eprintln!("Skipping HTTP→HTTPS redirect test on local URL");
+        return;
+    }
+
+    let resp = client()
+        .get("http://defuse.ca/pastebin.htm")
+        .send()
+        .await
+        .unwrap();
+
+    assert!(
+        resp.status().is_redirection(),
+        "HTTP /pastebin.htm should redirect, got: {}",
+        resp.status()
+    );
+
+    let location = resp
+        .headers()
+        .get("location")
+        .expect("Redirect should have Location header")
+        .to_str()
+        .unwrap();
+
+    assert!(
+        location.starts_with("https://"),
+        "Should redirect to HTTPS, got: {}",
+        location
+    );
+}
+
+// =============================================================================
 // bin.defuse.ca redirect
 // =============================================================================
 
