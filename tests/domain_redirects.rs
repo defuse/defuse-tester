@@ -308,6 +308,40 @@ async fn pastebin_main_http_redirects_to_https() {
 // bin.defuse.ca redirect
 // =============================================================================
 
+/// bin.defuse.ca (root) should redirect to defuse.ca/pastebin.htm
+#[tokio::test]
+async fn bin_subdomain_root_redirects_to_pastebin() {
+    if !is_production_url() {
+        eprintln!("Skipping bin.defuse.ca redirect test on local URL");
+        return;
+    }
+
+    let resp = client()
+        .get("https://bin.defuse.ca/")
+        .send()
+        .await
+        .unwrap();
+
+    assert!(
+        resp.status().is_redirection(),
+        "bin.defuse.ca/ should redirect, got: {}",
+        resp.status()
+    );
+
+    let location = resp
+        .headers()
+        .get("location")
+        .expect("Redirect should have Location header")
+        .to_str()
+        .unwrap();
+
+    assert_eq!(
+        location, "https://defuse.ca/pastebin.htm",
+        "bin.defuse.ca/ should redirect to pastebin.htm, got: {}",
+        location
+    );
+}
+
 /// bin.defuse.ca should redirect to defuse.ca/b/ preserving the URL key
 #[tokio::test]
 async fn bin_subdomain_redirects_to_b_path() {
