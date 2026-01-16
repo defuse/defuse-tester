@@ -113,6 +113,18 @@ For the Rust port, consider adding a bypass mechanism (e.g., secret header, env 
 | `main_page_content_type` | Check Content-Type | text/html |
 | `download_no_sniff` | Check X-Content-Type-Options | nosniff (prevents MIME confusion) |
 
+### 8. HTTP→HTTPS Redirects (in `domain_redirects.rs`)
+
+| Test | Description | Expected |
+|------|-------------|----------|
+| `timecapsule_download_http_redirects_to_https` | HTTP GET download endpoint | Redirects to HTTPS |
+
+### 9. Archive Consistency
+
+| Test | Description | Expected |
+|------|-------------|----------|
+| `message_count_matches_archive` | Compare count on main page to lines in archive | Count matches number of message lines in downloaded archive |
+
 ## Implementation Notes
 
 ### Form Fields for POST
