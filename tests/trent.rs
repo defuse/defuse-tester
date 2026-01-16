@@ -806,10 +806,32 @@ async fn create_too_many_randlines() {
 }
 
 #[tokio::test]
-#[ignore = "requires uploading >10MB file, slow"]
 async fn create_file_too_large() {
-    // This test would require uploading a >10MB file
-    // Skipped for performance reasons
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    // Create an 11MB file (just over the 10MB limit)
+    let file_content = vec![b'x'; 11 * 1024 * 1024];
+
+    let resp = create_with_file(
+        &CreateParams {
+            drawing_num,
+            passcode: &passcode,
+            name: "Test",
+            numgen: 1,
+            lowval: 1,
+            highval: 10,
+            randlines1: 1,
+            ..Default::default()
+        },
+        &file_content,
+        "large.txt",
+    )
+    .await;
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("maximum file size") || body.contains("10MB") || body.contains("too large"),
+        "Should reject file larger than 10MB"
+    );
 }
 
 #[tokio::test]
