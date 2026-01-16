@@ -157,5 +157,10 @@ fn normalize_html(html: &str) -> String {
     // Normalize encfs audit URLs (old vs new naming)
     // Replace longer string first to avoid partial match
     let result = result.replace("auditencfsOLD", "ELIDED_ENCFS_AUDIT");
-    result.replace("auditencfs", "ELIDED_ENCFS_AUDIT")
+    let result = result.replace("auditencfs", "ELIDED_ENCFS_AUDIT");
+
+    // Normalize absolute production URLs to relative URLs
+    // Production PHP uses full URLs like "https://defuse.ca:443/page.htm"
+    // Rust uses relative URLs like "/page.htm"
+    result.replace("https://defuse.ca:443", "")
 }
