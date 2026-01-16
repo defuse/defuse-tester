@@ -1317,6 +1317,28 @@ async fn random_zero_numbers() {
 }
 
 #[tokio::test]
+async fn random_range_single_value() {
+    // When lowval == highval and numgen > 0, PHP considers this invalid
+    // ("range is invalid" error because low >= high)
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+    let resp = confirm_step2(&CreateParams {
+        drawing_num,
+        passcode: &passcode,
+        name: &test_name(),
+        numgen: 1,
+        lowval: 5,
+        highval: 5, // Same as lowval
+        ..Default::default()
+    })
+    .await;
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("range is invalid"),
+        "Should reject when lowval >= highval with numgen > 0"
+    );
+}
+
+#[tokio::test]
 async fn random_large_range() {
     let (drawing_num, _) = complete_drawing(&test_name(), "Test", 5, -1000000000, 1000000000).await;
     let resp = view_drawing(drawing_num).await;
@@ -1655,6 +1677,197 @@ async fn file_zero_randlines() {
     assert!(
         body.contains("Confirm Drawing"),
         "Should show confirmation"
+    );
+}
+
+#[tokio::test]
+async fn file_multiple_files() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    // Three different files with distinct content
+    let file1_content = b"file1 line1\nfile1 line2\n";
+    let file2_content = b"file2 content here\n";
+    let file3_content = b"third file data\nanother line\n";
+
+    // Build multipart form with all 3 files
+    let part1 = multipart::Part::bytes(file1_content.to_vec())
+        .file_name("file1.txt")
+        .mime_str("text/plain")
+        .unwrap();
+    let part2 = multipart::Part::bytes(file2_content.to_vec())
+        .file_name("file2.txt")
+        .mime_str("text/plain")
+        .unwrap();
+    let part3 = multipart::Part::bytes(file3_content.to_vec())
+        .file_name("file3.txt")
+        .mime_str("text/plain")
+        .unwrap();
+
+    let form = multipart::Form::new()
+        .text("create", "Pick the Random Numbers!")
+        .text("drawingnumber", drawing_num.to_string())
+        .text("passcode", passcode.clone())
+        .text("name", test_name())
+        .text("description", "Testing 3 files")
+        .text("lowval", "1")
+        .text("highval", "10")
+        .text("numgen", "1")
+        .text("randlines1", "1")
+        .text("randlines2", "1")
+        .text("randlines3", "1")
+        .text("chosentwice", "")
+        .part("file1", part1)
+        .part("file2", part2)
+        .part("file3", part3);
+
+    let resp = client()
+        .post(url("/trustedthirdparty.htm"))
+        .multipart(form)
+        .send()
+        .await
+        .unwrap();
+    let body = resp.text().await.unwrap();
+
+    // Extract all 3 file hashes from confirmation page
+    let file1_hash = extract_file_hash(&body, 1).expect("Should get file1 hash");
+    let file2_hash = extract_file_hash(&body, 2).expect("Should get file2 hash");
+    let file3_hash = extract_file_hash(&body, 3).expect("Should get file3 hash");
+
+    // Confirm the drawing
+    let _ = confirm_step2(&CreateParams {
+        drawing_num,
+        passcode: &passcode,
+        name: &test_name(),
+        description: "Testing 3 files",
+        numgen: 1,
+        lowval: 1,
+        highval: 10,
+        randlines1: 1,
+        randlines2: 1,
+        randlines3: 1,
+        file1hash: &file1_hash,
+        file2hash: &file2_hash,
+        file3hash: &file3_hash,
+        ..Default::default()
+    })
+    .await;
+
+    // View results and verify all 3 file hashes are present
+    let resp = view_drawing(drawing_num).await;
+    let body = resp.text().await.unwrap();
+
+    assert!(
+        body.contains("FILE1 SHA256:"),
+        "Should have FILE1 SHA256 in results"
+    );
+    assert!(
+        body.contains("FILE2 SHA256:"),
+        "Should have FILE2 SHA256 in results"
+    );
+    assert!(
+        body.contains("FILE3 SHA256:"),
+        "Should have FILE3 SHA256 in results"
+    );
+    // Verify content from all 3 files was used (checking LINE PREVIEW content)
+    assert!(
+        body.contains("file1 line"),
+        "Should have content from file 1"
+    );
+    assert!(
+        body.contains("file2 content"),
+        "Should have content from file 2"
+    );
+    assert!(
+        body.contains("third file") || body.contains("another line"),
+        "Should have content from file 3"
+    );
+}
+
+// BUG: Random lines from FILE2 and FILE3 are incorrectly labeled as FILE1 in results.
+// All lines show "FILE1 RANDOM LINE" and "RANDOM LINE NUMBER (FILE1)" regardless of
+// which file they actually came from. See docs/issues/trent-multifile-label-bug.md
+#[tokio::test]
+#[ignore = "BUG: FILE2/FILE3 random lines mislabeled as FILE1 - see docs/issues/trent-multifile-label-bug.md"]
+async fn file_multiple_files_correct_labels() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    let file1_content = b"file1 line1\nfile1 line2\n";
+    let file2_content = b"file2 content here\n";
+    let file3_content = b"third file data\n";
+
+    let part1 = multipart::Part::bytes(file1_content.to_vec())
+        .file_name("file1.txt")
+        .mime_str("text/plain")
+        .unwrap();
+    let part2 = multipart::Part::bytes(file2_content.to_vec())
+        .file_name("file2.txt")
+        .mime_str("text/plain")
+        .unwrap();
+    let part3 = multipart::Part::bytes(file3_content.to_vec())
+        .file_name("file3.txt")
+        .mime_str("text/plain")
+        .unwrap();
+
+    let form = multipart::Form::new()
+        .text("create", "Pick the Random Numbers!")
+        .text("drawingnumber", drawing_num.to_string())
+        .text("passcode", passcode.clone())
+        .text("name", test_name())
+        .text("description", "Test labels")
+        .text("lowval", "1")
+        .text("highval", "10")
+        .text("numgen", "0")
+        .text("randlines1", "1")
+        .text("randlines2", "1")
+        .text("randlines3", "1")
+        .text("chosentwice", "")
+        .part("file1", part1)
+        .part("file2", part2)
+        .part("file3", part3);
+
+    let resp = client()
+        .post(url("/trustedthirdparty.htm"))
+        .multipart(form)
+        .send()
+        .await
+        .unwrap();
+    let body = resp.text().await.unwrap();
+
+    let file1_hash = extract_file_hash(&body, 1).expect("Should get file1 hash");
+    let file2_hash = extract_file_hash(&body, 2).expect("Should get file2 hash");
+    let file3_hash = extract_file_hash(&body, 3).expect("Should get file3 hash");
+
+    let _ = confirm_step2(&CreateParams {
+        drawing_num,
+        passcode: &passcode,
+        name: &test_name(),
+        description: "Test labels",
+        numgen: 0,
+        randlines1: 1,
+        randlines2: 1,
+        randlines3: 1,
+        file1hash: &file1_hash,
+        file2hash: &file2_hash,
+        file3hash: &file3_hash,
+        ..Default::default()
+    })
+    .await;
+
+    let resp = view_drawing(drawing_num).await;
+    let body = resp.text().await.unwrap();
+
+    // These assertions verify correct labeling (currently broken)
+    assert!(
+        body.contains("RANDOM LINE NUMBER (FILE1):"),
+        "Should have FILE1 random line label"
+    );
+    assert!(
+        body.contains("RANDOM LINE NUMBER (FILE2):"),
+        "Should have FILE2 random line label"
+    );
+    assert!(
+        body.contains("RANDOM LINE NUMBER (FILE3):"),
+        "Should have FILE3 random line label"
     );
 }
 
