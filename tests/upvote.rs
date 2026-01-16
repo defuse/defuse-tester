@@ -9,6 +9,7 @@ use common::url;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use reqwest::Client;
+use scraper::{Html, Selector};
 use serial_test::serial;
 
 /// Test page - low traffic, unlikely to get real votes during testing
@@ -183,11 +184,11 @@ fn parse_xml_response(xml: &str) -> VoteState {
 
 /// Parse HTML response from form POST to extract vote state
 fn parse_html_vote_state(html: &str, page: &str) -> VoteState {
-    // Check for upvote-selected.gif or upvote.gif
-    let uparrow = html.contains("upvote-selected.gif");
-
-    // Check for downvote-selected.gif or downvote.gif
-    let downarrow = html.contains("downvote-selected.gif");
+    // Look for the specific page's upvote image element and check if it's selected.
+    // HTML structure: <input type="image" src="/images/upvote-selected.gif" ... name="upvoteUpImage{page}" />
+    // We need to find the image with the page-specific name and check its src.
+    let uparrow = is_vote_arrow_selected(html, page, "upvoteUpImage");
+    let downarrow = is_vote_arrow_selected(html, page, "upvoteDownImage");
 
     // Extract total from the counter div
     // Look for: <div class="upvotecount... upvoteCounter{page}">NUMBER</div>
@@ -200,6 +201,29 @@ fn parse_html_vote_state(html: &str, page: &str) -> VoteState {
         downarrow,
         total,
     }
+}
+
+/// Check if a specific page's vote arrow is in selected state.
+/// Looks for: name="upvoteUpImage{page}" or name="upvoteDownImage{page}"
+/// and checks if the nearby src contains "-selected.gif"
+fn is_vote_arrow_selected(html: &str, page: &str, arrow_prefix: &str) -> bool {
+    // Look for name="upvoteUpImage{page}" or name="upvoteDownImage{page}"
+    let name_attr = format!("name=\"{}{}\"", arrow_prefix, page);
+
+    if let Some(name_pos) = html.find(&name_attr) {
+        // Find the start of this <input tag by searching backwards
+        let before_name = &html[..name_pos];
+        if let Some(tag_start) = before_name.rfind("<input") {
+            // Extract the full input tag (from <input to the next >)
+            let tag_content = &html[tag_start..];
+            if let Some(tag_end) = tag_content.find('>') {
+                let input_tag = &tag_content[..tag_end + 1];
+                // Check if this input tag's src contains "-selected.gif"
+                return input_tag.contains("-selected.gif");
+            }
+        }
+    }
+    false
 }
 
 /// Extract the numeric value from the upvote counter div
@@ -219,6 +243,156 @@ fn extract_counter_value(html: &str, counter_class: &str) -> Option<i32> {
     let content = after_tag[..content_end].trim();
 
     content.parse().ok()
+}
+
+// =============================================================================
+// Form Extraction (for homepage/all-pages list testing)
+// =============================================================================
+
+/// Extracted vote form data from a page listing
+#[derive(Debug, Clone)]
+struct ExtractedVoteForm {
+    /// The form action URL (e.g., "/" or "/all-pages.htm")
+    action_url: String,
+    /// The upvotes_id value from the hidden input
+    upvotes_id: String,
+}
+
+/// Extract all upvote forms from a page's HTML.
+/// Returns forms in the order they appear on the page.
+fn extract_vote_forms(html: &str) -> Vec<ExtractedVoteForm> {
+    let document = Html::parse_document(html);
+    let form_selector = Selector::parse("form.upvoteform").unwrap();
+    let input_selector = Selector::parse("input[name='upvotes_id']").unwrap();
+
+    let mut forms = Vec::new();
+    let mut seen_ids = std::collections::HashSet::new();
+
+    for form in document.select(&form_selector) {
+        let action = form.value().attr("action").unwrap_or("");
+
+        // Find the upvotes_id input within this form
+        if let Some(input) = form.select(&input_selector).next() {
+            if let Some(id) = input.value().attr("value") {
+                // Only add each page_id once (there are up and down forms for each)
+                if seen_ids.insert(id.to_string()) {
+                    forms.push(ExtractedVoteForm {
+                        action_url: action.to_string(),
+                        upvotes_id: id.to_string(),
+                    });
+                }
+            }
+        }
+    }
+
+    forms
+}
+
+/// Vote via form POST to a specific URL.
+/// This is the core voting function used for testing list pages.
+async fn vote_via_form_post(
+    client: &Client,
+    form_action_url: &str,
+    page_id: &str,
+    direction: Direction,
+) -> VoteState {
+    let resp = client
+        .post(url(form_action_url))
+        .form(&[
+            ("upvotes_id", page_id),
+            ("upvotes_direction", direction.as_str()),
+        ])
+        .send()
+        .await
+        .expect("Failed to send form vote request");
+
+    assert!(
+        resp.status().is_success(),
+        "Form vote request to {} failed with status {} (after redirects)",
+        form_action_url,
+        resp.status()
+    );
+
+    let body = resp.text().await.expect("Failed to read form response");
+    parse_html_vote_state(&body, page_id)
+}
+
+/// Reset a page to neutral vote state via form POST, return baseline total.
+async fn reset_via_form(client: &Client, form_action_url: &str, page_id: &str) -> i32 {
+    // Vote up - results in either upvoted (uparrow=Y) or neutral
+    let state = vote_via_form_post(client, form_action_url, page_id, Direction::Up).await;
+
+    if state.uparrow {
+        // We're upvoted, vote up again to clear to neutral
+        let state = vote_via_form_post(client, form_action_url, page_id, Direction::Up).await;
+        assert!(
+            !state.uparrow && !state.downarrow,
+            "Should be neutral after clearing, got uparrow={}, downarrow={}",
+            state.uparrow,
+            state.downarrow
+        );
+        state.total
+    } else if state.downarrow {
+        // We were downvoted before, now neutral after the up vote toggled us
+        // Actually no - if we were downvoted and voted up, we're now upvoted
+        // Let me re-check the logic...
+        // If downvoted and click up: switches to upvote (uparrow=true)
+        // So if uparrow is false and downarrow is true, that shouldn't happen after voting up
+        panic!("Unexpected state after voting up: uparrow=false, downarrow=true");
+    } else {
+        // Already neutral
+        state.total
+    }
+}
+
+/// Run a vote test via form POST to a list page.
+async fn run_list_vote_test(
+    client: &Client,
+    form_action_url: &str,
+    page_id: &str,
+    starting_state: Option<Direction>,
+    action: Direction,
+    expected_delta: i32,
+    expected_up: bool,
+    expected_down: bool,
+) {
+    // 1. Reset to neutral, get baseline total
+    let baseline = reset_via_form(client, form_action_url, page_id).await;
+
+    // 2. Set up starting state if needed
+    let setup_delta = if let Some(dir) = starting_state {
+        let _state = vote_via_form_post(client, form_action_url, page_id, dir).await;
+        match dir {
+            Direction::Up => 1,
+            Direction::Down => -1,
+        }
+    } else {
+        0
+    };
+
+    // 3. Perform the action being tested
+    let result = vote_via_form_post(client, form_action_url, page_id, action).await;
+
+    // 4. Verify delta and button states
+    let expected_total = baseline + setup_delta + expected_delta;
+    assert_eq!(
+        result.total, expected_total,
+        "Expected total={}, got {} (baseline={}, setup_delta={}, expected_delta={})",
+        expected_total, result.total, baseline, setup_delta, expected_delta
+    );
+    assert_eq!(
+        result.uparrow, expected_up,
+        "Expected uparrow={}, got {}",
+        expected_up, result.uparrow
+    );
+    assert_eq!(
+        result.downarrow, expected_down,
+        "Expected downarrow={}, got {}",
+        expected_down, result.downarrow
+    );
+
+    // 5. Clean up: reset back to neutral
+    reset_via_form(client, form_action_url, page_id).await;
 }
 
 // =============================================================================
@@ -540,4 +714,278 @@ async fn form_votes_isolated_by_page() {
     // Clean up both pages
     reset_to_neutral(&client, page_a_id, page_a_url).await;
     reset_to_neutral(&client, page_b_id, page_b_url).await;
+}
+
+// =============================================================================
+// Homepage Upvote Form Tests
+// =============================================================================
+
+/// Helper to create a client with redirect following for form tests
+fn form_test_client() -> Client {
+    Client::builder()
+        .redirect(reqwest::redirect::Policy::limited(5))
+        .timeout(std::time::Duration::from_secs(30))
+        .build()
+        .expect("Failed to create HTTP client")
+}
+
+/// Fetch a page and extract its vote forms
+async fn fetch_and_extract_forms(client: &Client, page_path: &str) -> Vec<ExtractedVoteForm> {
+    let resp = client
+        .get(url(page_path))
+        .send()
+        .await
+        .expect("Failed to fetch page");
+
+    assert!(
+        resp.status().is_success(),
+        "Failed to fetch {}: status {}",
+        page_path,
+        resp.status()
+    );
+
+    let html = resp.text().await.expect("Failed to read page body");
+    extract_vote_forms(&html)
+}
+
+#[tokio::test]
+#[serial]
+async fn homepage_has_vote_forms() {
+    let client = form_test_client();
+    let forms = fetch_and_extract_forms(&client, "/").await;
+
+    assert!(
+        forms.len() >= 2,
+        "Homepage should have at least 2 vote forms, found {}",
+        forms.len()
+    );
+
+    // Verify the forms have the expected structure
+    for form in &forms {
+        assert!(
+            !form.action_url.is_empty(),
+            "Form action URL should not be empty"
+        );
+        assert!(
+            !form.upvotes_id.is_empty(),
+            "Form upvotes_id should not be empty"
+        );
+    }
+}
+
+#[tokio::test]
+#[serial]
+async fn homepage_first_item_upvote() {
+    let client = form_test_client();
+    let forms = fetch_and_extract_forms(&client, "/").await;
+
+    assert!(!forms.is_empty(), "Homepage should have vote forms");
+    let form = &forms[0];
+
+    run_list_vote_test(
+        &client,
+        &form.action_url,
+        &form.upvotes_id,
+        None,
+        Direction::Up,
+        1,
+        true,
+        false,
+    )
+    .await;
+}
+
+#[tokio::test]
+#[serial]
+async fn homepage_first_item_downvote() {
+    let client = form_test_client();
+    let forms = fetch_and_extract_forms(&client, "/").await;
+
+    assert!(!forms.is_empty(), "Homepage should have vote forms");
+    let form = &forms[0];
+
+    run_list_vote_test(
+        &client,
+        &form.action_url,
+        &form.upvotes_id,
+        None,
+        Direction::Down,
+        -1,
+        false,
+        true,
+    )
+    .await;
+}
+
+#[tokio::test]
+#[serial]
+async fn homepage_second_item_upvote() {
+    let client = form_test_client();
+    let forms = fetch_and_extract_forms(&client, "/").await;
+
+    assert!(
+        forms.len() >= 2,
+        "Homepage should have at least 2 vote forms"
+    );
+    let form = &forms[1];
+
+    run_list_vote_test(
+        &client,
+        &form.action_url,
+        &form.upvotes_id,
+        None,
+        Direction::Up,
+        1,
+        true,
+        false,
+    )
+    .await;
+}
+
+#[tokio::test]
+#[serial]
+async fn homepage_second_item_downvote() {
+    let client = form_test_client();
+    let forms = fetch_and_extract_forms(&client, "/").await;
+
+    assert!(
+        forms.len() >= 2,
+        "Homepage should have at least 2 vote forms"
+    );
+    let form = &forms[1];
+
+    run_list_vote_test(
+        &client,
+        &form.action_url,
+        &form.upvotes_id,
+        None,
+        Direction::Down,
+        -1,
+        false,
+        true,
+    )
+    .await;
+}
+
+// =============================================================================
+// All-Pages Upvote Form Tests
+// =============================================================================
+
+#[tokio::test]
+#[serial]
+async fn all_pages_has_vote_forms() {
+    let client = form_test_client();
+    let forms = fetch_and_extract_forms(&client, "/all-pages.htm").await;
+
+    assert!(
+        forms.len() >= 2,
+        "All-pages should have at least 2 vote forms, found {}",
+        forms.len()
+    );
+
+    // Verify the forms have the expected structure
+    for form in &forms {
+        assert!(
+            !form.action_url.is_empty(),
+            "Form action URL should not be empty"
+        );
+        assert!(
+            !form.upvotes_id.is_empty(),
+            "Form upvotes_id should not be empty"
+        );
+    }
+}
+
+#[tokio::test]
+#[serial]
+async fn all_pages_first_item_upvote() {
+    let client = form_test_client();
+    let forms = fetch_and_extract_forms(&client, "/all-pages.htm").await;
+
+    assert!(!forms.is_empty(), "All-pages should have vote forms");
+    let form = &forms[0];
+
+    run_list_vote_test(
+        &client,
+        &form.action_url,
+        &form.upvotes_id,
+        None,
+        Direction::Up,
+        1,
+        true,
+        false,
+    )
+    .await;
+}
+
+#[tokio::test]
+#[serial]
+async fn all_pages_first_item_downvote() {
+    let client = form_test_client();
+    let forms = fetch_and_extract_forms(&client, "/all-pages.htm").await;
+
+    assert!(!forms.is_empty(), "All-pages should have vote forms");
+    let form = &forms[0];
+
+    run_list_vote_test(
+        &client,
+        &form.action_url,
+        &form.upvotes_id,
+        None,
+        Direction::Down,
+        -1,
+        false,
+        true,
+    )
+    .await;
+}
+
+#[tokio::test]
+#[serial]
+async fn all_pages_second_item_upvote() {
+    let client = form_test_client();
+    let forms = fetch_and_extract_forms(&client, "/all-pages.htm").await;
+
+    assert!(
+        forms.len() >= 2,
+        "All-pages should have at least 2 vote forms"
+    );
+    let form = &forms[1];
+
+    run_list_vote_test(
+        &client,
+        &form.action_url,
+        &form.upvotes_id,
+        None,
+        Direction::Up,
+        1,
+        true,
+        false,
+    )
+    .await;
+}
+
+#[tokio::test]
+#[serial]
+async fn all_pages_second_item_downvote() {
+    let client = form_test_client();
+    let forms = fetch_and_extract_forms(&client, "/all-pages.htm").await;
+
+    assert!(
+        forms.len() >= 2,
+        "All-pages should have at least 2 vote forms"
+    );
+    let form = &forms[1];
+
+    run_list_vote_test(
+        &client,
+        &form.action_url,
+        &form.upvotes_id,
+        None,
+        Direction::Down,
+        -1,
+        false,
+        true,
+    )
+    .await;
 }
