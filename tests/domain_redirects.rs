@@ -308,7 +308,7 @@ async fn pastebin_main_http_redirects_to_https() {
 // bin.defuse.ca redirect
 // =============================================================================
 
-/// bin.defuse.ca should redirect to defuse.ca/b/
+/// bin.defuse.ca should redirect to defuse.ca/b/ preserving the URL key
 #[tokio::test]
 async fn bin_subdomain_redirects_to_b_path() {
     if !is_production_url() {
@@ -318,7 +318,7 @@ async fn bin_subdomain_redirects_to_b_path() {
 
     // Request bin.defuse.ca with a paste key
     let resp = client()
-        .get("https://bin.defuse.ca/test123")
+        .get("https://bin.defuse.ca/abc123XYZ")
         .send()
         .await
         .unwrap();
@@ -337,9 +337,9 @@ async fn bin_subdomain_redirects_to_b_path() {
         .to_str()
         .unwrap();
 
-    assert!(
-        location.starts_with("https://defuse.ca/b/"),
-        "Should redirect to https://defuse.ca/b/*, got: {}",
+    assert_eq!(
+        location, "https://defuse.ca/b/abc123XYZ",
+        "Should redirect to https://defuse.ca/b/abc123XYZ preserving the key, got: {}",
         location
     );
 }
