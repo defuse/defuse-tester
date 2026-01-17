@@ -563,22 +563,24 @@ async fn submit_message_and_verify_in_archive() {
         .post(url("/quantum-computer-time-capsule.htm"))
         .header("X-Captcha-Bypass", &bypass_key)
         .form(&[
-            ("message", "AUTOMATED TEST - NOT A REAL MESSAGE - from defuse-tester test suite"),
+            ("ciphertext", ciphertext.as_str()),
+            ("message", "AUTOMATED_TEST"),
             ("algorithm", algorithm),
             ("present_public_key", present_public_key),
             ("future_public_key", future_public_key),
-            ("ciphertext", &ciphertext),
         ])
         .send()
         .await
         .expect("Failed to submit message");
 
-    assert!(resp.status().is_success(), "POST should return 200");
+    let status = resp.status();
     let body = resp.text().await.unwrap();
 
-    // Verify success message
+    assert!(status.is_success(), "POST should return 200, got {}", status);
+
+    // Verify success message (note: HTML has line break in "sent to\nthe future")
     assert!(
-        body.contains("Your message has been sent to the future"),
+        body.contains("has been sent to"),
         "Should show success message, got: {}",
         &body.chars().take(500).collect::<String>()
     );
