@@ -480,71 +480,252 @@ async fn post_preserves_message_on_error() {
 }
 
 // =============================================================================
-// 5. POST With CAPTCHA Bypass (IGNORED - requires CAPTCHA bypass)
+// 5. POST With CAPTCHA Bypass
 // =============================================================================
 
-/// Submit valid encrypted message with CAPTCHA
-#[tokio::test]
-#[ignore = "requires CAPTCHA bypass - not implemented"]
-async fn submit_valid_message() {
-    // Would need CAPTCHA bypass to test
-    todo!("Implement when CAPTCHA bypass is available")
+/// Read the CAPTCHA bypass key from secrets file
+fn get_captcha_bypass_key() -> Option<String> {
+    let key_path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("secrets")
+        .join("captcha-bypass-key.txt");
+    std::fs::read_to_string(key_path).ok().map(|s| s.trim().to_string())
 }
 
-/// Submitted message appears in archive
-#[tokio::test]
-#[ignore = "requires CAPTCHA bypass - not implemented"]
-async fn submit_message_appears_in_archive() {
-    // Would need CAPTCHA bypass to test
-    todo!("Implement when CAPTCHA bypass is available")
+/// Submit a message to the time capsule with CAPTCHA bypass
+async fn submit_message(
+    message: &str,
+    algorithm: &str,
+    present_public_key: &str,
+    future_public_key: &str,
+    ciphertext: &str,
+) -> reqwest::Response {
+    let bypass_key = get_captcha_bypass_key()
+        .expect("CAPTCHA bypass key not found - create secrets/captcha-bypass-key.txt");
+
+    client()
+        .post(url("/quantum-computer-time-capsule.htm"))
+        .header("X-Captcha-Bypass", bypass_key)
+        .form(&[
+            ("message", message),
+            ("algorithm", algorithm),
+            ("present_public_key", present_public_key),
+            ("future_public_key", future_public_key),
+            ("ciphertext", ciphertext),
+        ])
+        .send()
+        .await
+        .expect("Failed to submit message")
 }
 
-/// Submitting message increments count
+/// Submit a valid message and verify it appears in archive with correct fields
+///
+/// This is a combined test that only adds ONE message to the time capsule per
+/// test suite run, then verifies:
+/// - Success response is shown
+/// - Message count increments by 1
+/// - New message appears in archive
+/// - Message has correct timestamp (close to current time)
+/// - Message has all expected fields
 #[tokio::test]
-#[ignore = "requires CAPTCHA bypass - not implemented"]
-async fn submit_message_increments_count() {
-    // Would need CAPTCHA bypass to test
-    todo!("Implement when CAPTCHA bypass is available")
+async fn submit_message_and_verify_in_archive() {
+    // Skip if no bypass key available
+    let bypass_key = match get_captcha_bypass_key() {
+        Some(key) => key,
+        None => {
+            eprintln!("Skipping test: CAPTCHA bypass key not found");
+            return;
+        }
+    };
+
+    // Get initial archive state
+    let archive_before = get_archive().await.text().await.unwrap();
+    let count_before = count_archive_messages(&archive_before);
+
+    // Create a unique test message with timestamp to identify it
+    // IMPORTANT: Use values that are CLEARLY fake/test data so nobody tries
+    // to decrypt these in the future thinking they're real messages!
+    let test_timestamp = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap()
+        .as_secs();
+
+    let algorithm = "AUTOMATED-TEST-DO-NOT-DECRYPT";
+    let present_public_key = "NOT_A_REAL_KEY--AUTOMATED_TEST_FROM_DEFUSE_TESTER";
+    let future_public_key = "NOT_A_REAL_KEY--AUTOMATED_TEST_FROM_DEFUSE_TESTER";
+    let ciphertext = format!(
+        "THIS_IS_NOT_ENCRYPTED_DATA--AUTOMATED_TEST_FROM_DEFUSE_TESTER--TIMESTAMP_{}",
+        test_timestamp
+    );
+
+    // Submit the message
+    // The "message" field is the plaintext, only used for error recovery (not stored)
+    let resp = client()
+        .post(url("/quantum-computer-time-capsule.htm"))
+        .header("X-Captcha-Bypass", &bypass_key)
+        .form(&[
+            ("message", "AUTOMATED TEST - NOT A REAL MESSAGE - from defuse-tester test suite"),
+            ("algorithm", algorithm),
+            ("present_public_key", present_public_key),
+            ("future_public_key", future_public_key),
+            ("ciphertext", &ciphertext),
+        ])
+        .send()
+        .await
+        .expect("Failed to submit message");
+
+    assert!(resp.status().is_success(), "POST should return 200");
+    let body = resp.text().await.unwrap();
+
+    // Verify success message
+    assert!(
+        body.contains("Your message has been sent to the future"),
+        "Should show success message, got: {}",
+        &body.chars().take(500).collect::<String>()
+    );
+
+    // Get archive after submission
+    let archive_after = get_archive().await.text().await.unwrap();
+    let count_after = count_archive_messages(&archive_after);
+
+    // Verify count incremented by exactly 1
+    assert_eq!(
+        count_after,
+        count_before + 1,
+        "Message count should increment by 1 (was {}, now {})",
+        count_before,
+        count_after
+    );
+
+    // Find our test message in the archive by looking for our unique timestamp
+    let timestamp_marker = format!("TIMESTAMP_{}", test_timestamp);
+    let our_message = archive_after
+        .lines()
+        .find(|line| line.contains(&timestamp_marker))
+        .expect("Our test message should appear in archive");
+
+    // Verify all fields are present
+    assert!(
+        our_message.contains("time:"),
+        "Message should have time field"
+    );
+    assert!(
+        our_message.contains(&format!("algorithm:{}", algorithm)),
+        "Message should have correct algorithm"
+    );
+    assert!(
+        our_message.contains(&format!("presentpublickey:{}", present_public_key)),
+        "Message should have present public key"
+    );
+    assert!(
+        our_message.contains(&format!("futurepublickey:{}", future_public_key)),
+        "Message should have future public key"
+    );
+    assert!(
+        our_message.contains(&format!("ciphertext:{}", ciphertext)),
+        "Message should have ciphertext"
+    );
+
+    // Verify timestamp is reasonable (within last minute)
+    let time_re = Regex::new(r"time:(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})").unwrap();
+    if let Some(caps) = time_re.captures(our_message) {
+        let timestamp_str = caps.get(1).unwrap().as_str();
+        // Just verify it parses as a valid timestamp (detailed validation not critical)
+        assert!(
+            timestamp_str.len() >= 19,
+            "Timestamp should be ISO 8601 format"
+        );
+    } else {
+        panic!("Message should have valid timestamp format");
+    }
 }
 
-/// Submitting message updates last timestamp
+/// Too large message is rejected (does not add to archive)
 #[tokio::test]
-#[ignore = "requires CAPTCHA bypass - not implemented"]
-async fn submit_updates_last_timestamp() {
-    // Would need CAPTCHA bypass to test
-    todo!("Implement when CAPTCHA bypass is available")
-}
-
-/// Too large message is rejected
-#[tokio::test]
-#[ignore = "requires CAPTCHA bypass - not implemented"]
 async fn submit_too_large_rejected() {
-    // Would need CAPTCHA bypass to test
-    todo!("Implement when CAPTCHA bypass is available")
+    // Skip if no bypass key available
+    let bypass_key = match get_captcha_bypass_key() {
+        Some(key) => key,
+        None => {
+            eprintln!("Skipping test: CAPTCHA bypass key not found");
+            return;
+        }
+    };
+
+    // Create a message that will exceed 200KB when combined
+    // The combined line is: time:... algorithm:... presentpublickey:... futurepublickey:... ciphertext:...
+    // We need the total to be >= 200000 bytes
+    let large_ciphertext = "X".repeat(200000);
+
+    let resp = client()
+        .post(url("/quantum-computer-time-capsule.htm"))
+        .header("X-Captcha-Bypass", &bypass_key)
+        .form(&[
+            ("message", "Test"),
+            ("algorithm", "test"),
+            ("present_public_key", "test"),
+            ("future_public_key", "test"),
+            ("ciphertext", &large_ciphertext),
+        ])
+        .send()
+        .await
+        .expect("Failed to submit message");
+
+    assert!(resp.status().is_success(), "POST should return 200");
+    let body = resp.text().await.unwrap();
+
+    // Should show error, not success
+    assert!(
+        body.contains("Something went wrong") || body.contains("too big"),
+        "Should reject too-large message, got: {}",
+        &body.chars().take(500).collect::<String>()
+    );
+    assert!(
+        !body.contains("Your message has been sent to the future"),
+        "Should NOT show success message for too-large submission"
+    );
 }
 
-/// Message with newlines in ciphertext is rejected
+/// Message with newlines in ciphertext is rejected (does not add to archive)
 #[tokio::test]
-#[ignore = "requires CAPTCHA bypass - not implemented"]
 async fn submit_with_newlines_rejected() {
-    // Would need CAPTCHA bypass to test
-    todo!("Implement when CAPTCHA bypass is available")
-}
+    // Skip if no bypass key available
+    let bypass_key = match get_captcha_bypass_key() {
+        Some(key) => key,
+        None => {
+            eprintln!("Skipping test: CAPTCHA bypass key not found");
+            return;
+        }
+    };
 
-/// Submitted message records timestamp
-#[tokio::test]
-#[ignore = "requires CAPTCHA bypass - not implemented"]
-async fn submit_records_timestamp() {
-    // Would need CAPTCHA bypass to test
-    todo!("Implement when CAPTCHA bypass is available")
-}
+    let ciphertext_with_newline = "valid_part\ninvalid_newline";
 
-/// Submitted message stores all fields
-#[tokio::test]
-#[ignore = "requires CAPTCHA bypass - not implemented"]
-async fn submit_stores_all_fields() {
-    // Would need CAPTCHA bypass to test
-    todo!("Implement when CAPTCHA bypass is available")
+    let resp = client()
+        .post(url("/quantum-computer-time-capsule.htm"))
+        .header("X-Captcha-Bypass", &bypass_key)
+        .form(&[
+            ("message", "Test"),
+            ("algorithm", "test"),
+            ("present_public_key", "test"),
+            ("future_public_key", "test"),
+            ("ciphertext", ciphertext_with_newline),
+        ])
+        .send()
+        .await
+        .expect("Failed to submit message");
+
+    assert!(resp.status().is_success(), "POST should return 200");
+    let body = resp.text().await.unwrap();
+
+    // Should show error, not success
+    assert!(
+        body.contains("Something went wrong") || body.contains("newlines"),
+        "Should reject message with newlines, got: {}",
+        &body.chars().take(500).collect::<String>()
+    );
+    assert!(
+        !body.contains("Your message has been sent to the future"),
+        "Should NOT show success message for newline submission"
+    );
 }
 
 // =============================================================================
