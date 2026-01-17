@@ -52,7 +52,8 @@ async fn hit_increments_non_unique_only() {
         .build()
         .expect("Failed to create HTTP client");
 
-    let page_url = url("/blind-birthday-attack.htm");
+    // Use a specific page to avoid race conditions with other hit counter tests
+    let page_url = url("/bochs-images.htm");
 
     // First hit
     let resp1 = client.get(&page_url).send().await.expect("First request failed");
@@ -101,7 +102,8 @@ async fn hit_counter_bot_not_counted() {
         .build()
         .expect("Failed to create HTTP client");
 
-    let page_url = url("/blind-birthday-attack.htm");
+    // Use a specific page to avoid race conditions with other hit counter tests
+    let page_url = url("/gnutls-psk-client-server-example.htm");
 
     // Get current count with normal UA
     let resp1 = client
