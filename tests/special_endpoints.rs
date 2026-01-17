@@ -99,7 +99,6 @@ async fn shout_s_param_displays_decoded_text() {
 /// /ip.php returns plain text IP address
 /// Note: We check for text/plain but defuse.ca returns text/html (legacy behavior)
 #[tokio::test]
-#[ignore = "ip.php not yet implemented in Rust"]
 async fn ip_returns_plain_text() {
     let resp = client().get(url("/ip.php")).send().await.unwrap();
     assert!(resp.status().is_success(), "/ip.php should return 200");
@@ -121,7 +120,6 @@ async fn ip_returns_plain_text() {
 
 /// /ip.php returns a valid IP address
 #[tokio::test]
-#[ignore = "ip.php not yet implemented in Rust"]
 async fn ip_returns_valid_ip_address() {
     let resp = client().get(url("/ip.php")).send().await.unwrap();
     assert!(resp.status().is_success());
@@ -144,7 +142,6 @@ async fn ip_returns_valid_ip_address() {
 
 /// /ip-insecure.php returns HTML with IP address
 #[tokio::test]
-#[ignore = "ip-insecure.php not yet implemented in Rust"]
 async fn ip_insecure_returns_html() {
     let resp = client().get(url("/ip-insecure.php")).send().await.unwrap();
     assert!(
@@ -168,7 +165,6 @@ async fn ip_insecure_returns_html() {
 
 /// /ip-insecure.php shows "HTTP IP:" label
 #[tokio::test]
-#[ignore = "ip-insecure.php not yet implemented in Rust"]
 async fn ip_insecure_shows_http_ip_label() {
     let resp = client().get(url("/ip-insecure.php")).send().await.unwrap();
     assert!(resp.status().is_success());
@@ -183,7 +179,6 @@ async fn ip_insecure_shows_http_ip_label() {
 
 /// /ip-insecure.php uses large font styling
 #[tokio::test]
-#[ignore = "ip-insecure.php not yet implemented in Rust"]
 async fn ip_insecure_uses_large_font() {
     let resp = client().get(url("/ip-insecure.php")).send().await.unwrap();
     assert!(resp.status().is_success());
