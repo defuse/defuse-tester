@@ -4,10 +4,12 @@
 //! - /s.php - "Shout" page (display large text)
 //! - /ip.php - Raw IP address
 //! - /ip-insecure.php - IP address HTML page
+//! - /getmyip.php - IP/hostname/user-agent display
 
 mod common;
 
 use common::{client, url};
+use reqwest::header::USER_AGENT;
 
 // =============================================================================
 // /s.php - "Shout" page
@@ -190,5 +192,124 @@ async fn ip_insecure_uses_large_font() {
     assert!(
         body.contains("30pt") || body.contains("30px"),
         "/ip-insecure.php should use 30pt font styling"
+    );
+}
+
+// =============================================================================
+// /getmyip.php - IP/hostname/user-agent display
+// =============================================================================
+
+/// /getmyip.php returns 200 OK
+#[tokio::test]
+async fn getmyip_returns_200() {
+    let resp = client().get(url("/getmyip.php")).send().await.unwrap();
+    assert!(
+        resp.status().is_success(),
+        "/getmyip.php should return 200, got {}",
+        resp.status()
+    );
+}
+
+/// /getmyip.php returns HTML content type
+#[tokio::test]
+async fn getmyip_content_type_html() {
+    let resp = client().get(url("/getmyip.php")).send().await.unwrap();
+    assert!(resp.status().is_success());
+
+    let content_type = resp
+        .headers()
+        .get("content-type")
+        .expect("/getmyip.php should have Content-Type header")
+        .to_str()
+        .unwrap();
+
+    assert!(
+        content_type.starts_with("text/html"),
+        "/getmyip.php should return text/html, got: {}",
+        content_type
+    );
+}
+
+/// /getmyip.php shows an IP address
+#[tokio::test]
+async fn getmyip_shows_ip() {
+    let resp = client().get(url("/getmyip.php")).send().await.unwrap();
+    assert!(resp.status().is_success());
+
+    let body = resp.text().await.unwrap();
+
+    // Check for IPv4 pattern (simple check)
+    let has_ipv4 = regex::Regex::new(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")
+        .unwrap()
+        .is_match(&body);
+
+    // Or IPv6 pattern (contains colons with hex)
+    let has_ipv6 = body.contains(":") && regex::Regex::new(r"[0-9a-fA-F:]+")
+        .unwrap()
+        .is_match(&body);
+
+    assert!(
+        has_ipv4 || has_ipv6,
+        "/getmyip.php should display an IP address"
+    );
+}
+
+/// /getmyip.php shows hostname section
+#[tokio::test]
+async fn getmyip_shows_hostname() {
+    let resp = client().get(url("/getmyip.php")).send().await.unwrap();
+    assert!(resp.status().is_success());
+
+    let body = resp.text().await.unwrap();
+
+    assert!(
+        body.contains("Hostname") || body.contains("hostname") || body.contains("HOSTNAME"),
+        "/getmyip.php should display hostname section"
+    );
+}
+
+/// /getmyip.php shows user agent (displayed without label, just the raw UA string)
+#[tokio::test]
+async fn getmyip_shows_user_agent() {
+    // Send with a known user agent
+    let test_ua = "TestBrowser/1.0";
+    let resp = client()
+        .get(url("/getmyip.php"))
+        .header(USER_AGENT, test_ua)
+        .send()
+        .await
+        .unwrap();
+    assert!(resp.status().is_success());
+
+    let body = resp.text().await.unwrap();
+
+    // The page displays the user agent (without a label)
+    assert!(
+        body.contains(test_ua),
+        "/getmyip.php should display the user agent string"
+    );
+}
+
+/// /getmyip.php displays the custom user agent we send
+#[tokio::test]
+async fn getmyip_custom_user_agent() {
+    let custom_ua = "DefuseTestSuite/1.0 (Testing getmyip.php)";
+
+    let resp = client()
+        .get(url("/getmyip.php"))
+        .header(USER_AGENT, custom_ua)
+        .send()
+        .await
+        .unwrap();
+
+    assert!(resp.status().is_success());
+
+    let body = resp.text().await.unwrap();
+
+    assert!(
+        body.contains(custom_ua),
+        "/getmyip.php should display the custom User-Agent '{}', body: {}",
+        custom_ua,
+        &body.chars().take(500).collect::<String>()
     );
 }

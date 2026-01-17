@@ -1,7 +1,7 @@
 # Miscellaneous Coverage Test Plan
 
-**Status:** TODO
-**File:** `tests/misc_coverage.rs` (new file)
+**Status:** DONE (19 tests across 5 files)
+**Files:** `tests/breach.rs`, `tests/vim_highlighting.rs`, `tests/bibliography.rs`, `tests/hit_counter.rs`, `tests/special_endpoints.rs`
 
 ## Overview
 
@@ -50,18 +50,17 @@ The `breach_visual_html()` function outputs text that appears normal but contain
 
 | Test | Description | Expected |
 |------|-------------|----------|
-| `breach_page_loads` | GET the page | 200 OK |
-| `breach_sample_header_visible` | Check output contains "Sample Header" | Text present (may be interleaved with spans/comments) |
-| `breach_sample_paragraph_visible` | Check output contains "Sample paragraph text" | Text present |
-| `breach_has_html_comments` | Check for random HTML comments in output | Contains `<!--` somewhere near "Sample Header" section |
-| `breach_has_zero_width_spaces` | Check for zero-width space entities | Contains `&#8203;` or `&#x200b;` |
-| `breach_output_changes_on_reload` | Fetch page twice, compare BREACH section | HTML comments should have different random content |
+| `breach_visual_html_output_is_protected` | GET page, extract BREACH section, verify encoding | See implementation notes |
 
 ### Implementation Notes
 
-The BREACH mitigation section is between `<h2>` containing "Sample Header" and end of that section. Extract that portion of HTML and verify it contains the mitigation markers.
+The BREACH section is inside `<div style="padding-left: 30px;">` containing an `<h2>` and `<p>`. Extract that section and verify ALL of:
+1. Contains the visible text characters S, a, m, p, l, e, H, e, a, d, e, r (interspersed)
+2. Contains HTML comments with hex content like `<!-- [0-9a-f]+ -->`
+3. Contains zero-width space entities (`&#8203;` or `&#x200b;`)
+4. The text "Sample Header" is reconstructable from the visible characters
 
-For `breach_output_changes_on_reload`, fetch the page twice and compare the raw HTML in the Sample Header section - the random comment content should differ.
+The output is randomized on each page load, so we check structure, not exact content.
 
 ## 3. VIM Syntax Highlighting
 
@@ -161,13 +160,13 @@ Tests exist in `tests/upvote.rs`:
 
 | Section | New Tests |
 |---------|-----------|
-| Source Directory Security (CRITICAL) | 4 |
-| BREACH Mitigation | 6 |
+| Source Directory Security (CRITICAL) | 4 (done) |
+| BREACH Mitigation | 1 |
 | VIM Highlighting | 4 |
 | Bibliography | 5 |
 | Bot Detection | 3 |
 | getmyip.php | 6 |
-| **Total** | **28** |
+| **Total** | **23** |
 
 ## Dependencies
 

@@ -1,11 +1,12 @@
 //! Hit counter tests
 //!
-//! Tests for page hit counting functionality.
+//! Tests for page hit counting functionality including bot detection.
 
 mod common;
 
 use common::url;
 use reqwest::Client;
+use reqwest::header::USER_AGENT;
 use scraper::{Html, Selector};
 
 /// Extract hit counts from page HTML
@@ -81,5 +82,66 @@ async fn hit_increments_non_unique_only() {
         "Unique Hits should not change for same IP (was {}, now {})",
         unique_hits_1,
         unique_hits_2
+    );
+}
+
+// =============================================================================
+// Bot Detection (IGNORE_SEARCH_BOTS)
+// =============================================================================
+
+/// Bot requests should NOT increment the hit counter
+///
+/// phpcount.php has IGNORE_SEARCH_BOTS = true and IsSearchBot() checks for
+/// keywords like "bot" (case-insensitive). This test verifies that requests
+/// with bot user agents do not increment the page hit counter.
+#[tokio::test]
+async fn hit_counter_bot_not_counted() {
+    let client = Client::builder()
+        .timeout(std::time::Duration::from_secs(30))
+        .build()
+        .expect("Failed to create HTTP client");
+
+    let page_url = url("/blind-birthday-attack.htm");
+
+    // Get current count with normal UA
+    let resp1 = client
+        .get(&page_url)
+        .header(USER_AGENT, "Mozilla/5.0 TestBrowser/1.0")
+        .send()
+        .await
+        .expect("First request failed");
+    assert!(resp1.status().is_success());
+    let body1 = resp1.text().await.expect("Failed to read response");
+    let (page_hits_before, _) = extract_hit_counts(&body1);
+
+    // Request with "bot" in UA - should NOT be counted per IGNORE_SEARCH_BOTS
+    let resp_bot = client
+        .get(&page_url)
+        .header(USER_AGENT, "TestBot/1.0")
+        .send()
+        .await
+        .expect("Bot request failed");
+    assert!(resp_bot.status().is_success());
+
+    // Check count again with normal UA
+    let resp2 = client
+        .get(&page_url)
+        .header(USER_AGENT, "Mozilla/5.0 TestBrowser/1.0")
+        .send()
+        .await
+        .expect("Second request failed");
+    assert!(resp2.status().is_success());
+    let body2 = resp2.text().await.expect("Failed to read response");
+    let (page_hits_after, _) = extract_hit_counts(&body2);
+
+    // Should increment by exactly 1 (only the second normal request counted, bot was ignored)
+    // If this fails with +2, bot detection is not working
+    assert_eq!(
+        page_hits_after,
+        page_hits_before + 1,
+        "Bot UA should be ignored (IGNORE_SEARCH_BOTS=true). Before: {}, After: {} (expected +1, got +{})",
+        page_hits_before,
+        page_hits_after,
+        page_hits_after - page_hits_before
     );
 }
