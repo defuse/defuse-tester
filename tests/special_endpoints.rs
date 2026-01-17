@@ -17,7 +17,6 @@ use reqwest::header::USER_AGENT;
 
 /// /s.php with no params shows a form
 #[tokio::test]
-#[ignore = "s.php not yet implemented in Rust"]
 async fn shout_no_params_shows_form() {
     let resp = client().get(url("/s.php")).send().await.unwrap();
     assert!(resp.status().is_success(), "/s.php should return 200");
@@ -31,7 +30,6 @@ async fn shout_no_params_shows_form() {
 
 /// /s.php?e=text redirects to ?s=base64(text)
 #[tokio::test]
-#[ignore = "s.php not yet implemented in Rust"]
 async fn shout_e_param_redirects_to_s_param() {
     let resp = client()
         .get(url("/s.php?e=hello"))
@@ -68,7 +66,6 @@ async fn shout_e_param_redirects_to_s_param() {
 
 /// /s.php?s=base64text displays decoded text in large font
 #[tokio::test]
-#[ignore = "s.php not yet implemented in Rust"]
 async fn shout_s_param_displays_decoded_text() {
     // "hello" in base64 is "aGVsbG8="
     let resp = client()

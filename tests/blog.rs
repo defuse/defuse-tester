@@ -14,7 +14,6 @@ use common::{client, url};
 // =============================================================================
 
 #[tokio::test]
-#[ignore = "blog not yet implemented in Rust"]
 async fn blog_index_exists() {
     let resp = client().get(url("/blog/")).send().await.unwrap();
     assert!(resp.status().is_success(), "/blog/ should return 200");
@@ -25,7 +24,6 @@ async fn blog_index_exists() {
 // =============================================================================
 
 #[tokio::test]
-#[ignore = "blog not yet implemented in Rust"]
 async fn blog_post_password_hashing() {
     let resp = client()
         .get(url("/blog/the-economics-of-password-cracking.html"))
@@ -42,7 +40,6 @@ async fn blog_post_password_hashing() {
 }
 
 #[tokio::test]
-#[ignore = "blog not yet implemented in Rust"]
 async fn blog_post_crackstation_linkedin() {
     let resp = client()
         .get(url("/blog/cracking-linkedin-hashes-with-crackstation.html"))
@@ -59,7 +56,6 @@ async fn blog_post_crackstation_linkedin() {
 }
 
 #[tokio::test]
-#[ignore = "blog not yet implemented in Rust"]
 async fn blog_post_full_disclosure() {
     let resp = client()
         .get(url("/blog/full-disclosure-vs-coordinated-disclosure.html"))
@@ -81,7 +77,6 @@ async fn blog_post_full_disclosure() {
 
 /// Blog post without .html extension should redirect to .html version
 #[tokio::test]
-#[ignore = "blog not yet implemented in Rust"]
 async fn blog_slug_redirects_to_html() {
     let resp = client()
         .get(url("/blog/the-economics-of-password-cracking"))

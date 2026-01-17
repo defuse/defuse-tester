@@ -184,7 +184,6 @@ async fn content_type_css() {
 // =============================================================================
 
 #[tokio::test]
-#[ignore = "hypothetico not yet implemented in Rust"]
 async fn hypothetico_page_exists() {
     let resp = client().get(url("/hypothetico/")).send().await.unwrap();
     assert!(resp.status().is_success(), "/hypothetico/ should return 200");
@@ -214,7 +213,6 @@ async fn content_type_js() {
 // =============================================================================
 
 #[tokio::test]
-#[ignore = "source/ not yet implemented in Rust"]
 async fn source_blind_birthday_rb() {
     let resp = client()
         .get(url("/source/blind-birthday.rb"))
@@ -232,7 +230,6 @@ async fn source_blind_birthday_rb() {
 
 /// PHP files in /source/ must be downloaded (Content-Disposition: attachment), not executed
 #[tokio::test]
-#[ignore = "source/ not yet implemented in Rust"]
 async fn source_php_downloads_not_executes() {
     let resp = client()
         .get(url("/source/breach.php"))
@@ -261,7 +258,6 @@ async fn source_php_downloads_not_executes() {
 // =============================================================================
 
 #[tokio::test]
-#[ignore = "upload/ not yet implemented in Rust"]
 async fn upload_vim_vimrc() {
     let resp = client()
         .get(url("/upload/vim/vimrc"))
@@ -285,7 +281,6 @@ async fn upload_vim_vimrc() {
 }
 
 #[tokio::test]
-#[ignore = "upload/ not yet implemented in Rust"]
 async fn upload_vim_zip() {
     let resp = client()
         .get(url("/upload/vim/vim.zip"))
@@ -313,7 +308,6 @@ async fn upload_vim_zip() {
 // =============================================================================
 
 #[tokio::test]
-#[ignore = "files/ not yet implemented in Rust"]
 async fn files_eharmony_hashes() {
     // Use HEAD request since this is a large file (~50MB)
     let resp = client()
@@ -342,7 +336,6 @@ async fn files_eharmony_hashes() {
 // =============================================================================
 
 #[tokio::test]
-#[ignore = "mirrors/ not yet implemented in Rust"]
 async fn mirrors_zcash_blockchain() {
     // Use HEAD request since this is a large file
     let resp = client()
