@@ -15,6 +15,10 @@ struct Args {
 
     /// Output directory for snapshot files
     output_dir: PathBuf,
+
+    /// Skip elision of dynamic content (hit counts, IPs, etc.)
+    #[arg(long)]
+    no_elision: bool,
 }
 
 #[derive(Debug, Deserialize)]
@@ -81,8 +85,12 @@ async fn main() -> Result<()> {
                 if status.is_success() {
                     match response.text().await {
                         Ok(body) => {
-                            // Normalize to elide meaningless differences
-                            let normalized = normalize_html(&body);
+                            // Normalize to elide meaningless differences (unless --no-elision)
+                            let normalized = if args.no_elision {
+                                body.clone()
+                            } else {
+                                normalize_html(&body)
+                            };
 
                             // Create parent directories if needed (for slugs like "audits/ecryptfs")
                             if let Some(parent) = output_path.parent() {
