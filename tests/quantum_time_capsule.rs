@@ -425,7 +425,11 @@ async fn tweetnacl_util_js_loads() {
 // 4. POST Without CAPTCHA (verifies validation)
 // =============================================================================
 
-/// POST without CAPTCHA should be rejected
+/// POST without CAPTCHA should be rejected with specific error message.
+///
+/// This test does NOT use the bypass header, so it exercises the real reCAPTCHA
+/// verification path. If RECAPTCHA_SECRET_KEY is not configured on the server,
+/// this test will fail (the server should panic, not silently accept).
 #[tokio::test]
 async fn post_without_captcha_rejected() {
     let resp = post_form(
@@ -446,9 +450,16 @@ async fn post_without_captcha_rejected() {
     // The page should still load (200 OK) but show error
     assert_success(&resp, "post_without_captcha_rejected");
     let body = resp.text().await.unwrap();
+
+    // Must show the specific CAPTCHA error message
+    // This verifies that RECAPTCHA_SECRET_KEY is configured and the verification
+    // actually ran (rather than silently failing due to missing config)
     assert!(
-        body.contains("CAPTCHA") || body.contains("captcha"),
-        "Should show CAPTCHA error message"
+        body.contains("Please solve the CAPTCHA"),
+        "Should show 'Please solve the CAPTCHA' error message. \
+         If this test fails with a 500 error or panic, RECAPTCHA_SECRET_KEY may not be set. \
+         Got body: {}",
+        &body.chars().take(500).collect::<String>()
     );
 }
 

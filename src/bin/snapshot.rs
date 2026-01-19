@@ -62,7 +62,7 @@ async fn main() -> Result<()> {
     let client = Client::builder().build()?;
 
     let mut success_count = 0;
-    let mut error_count = 0;
+    let mut failures: Vec<(String, String)> = Vec::new();
 
     for (slug, _info) in &real_pages {
         let url = format!("{}{}", base_url, slug);
@@ -95,23 +95,33 @@ async fn main() -> Result<()> {
                             success_count += 1;
                         }
                         Err(e) => {
-                            println!("ERROR reading body: {}", e);
-                            error_count += 1;
+                            let err_msg = format!("ERROR reading body: {}", e);
+                            println!("{}", err_msg);
+                            failures.push((slug.clone(), err_msg));
                         }
                     }
                 } else {
-                    println!("HTTP {}", status);
-                    error_count += 1;
+                    let err_msg = format!("HTTP {}", status);
+                    println!("{}", err_msg);
+                    failures.push((slug.clone(), err_msg));
                 }
             }
             Err(e) => {
-                println!("ERROR: {}", e);
-                error_count += 1;
+                let err_msg = format!("ERROR: {}", e);
+                println!("{}", err_msg);
+                failures.push((slug.clone(), err_msg));
             }
         }
     }
 
-    println!("\nComplete: {} succeeded, {} failed", success_count, error_count);
+    if !failures.is_empty() {
+        println!();
+        for (slug, err) in &failures {
+            println!("FAILURE: {} - {}", slug, err);
+        }
+    }
+
+    println!("\nComplete: {} succeeded, {} failed", success_count, failures.len());
 
     Ok(())
 }

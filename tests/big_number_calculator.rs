@@ -281,6 +281,22 @@ async fn output_hex_large() { assert_calc_base("65535", "hex", "ffff").await; }
 #[tokio::test]
 async fn output_octal_large() { assert_calc_base("512", "oct", "1000").await; }
 
+/// Float results should respect the output base setting
+/// BUG: PHP implementation always outputs floats in decimal, ignoring base setting
+#[tokio::test]
+#[ignore = "PHP bug: float results ignore output base setting"]
+async fn output_float_respects_base() {
+    // 15.5 in hex should be f.8 (15 = f, 0.5 = 8/16 = 0.5)
+    // Currently PHP outputs "15.5" even when hex is selected
+    let result = calc_base("15.5", "hex").await.unwrap();
+    // The result should NOT be in decimal form
+    assert!(
+        !result.starts_with("15.5"),
+        "Float result should respect hex base, not output decimal '15.5'. Got: {}",
+        result
+    );
+}
+
 // =============================================================================
 // Digit Grouping (addspaces option)
 // =============================================================================
@@ -666,17 +682,19 @@ async fn shift_negative_amount() {
 // =============================================================================
 
 #[tokio::test]
-async fn negative_exponent_workaround() {
-    // Direct negative exponents like 2^-3 are not supported
-    // Use (1.0/2)^3 or 1.0/(2^3) instead
-    let result = calc("(1.0/2)^3").await.unwrap();
+#[ignore = "PHP bug: negative exponents cause silent failure instead of returning rational result"]
+async fn negative_exponent_direct() {
+    // 2^-3 = 1/8 = 0.125
+    let result = calc("2^-3").await.unwrap();
     assert!(result.starts_with("0.125"), "Expected 0.125, got {}", result);
 }
 
 #[tokio::test]
-async fn negative_exponent_direct_error() {
-    // 2^-3 is not supported - errors
-    assert_calc_error("2^-3").await;
+#[ignore = "PHP bug: negative exponents cause silent failure instead of returning rational result"]
+async fn negative_exponent_with_base() {
+    // 10^-2 = 0.01
+    let result = calc("10^-2").await.unwrap();
+    assert!(result.starts_with("0.01"), "Expected 0.01, got {}", result);
 }
 
 #[tokio::test]

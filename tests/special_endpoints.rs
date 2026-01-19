@@ -90,12 +90,14 @@ async fn shout_s_param_displays_decoded_text() {
 
 // =============================================================================
 // /ip.php - Raw IP address
-// Note: defuse.ca returns text/html content-type but body is just the IP
 // =============================================================================
 
-/// /ip.php returns plain text IP address
-/// Note: We check for text/plain but defuse.ca returns text/html (legacy behavior)
+/// /ip.php should return text/plain content-type since the body is just an IP address.
+///
+/// BUG: PHP returns text/html content-type even though the response contains no HTML,
+/// just a plain IP address string.
 #[tokio::test]
+#[ignore = "PHP bug: /ip.php returns text/html instead of text/plain for plain IP address response"]
 async fn ip_returns_plain_text() {
     let resp = client().get(url("/ip.php")).send().await.unwrap();
     assert!(resp.status().is_success(), "/ip.php should return 200");
@@ -107,10 +109,9 @@ async fn ip_returns_plain_text() {
         .to_str()
         .unwrap();
 
-    // Our Rust impl should return text/plain, but defuse.ca returns text/html
     assert!(
-        content_type.starts_with("text/plain") || content_type.starts_with("text/html"),
-        "/ip.php should return text/plain (or text/html for legacy), got: {}",
+        content_type.starts_with("text/plain"),
+        "/ip.php should return text/plain content-type for plain IP address, got: {}",
         content_type
     );
 }
