@@ -283,4 +283,6 @@ async fn main() {
             ratio, degradation
         );
     }
+
+    println!("Checksums completed:           {}", checksums_completed);
 }
