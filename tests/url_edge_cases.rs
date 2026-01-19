@@ -39,10 +39,9 @@ async fn double_slash_at_start_returns_404() {
 }
 
 /// Double slash in static file paths gets normalized by Apache (serves the file)
-/// This documents current behavior - decide explicitly whether to preserve this
-/// if switching to a different server (e.g., Caddy)
+/// Rust implementation intentionally does NOT normalize double slashes - returns 404
 #[tokio::test]
-#[ignore = "downloads/ not served by local dev server"]
+#[ignore = "Intentional difference: Rust does not normalize // in paths (returns 404)"]
 async fn double_slash_in_static_path_normalized() {
     let resp = client().get(url("/downloads//thesis.pdf")).send().await.unwrap();
     assert_status(&resp, 200, "/downloads//thesis.pdf (double slash normalized)");

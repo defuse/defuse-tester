@@ -54,7 +54,6 @@ async fn head_request_on_page_returns_200() {
 
 /// HEAD request on downloadable file should return 200
 #[tokio::test]
-#[ignore = "downloads/ not served by local dev server"]
 async fn head_request_on_download_returns_200() {
     let resp = client().head(url("/downloads/thesis.pdf")).send().await.unwrap();
     assert_eq!(resp.status().as_u16(), 200, "HEAD /downloads/thesis.pdf should return 200");

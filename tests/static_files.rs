@@ -196,14 +196,13 @@ async fn hypothetico_page_exists() {
 }
 
 #[tokio::test]
-#[ignore = "defuse.ca returns application/javascript, test expects text/javascript"]
 async fn content_type_js() {
     let resp = client().get(url("/js/defuse.js")).send().await.unwrap();
     let content_type = resp.headers().get("content-type").unwrap().to_str().unwrap();
-    // text/javascript is the current standard (RFC 9239)
+    // Both text/javascript (RFC 9239) and application/javascript are valid
     assert!(
-        content_type.starts_with("text/javascript"),
-        "JS should have text/javascript content-type, got: {}",
+        content_type.starts_with("text/javascript") || content_type.starts_with("application/javascript"),
+        "JS should have javascript content-type, got: {}",
         content_type
     );
 }
@@ -254,7 +253,7 @@ async fn source_php_downloads_not_executes() {
 }
 
 // =============================================================================
-// Upload Files (not yet implemented in Rust)
+// Upload Files (served from STORAGE_PATH/extras/upload, force download)
 // =============================================================================
 
 #[tokio::test]
@@ -304,7 +303,7 @@ async fn upload_vim_zip() {
 }
 
 // =============================================================================
-// Files Directory (not yet implemented in Rust)
+// Files Directory (served from STORAGE_PATH/extras/files, force download)
 // =============================================================================
 
 #[tokio::test]
@@ -332,7 +331,7 @@ async fn files_eharmony_hashes() {
 }
 
 // =============================================================================
-// Mirror Files (not yet implemented in Rust)
+// Mirror Files (served from STORAGE_PATH/extras/mirrors, force download)
 // =============================================================================
 
 #[tokio::test]

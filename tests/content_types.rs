@@ -50,7 +50,6 @@ async fn not_found_page_has_html_content_type() {
 
 /// PDF downloads should have application/pdf content type
 #[tokio::test]
-#[ignore = "downloads/ not served by local dev server"]
 async fn pdf_download_has_correct_content_type() {
     let resp = client().get(url("/downloads/thesis.pdf")).send().await.unwrap();
     assert_content_type(&resp, "application/pdf", "/downloads/thesis.pdf");
@@ -78,23 +77,18 @@ async fn downloads_dir_allows_inline_rendering() {
     // No Content-Disposition header is fine (allows inline rendering)
 }
 
-/// Files in /files2/ should have Content-Disposition: attachment
-/// (forces browser to download instead of render)
+/// Files in /files2/ should NOT have Content-Disposition: attachment
+/// (allows browser to render inline, unlike /files/, /mirrors/, /upload/)
 #[tokio::test]
-#[ignore = "files2/ not in git repo"]
-async fn files2_dir_forces_download() {
+#[ignore = "defuse.ca Apache config incorrectly forces download on files2/"]
+async fn files2_dir_viewable_in_browser() {
     let resp = client().get(url("/files2/poc/pocorgtfo00.pdf")).send().await.unwrap();
 
-    let disposition = resp
-        .headers()
-        .get("content-disposition")
-        .expect("/files2/ should have Content-Disposition header")
-        .to_str()
-        .unwrap();
+    let disposition = resp.headers().get("content-disposition");
 
     assert!(
-        disposition.to_lowercase().contains("attachment"),
-        "/files2/ files should force download, got Content-Disposition: {}",
+        disposition.is_none(),
+        "/files2/ files should be viewable in browser (no Content-Disposition), got: {:?}",
         disposition
     );
 }
