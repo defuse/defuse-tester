@@ -4,7 +4,7 @@
 
 mod common;
 
-use common::post_form;
+use common::{post_form, post_multipart_file};
 use scraper::{Html, Selector};
 use std::collections::{HashMap, HashSet};
 
@@ -194,6 +194,52 @@ async fn normalize_surrounding_newlines() {
     }
 }
 
+/// Test vectors for "testtest" (used to verify normalize removes internal line endings)
+const TESTTEST_MD5: &str = "05a671c66aefea124cc08b76ea6d30bb";
+
+#[tokio::test]
+async fn normalize_removes_internal_line_endings() {
+    // "test\ntest" with normalize=yes should produce same hashes as "testtest"
+    // PHP removes ALL \r and \n characters, not just leading/trailing whitespace
+    let resp = post_form("/checksums.htm", &[("data", "test\ntest"), ("normalize", "yes")]).await;
+    assert!(
+        resp.status().is_success(),
+        "POST to checksums failed: {}",
+        resp.status()
+    );
+
+    let body = resp.text().await.expect("Failed to read response body");
+    let hashes = extract_hashes(&body);
+
+    let md5_hash = hashes.get("md5").expect("md5 hash not found");
+    assert_eq!(
+        md5_hash, TESTTEST_MD5,
+        "normalize should remove internal line endings: 'test\\ntest' with normalize=yes should hash as 'testtest'. Got md5='{}', expected '{}'",
+        md5_hash, TESTTEST_MD5
+    );
+}
+
+#[tokio::test]
+async fn normalize_removes_carriage_returns() {
+    // "test\r\ntest" with normalize=yes should produce same hashes as "testtest"
+    let resp = post_form("/checksums.htm", &[("data", "test\r\ntest"), ("normalize", "yes")]).await;
+    assert!(
+        resp.status().is_success(),
+        "POST to checksums failed: {}",
+        resp.status()
+    );
+
+    let body = resp.text().await.expect("Failed to read response body");
+    let hashes = extract_hashes(&body);
+
+    let md5_hash = hashes.get("md5").expect("md5 hash not found");
+    assert_eq!(
+        md5_hash, TESTTEST_MD5,
+        "normalize should remove \\r\\n: 'test\\r\\ntest' with normalize=yes should hash as 'testtest'. Got md5='{}', expected '{}'",
+        md5_hash, TESTTEST_MD5
+    );
+}
+
 #[tokio::test]
 async fn no_extra_hash_types() {
     let resp = post_form("/checksums.htm", &[("data", "test"), ("normalize", "no")]).await;
@@ -228,4 +274,197 @@ async fn no_extra_hash_types() {
             missing
         );
     }
+}
+
+// =============================================================================
+// File upload tests
+// =============================================================================
+
+/// Maximum file size allowed by PHP: 5 * 1024 * 1024 = 5,242,880 bytes
+const MAX_FILE_SIZE: usize = 5 * 1024 * 1024;
+
+/// MD5 hash of 5MB of null bytes (for verifying max size file upload works)
+const NULL_5MB_MD5: &str = "5f363e0e58a95f06cbe9bbc662c5dfb6";
+
+#[tokio::test]
+async fn file_upload_max_size() {
+    // Create a file exactly at the max size limit (5MB of null bytes)
+    let file_content = vec![0u8; MAX_FILE_SIZE];
+
+    let resp = post_multipart_file(
+        "/checksums.htm",
+        "filetohash",
+        "test_5mb.bin",
+        file_content,
+    )
+    .await;
+
+    assert!(
+        resp.status().is_success(),
+        "File upload at max size should succeed: {}",
+        resp.status()
+    );
+
+    let body = resp.text().await.expect("Failed to read response body");
+    let hashes = extract_hashes(&body);
+
+    let md5_hash = hashes.get("md5").expect("md5 hash not found in response");
+    assert_eq!(
+        md5_hash, NULL_5MB_MD5,
+        "MD5 of 5MB null file should be '{}', got '{}'",
+        NULL_5MB_MD5, md5_hash
+    );
+}
+
+#[tokio::test]
+async fn file_upload_over_limit() {
+    // Create a file 1 byte over the limit
+    let file_content = vec![0u8; MAX_FILE_SIZE + 1];
+
+    let resp = post_multipart_file(
+        "/checksums.htm",
+        "filetohash",
+        "test_over_5mb.bin",
+        file_content,
+    )
+    .await;
+
+    // The response should still be 200 OK but contain an error message
+    let body = resp.text().await.expect("Failed to read response body");
+
+    assert!(
+        body.contains("File is too big"),
+        "Expected error message 'File is too big'. Response body: {}...",
+        &body.chars().take(500).collect::<String>()
+    );
+}
+
+#[tokio::test]
+async fn file_upload_small_file() {
+    // Test with a small known file content
+    let file_content = b"test".to_vec();
+
+    let resp = post_multipart_file(
+        "/checksums.htm",
+        "filetohash",
+        "test.txt",
+        file_content,
+    )
+    .await;
+
+    assert!(
+        resp.status().is_success(),
+        "Small file upload should succeed: {}",
+        resp.status()
+    );
+
+    let body = resp.text().await.expect("Failed to read response body");
+    let hashes = extract_hashes(&body);
+
+    // Should produce the same hashes as text input "test"
+    let errors = verify_test_vectors(&hashes);
+
+    if !errors.is_empty() {
+        panic!(
+            "File upload hashes don't match 'test' vectors ({} errors):\n  {}",
+            errors.len(),
+            errors.join("\n  ")
+        );
+    }
+}
+
+/// Test that binary files with invalid UTF-8 produce correct LM/NTLM hashes.
+/// PHP treats strings as raw bytes, so bytes 0x80-0xFF are processed directly.
+/// Rust must NOT use String::from_utf8_lossy which replaces invalid UTF-8 with U+FFFD.
+#[tokio::test]
+async fn file_upload_binary_lm_ntlm() {
+    // Binary content with bytes that are invalid UTF-8 (0x80-0xFF are invalid lead bytes)
+    // These bytes are valid Latin-1 characters that PHP handles directly.
+    let file_content: Vec<u8> = vec![0x80, 0x81, 0x82, 0x83];
+
+    // Expected hashes from defuse.ca (PHP) for these 4 bytes:
+    // PHP handles these as raw bytes for LM (after uppercase, which doesn't affect non-ASCII)
+    // and as Latin-1 code points for NTLM (converted to UTF-16LE)
+    //
+    // For LM: bytes are uppercased (no effect on 0x80-0x83), padded to 14, split, DES encrypted
+    // For NTLM: each byte 0xXX becomes UTF-16LE 0xXX 0x00, then MD4 hashed
+    const EXPECTED_LM: &str = "e5bb7d8e7d081c54aad3b435b51404ee";
+    const EXPECTED_NTLM: &str = "31d6cfe0d16ae931b73c59d7e0c089c0";
+
+    let resp = post_multipart_file(
+        "/checksums.htm",
+        "filetohash",
+        "binary.bin",
+        file_content,
+    )
+    .await;
+
+    assert!(
+        resp.status().is_success(),
+        "Binary file upload should succeed: {}",
+        resp.status()
+    );
+
+    let body = resp.text().await.expect("Failed to read response body");
+    let hashes = extract_hashes(&body);
+
+    let lm_hash = hashes.get("LM").expect("LM hash not found");
+    let ntlm_hash = hashes.get("NTLM").expect("NTLM hash not found");
+
+    let mut errors = Vec::new();
+
+    if lm_hash != EXPECTED_LM {
+        errors.push(format!(
+            "LM: expected '{}', got '{}' (binary data with invalid UTF-8)",
+            EXPECTED_LM, lm_hash
+        ));
+    }
+
+    if ntlm_hash != EXPECTED_NTLM {
+        errors.push(format!(
+            "NTLM: expected '{}', got '{}' (binary data with invalid UTF-8)",
+            EXPECTED_NTLM, ntlm_hash
+        ));
+    }
+
+    if !errors.is_empty() {
+        panic!(
+            "Binary file LM/NTLM hash mismatch - likely using String::from_utf8_lossy:\n  {}",
+            errors.join("\n  ")
+        );
+    }
+}
+
+/// Test that empty file uploads produce hashes of empty string (not "no results").
+#[tokio::test]
+async fn file_upload_empty_file() {
+    let file_content: Vec<u8> = vec![];
+
+    // MD5 of empty string
+    const EXPECTED_MD5: &str = "d41d8cd98f00b204e9800998ecf8427e";
+
+    let resp = post_multipart_file(
+        "/checksums.htm",
+        "filetohash",
+        "empty.bin",
+        file_content,
+    )
+    .await;
+
+    assert!(
+        resp.status().is_success(),
+        "Empty file upload should succeed: {}",
+        resp.status()
+    );
+
+    let body = resp.text().await.expect("Failed to read response body");
+    let hashes = extract_hashes(&body);
+
+    let md5_hash = hashes.get("md5");
+    assert_eq!(
+        md5_hash,
+        Some(&EXPECTED_MD5.to_string()),
+        "Empty file should produce hash of empty string, got {:?}",
+        md5_hash
+    );
 }

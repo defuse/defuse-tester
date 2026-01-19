@@ -194,3 +194,29 @@ pub async fn post_form(path: &str, fields: &[(&str, &str)]) -> reqwest::Response
         .await
         .expect("Failed to send POST request")
 }
+
+/// Helper to POST multipart form data with a file.
+/// Returns the response.
+pub async fn post_multipart_file(
+    path: &str,
+    file_field_name: &str,
+    file_name: &str,
+    file_content: Vec<u8>,
+) -> reqwest::Response {
+    use reqwest::multipart::{Form, Part};
+
+    let client = client();
+    let part = Part::bytes(file_content)
+        .file_name(file_name.to_string())
+        .mime_str("application/octet-stream")
+        .expect("Invalid MIME type");
+
+    let form = Form::new().part(file_field_name.to_string(), part);
+
+    client
+        .post(url(path))
+        .multipart(form)
+        .send()
+        .await
+        .expect("Failed to send multipart POST request")
+}
