@@ -220,16 +220,22 @@ async fn run_loaded_test(
     let elapsed = start.elapsed().as_secs_f64();
     let total_throughput_requests = throughput_completed.load(Ordering::Relaxed);
     let total_checksums_requests = checksums_completed.load(Ordering::Relaxed);
-    let requests_per_sec = total_throughput_requests as f64 / elapsed;
+    let total_requests = total_throughput_requests + total_checksums_requests;
+    let requests_per_sec = total_requests as f64 / elapsed;
 
     println!(
-        "Throughput requests: {} in {:.2}s ({:.2} req/s)",
-        total_throughput_requests, elapsed, requests_per_sec
+        "Page requests:      {} ({:.2} req/s)",
+        total_throughput_requests,
+        total_throughput_requests as f64 / elapsed
     );
     println!(
-        "Checksums requests completed: {} ({:.2} req/s)",
+        "Checksums requests: {} ({:.2} req/s)",
         total_checksums_requests,
         total_checksums_requests as f64 / elapsed
+    );
+    println!(
+        "Total throughput:   {} requests in {:.2}s ({:.2} req/s)",
+        total_requests, elapsed, requests_per_sec
     );
 
     (requests_per_sec, total_checksums_requests)
@@ -261,11 +267,11 @@ async fn main() {
     // Summary
     println!("\n=== Summary ===");
     println!(
-        "Baseline throughput:     {:.2} requests/second",
+        "Baseline throughput:           {:.2} requests/second",
         baseline_throughput
     );
     println!(
-        "Loaded throughput:       {:.2} requests/second",
+        "Loaded throughput (w/ checksums): {:.2} requests/second",
         loaded_throughput
     );
 
@@ -273,10 +279,8 @@ async fn main() {
         let ratio = loaded_throughput / baseline_throughput;
         let degradation = (1.0 - ratio) * 100.0;
         println!(
-            "Throughput ratio:        {:.2}x ({:.1}% degradation)",
+            "Throughput ratio:              {:.2}x ({:.1}% degradation)",
             ratio, degradation
         );
     }
-
-    println!("Checksums completed:     {}", checksums_completed);
 }
