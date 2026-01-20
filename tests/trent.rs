@@ -1875,25 +1875,117 @@ async fn file_multiple_files_correct_labels() {
 // 9. Edge Cases
 // =============================================================================
 
-// BUG: Unicode characters in name/description cause the drawing to silently fail to save.
-// The server responds with "Drawing Complete!" but the drawing is not actually marked
-// as complete in the database. See docs/issues/trent-unicode-bug.md
+/// Unicode characters in name should show validation error (database is latin1)
+/// The form values should be preserved so user can fix the input
 #[tokio::test]
-#[ignore = "BUG: Unicode in name/description causes drawing to not save - see docs/issues/trent-unicode-bug.md"]
-async fn name_with_unicode() {
-    let unicode_name = "Über Tëst 日本語 🎉";
-    let (drawing_num, _) = complete_drawing(unicode_name, "Test", 1, 1, 10).await;
+async fn name_with_unicode_shows_error() {
+    let unicode_name = "Test 日本語 🎉"; // CJK and emoji are NOT latin1
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    let params = CreateParams {
+        drawing_num,
+        passcode: &passcode,
+        name: unicode_name,
+        description: "Normal description",
+        lowval: 1,
+        highval: 10,
+        numgen: 1,
+        ..Default::default()
+    };
+
+    // Step 1 should show error, not confirmation
+    let resp = create_step1(&params).await;
+    let body = resp.text().await.unwrap();
+
+    // Should NOT show confirmation page - should show error instead
+    assert!(
+        !body.contains("Please verify that the information below is correct"),
+        "Should not show confirmation page when name has unsupported unicode. Got confirmation page instead of error."
+    );
+
+    // Should show the main form (create random numbers section)
+    assert!(
+        body.contains("Create Random Numbers"),
+        "Should show the create random numbers form so user can fix the input"
+    );
+
+    // Should show the Latin-1 error message
+    assert!(
+        body.contains("can only contain Latin-1 characters"),
+        "Should show Latin-1 validation error message"
+    );
+
+    // Form values should be preserved for re-editing
+    assert!(
+        body.contains("Normal description"),
+        "Description should be preserved in form"
+    );
+
+    // The unicode name should be preserved in the form (HTML-escaped)
+    assert!(
+        body.contains("Test 日本語") || body.contains("Test "),
+        "Name should be preserved in form so user can edit it"
+    );
+}
+
+/// Unicode characters in description should show validation error
+#[tokio::test]
+async fn description_with_unicode_shows_error() {
+    let unicode_desc = "Description with emoji 🎉 and CJK 日本語";
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    let params = CreateParams {
+        drawing_num,
+        passcode: &passcode,
+        name: "Normal Name",
+        description: unicode_desc,
+        lowval: 1,
+        highval: 10,
+        numgen: 1,
+        ..Default::default()
+    };
+
+    let resp = create_step1(&params).await;
+    let body = resp.text().await.unwrap();
+
+    // Should NOT show confirmation page
+    assert!(
+        !body.contains("Please verify that the information below is correct"),
+        "Should not show confirmation page when description has unsupported unicode"
+    );
+
+    // Should show the Latin-1 error message
+    assert!(
+        body.contains("can only contain Latin-1 characters"),
+        "Should show Latin-1 validation error message"
+    );
+
+    // Name should be preserved
+    assert!(
+        body.contains("Normal Name"),
+        "Name should be preserved in form"
+    );
+
+    // Description should be preserved (so user can fix it)
+    assert!(
+        body.contains("Description with emoji"),
+        "Description should be preserved in form so user can edit it"
+    );
+}
+
+/// Latin-1 extended characters (like ü, é, ñ) SHOULD work since they're in the 0-255 range
+#[tokio::test]
+async fn name_with_latin1_extended_works() {
+    // These are all valid Latin-1 characters (code points <= 255)
+    let latin1_name = "Über café señor";
+    let (drawing_num, _) = complete_drawing(latin1_name, "Test", 1, 1, 10).await;
     let resp = view_drawing(drawing_num).await;
     let body = resp.text().await.unwrap();
-    // Should show results, not "not yet been chosen"
+
+    // Drawing should complete successfully
     assert!(
         !body.contains("not yet been chosen"),
-        "Drawing should be complete"
-    );
-    // Unicode might be HTML encoded, but should be present
-    assert!(
-        body.contains("Über") || body.contains("&Uuml;ber") || body.contains("&#220;ber"),
-        "Unicode name should be preserved"
+        "Drawing with Latin-1 extended chars should complete"
     );
 }
 
