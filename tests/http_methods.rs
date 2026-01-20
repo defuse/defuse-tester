@@ -70,29 +70,26 @@ async fn head_request_on_nonexistent_returns_404() {
 // POST to GET-only Pages
 // =============================================================================
 
-/// POST to a GET-only page should return 200 (matches defuse.ca behavior)
-/// Note: This is arguably lenient behavior, but it's what the site does.
-/// Rust returns 405 (stricter) - need to decide which behavior to keep.
+/// POST to a GET-only page should return 405 Method Not Allowed.
+/// This is stricter than PHP (which returns 200) but more correct HTTP behavior.
 #[tokio::test]
-#[ignore = "Rust returns 405, PHP returns 200 - behavior difference to resolve"]
-async fn post_to_get_only_page_returns_200() {
+async fn post_to_get_only_page_returns_405() {
     let resp = client().post(url("/about.htm")).send().await.unwrap();
     assert_eq!(
         resp.status().as_u16(),
-        200,
-        "POST to /about.htm should return 200 (matches PHP behavior)"
+        405,
+        "POST to /about.htm should return 405 Method Not Allowed"
     );
 }
 
-/// POST to home page should return 200
-/// Rust returns 405 (stricter) - need to decide which behavior to keep.
+/// POST to home page should return 405 Method Not Allowed.
+/// This is stricter than PHP (which returns 200) but more correct HTTP behavior.
 #[tokio::test]
-#[ignore = "Rust returns 405, PHP returns 200 - behavior difference to resolve"]
-async fn post_to_home_returns_200() {
+async fn post_to_home_returns_405() {
     let resp = client().post(url("/")).send().await.unwrap();
     assert_eq!(
         resp.status().as_u16(),
-        200,
-        "POST to / should return 200 (matches PHP behavior)"
+        405,
+        "POST to / should return 405 Method Not Allowed"
     );
 }

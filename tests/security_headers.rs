@@ -139,12 +139,11 @@ async fn hsts_on_dynamic_pages() {
 }
 
 // =============================================================================
-// X-Content-Type-Options (defuse.ca does NOT have this)
+// X-Content-Type-Options
 // =============================================================================
 
 /// X-Content-Type-Options: nosniff prevents MIME-sniffing attacks
 #[tokio::test]
-#[ignore = "defuse.ca doesn't have X-Content-Type-Options"]
 async fn x_content_type_options_on_all_paths() {
     for path in TEST_PATHS {
         let resp = client().get(url(path)).send().await.unwrap();
@@ -166,40 +165,16 @@ async fn x_content_type_options_on_all_paths() {
     }
 }
 
+// Note: X-XSS-Protection is intentionally NOT set - it's deprecated and can
+// cause security issues. Modern browsers have removed support for it.
+
 // =============================================================================
-// X-XSS-Protection (defuse.ca does NOT have this)
+// Referrer-Policy
 // =============================================================================
 
-/// X-XSS-Protection is a legacy header but still good to have
+/// Referrer-Policy controls how much referrer info is sent.
+/// We use strict-origin-when-cross-origin to protect sensitive URLs (like paste keys).
 #[tokio::test]
-#[ignore = "defuse.ca doesn't have X-XSS-Protection"]
-async fn x_xss_protection_on_all_paths() {
-    for path in TEST_PATHS {
-        let resp = client().get(url(path)).send().await.unwrap();
-
-        let header = resp
-            .headers()
-            .get("x-xss-protection")
-            .unwrap_or_else(|| panic!("X-XSS-Protection missing on {}", path))
-            .to_str()
-            .unwrap();
-
-        assert!(
-            header.contains("1") && header.to_lowercase().contains("mode=block"),
-            "X-XSS-Protection should be '1; mode=block' on {}, got: {}",
-            path,
-            header
-        );
-    }
-}
-
-// =============================================================================
-// Referrer-Policy (defuse.ca does NOT have this)
-// =============================================================================
-
-/// Referrer-Policy controls how much referrer info is sent
-#[tokio::test]
-#[ignore = "defuse.ca doesn't have Referrer-Policy"]
 async fn referrer_policy_on_all_paths() {
     for path in TEST_PATHS {
         let resp = client().get(url(path)).send().await.unwrap();
@@ -207,13 +182,15 @@ async fn referrer_policy_on_all_paths() {
         let header = resp
             .headers()
             .get("referrer-policy")
-            .unwrap_or_else(|| panic!("Referrer-Policy missing on {}", path));
+            .unwrap_or_else(|| panic!("Referrer-Policy missing on {}", path))
+            .to_str()
+            .unwrap();
 
-        // Just check it exists - various values are acceptable
-        assert!(
-            !header.is_empty(),
-            "Referrer-Policy should not be empty on {}",
-            path
+        assert_eq!(
+            header, "strict-origin-when-cross-origin",
+            "Referrer-Policy should be strict-origin-when-cross-origin on {}, got: {}",
+            path,
+            header
         );
     }
 }
