@@ -2445,3 +2445,106 @@ async fn real_two_step_flow_works() {
         &body[..body.len().min(1000)]
     );
 }
+
+// =============================================================================
+// 13. Form Repopulation on Errors
+// =============================================================================
+
+/// Test that form values are preserved when there's an invalid range error
+#[tokio::test]
+async fn error_invalid_range_repopulates_form() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    let resp = create_step1(&CreateParams {
+        drawing_num,
+        passcode: &passcode,
+        name: "My Test Name",
+        description: "My test description here",
+        numgen: 5,
+        lowval: 100,  // Invalid: low > high
+        highval: 10,
+        ..Default::default()
+    })
+    .await;
+    let body = resp.text().await.unwrap();
+
+    // Should show error
+    assert!(
+        body.contains("range is invalid"),
+        "Should show invalid range error"
+    );
+
+    // Form should be repopulated with the values
+    assert!(
+        body.contains("My Test Name") || body.contains(r#"value="My Test Name""#),
+        "Name should be preserved in form on error. Body: {}",
+        &body[..body.len().min(2000)]
+    );
+
+    assert!(
+        body.contains("My test description here"),
+        "Description should be preserved in form on error"
+    );
+}
+
+/// Test that form values are preserved when there's a wrong password error
+#[tokio::test]
+async fn error_wrong_password_repopulates_form() {
+    let (drawing_num, _) = reserve_drawing(0).await;
+
+    let resp = create_step1(&CreateParams {
+        drawing_num,
+        passcode: "wrongpasswordwrongpasswordwrong1",
+        name: "Password Test Name",
+        description: "Testing wrong password",
+        numgen: 3,
+        lowval: 1,
+        highval: 10,
+        ..Default::default()
+    })
+    .await;
+    let body = resp.text().await.unwrap();
+
+    // Should show error
+    assert!(
+        body.contains("Incorrect password"),
+        "Should show incorrect password error"
+    );
+
+    // Form should be repopulated (except passcode for security)
+    assert!(
+        body.contains("Password Test Name") || body.contains(r#"value="Password Test Name""#),
+        "Name should be preserved in form on error. Body: {}",
+        &body[..body.len().min(2000)]
+    );
+}
+
+/// Test that form values are preserved when drawing doesn't exist
+#[tokio::test]
+async fn error_drawing_not_found_repopulates_form() {
+    let resp = create_step1(&CreateParams {
+        drawing_num: 999999999,  // Non-existent drawing
+        passcode: "anypasscode",
+        name: "NotFound Test Name",
+        description: "Testing drawing not found",
+        numgen: 1,
+        lowval: 1,
+        highval: 10,
+        ..Default::default()
+    })
+    .await;
+    let body = resp.text().await.unwrap();
+
+    // Should show error
+    assert!(
+        body.contains("does not exist"),
+        "Should show drawing does not exist error"
+    );
+
+    // Form should be repopulated
+    assert!(
+        body.contains("NotFound Test Name") || body.contains(r#"value="NotFound Test Name""#),
+        "Name should be preserved in form on error. Body: {}",
+        &body[..body.len().min(2000)]
+    );
+}
