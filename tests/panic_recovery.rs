@@ -14,7 +14,6 @@ use common::{assert_success, client, url};
 /// Server should survive a panic and continue serving requests
 /// The /panic-test.htm endpoint intentionally panics the handler
 #[tokio::test]
-#[ignore = "Rust-specific: defuse.ca PHP doesn't have /panic-test.htm endpoint"]
 async fn server_survives_panic() {
     // First request: hit the panic endpoint
     // This should return 500 (or possibly connection error if panic is severe)

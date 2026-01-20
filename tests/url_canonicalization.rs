@@ -20,7 +20,6 @@ async fn no_extension_redirects_to_htm() {
 
 /// .html redirects to .htm
 #[tokio::test]
-#[ignore = "REAL BUG IN defuse.ca PHP implementation: returns 404 instead of redirect"]
 async fn html_redirects_to_htm() {
     let resp = client().get(url("/about.html")).send().await.unwrap();
     assert_redirect(&resp, "/about.htm", "/about.html → /about.htm");
@@ -28,7 +27,6 @@ async fn html_redirects_to_htm() {
 
 /// Uppercase .HTM redirects to lowercase
 #[tokio::test]
-#[ignore = "REAL BUG IN defuse.ca PHP implementation: appends .htm instead of normalizing"]
 async fn uppercase_htm_redirects() {
     let resp = client().get(url("/about.HTM")).send().await.unwrap();
     assert_redirect(&resp, "/about.htm", "/about.HTM → /about.htm");
@@ -36,7 +34,6 @@ async fn uppercase_htm_redirects() {
 
 /// Mixed case .HtM redirects to lowercase
 #[tokio::test]
-#[ignore = "REAL BUG IN defuse.ca PHP implementation: appends .htm instead of normalizing"]
 async fn mixed_case_htm_redirects() {
     let resp = client().get(url("/about.HtM")).send().await.unwrap();
     assert_redirect(&resp, "/about.htm", "/about.HtM → /about.htm");
@@ -44,7 +41,6 @@ async fn mixed_case_htm_redirects() {
 
 /// Uppercase .HTML redirects to .htm
 #[tokio::test]
-#[ignore = "REAL BUG IN defuse.ca PHP implementation: returns 404 instead of redirect"]
 async fn uppercase_html_redirects() {
     let resp = client().get(url("/about.HTML")).send().await.unwrap();
     assert_redirect(&resp, "/about.htm", "/about.HTML → /about.htm");
@@ -52,7 +48,6 @@ async fn uppercase_html_redirects() {
 
 /// Uppercase page name redirects to lowercase
 #[tokio::test]
-#[ignore = "REAL BUG IN defuse.ca PHP implementation: serves page without redirect"]
 async fn uppercase_page_redirects() {
     let resp = client().get(url("/About.htm")).send().await.unwrap();
     assert_redirect(&resp, "/about.htm", "/About.htm → /about.htm");

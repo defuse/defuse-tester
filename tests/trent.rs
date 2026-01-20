@@ -1787,7 +1787,6 @@ async fn file_multiple_files() {
 // All lines show "FILE1 RANDOM LINE" and "RANDOM LINE NUMBER (FILE1)" regardless of
 // which file they actually came from. See docs/issues/trent-multifile-label-bug.md
 #[tokio::test]
-#[ignore = "BUG: FILE2/FILE3 random lines mislabeled as FILE1 - see docs/issues/trent-multifile-label-bug.md"]
 async fn file_multiple_files_correct_labels() {
     let (drawing_num, passcode) = reserve_drawing(0).await;
 

@@ -68,6 +68,18 @@ async fn create_paste_response(
         .expect("Failed to send create paste request")
 }
 
+/// Create a paste with a string lifetime value (for testing invalid inputs)
+async fn create_paste_with_str_lifetime(content: &str, lifetime: &str) -> reqwest::Response {
+    let form: Vec<(&str, &str)> = vec![("paste", content), ("lifetime", lifetime)];
+
+    client()
+        .post(url("/bin/add.php"))
+        .form(&form)
+        .send()
+        .await
+        .expect("Failed to send create paste request")
+}
+
 /// Extract key from response Location header
 fn extract_key_from_response(resp: &reqwest::Response) -> Option<String> {
     resp.headers()
@@ -246,6 +258,50 @@ async fn b_index_redirects() {
         resp.status().as_u16(),
         301,
         "/b/ should redirect, got {}",
+        resp.status()
+    );
+    let location = resp
+        .headers()
+        .get("location")
+        .expect("Should have Location header")
+        .to_str()
+        .unwrap();
+    assert!(
+        location.contains("pastebin.htm"),
+        "Should redirect to pastebin.htm, got {}",
+        location
+    );
+}
+
+#[tokio::test]
+async fn b_no_slash_redirects() {
+    let resp = client().get(url("/b")).send().await.unwrap();
+    assert_eq!(
+        resp.status().as_u16(),
+        301,
+        "/b (no trailing slash) should redirect, got {}",
+        resp.status()
+    );
+    let location = resp
+        .headers()
+        .get("location")
+        .expect("Should have Location header")
+        .to_str()
+        .unwrap();
+    assert!(
+        location.contains("pastebin.htm"),
+        "Should redirect to pastebin.htm, got {}",
+        location
+    );
+}
+
+#[tokio::test]
+async fn bin_no_slash_redirects() {
+    let resp = client().get(url("/bin")).send().await.unwrap();
+    assert_eq!(
+        resp.status().as_u16(),
+        301,
+        "/bin (no trailing slash) should redirect, got {}",
         resp.status()
     );
     let location = resp
@@ -761,41 +817,141 @@ async fn paste_expires_and_deleted() {
 }
 
 // ============================================================================
-// 9a. Lifetime Validation Bug (Documents current behavior)
+// 9a. Lifetime Validation
 // ============================================================================
 
 #[tokio::test]
-#[ignore = "Documents bug: no max lifetime validation - see docs/issues/pastebin-no-max-lifetime.md"]
-async fn lifetime_exceeds_max_accepted() {
-    // 10 years in seconds - should ideally be rejected
-    let content = test_content("max lifetime bug test");
-    let resp = create_paste_response(&content, false, Some(315360000), false).await;
+async fn lifetime_custom_value_accepted() {
+    // Any value between 1 and 15552000 should be accepted
+    let content = test_content("custom lifetime test");
+    let resp = create_paste_response(&content, false, Some(12345), false).await;
 
-    // BUG: This is accepted with no validation
     assert_eq!(
         resp.status().as_u16(),
         302,
-        "Currently accepts arbitrary lifetime values (bug)"
+        "Custom lifetime within range should be accepted"
     );
 }
 
 #[tokio::test]
-#[ignore = "Documents edge case: negative lifetime"]
-async fn lifetime_negative_expires_immediately() {
-    let content = test_content("negative lifetime test");
-    let key = create_paste_opts(&content, false, Some(u32::MAX), false)
-        .await
-        .expect("Should create paste");
+async fn lifetime_at_max_accepted() {
+    // Exactly 6 months (15552000 seconds) should be accepted
+    let content = test_content("max lifetime test");
+    let resp = create_paste_response(&content, false, Some(15552000), false).await;
 
-    // Trigger cleanup
-    let _ = create_paste(&test_content("trigger")).await;
+    assert_eq!(
+        resp.status().as_u16(),
+        302,
+        "Lifetime at max (6 months) should be accepted"
+    );
+}
 
-    let resp = get_paste(&key).await;
+#[tokio::test]
+async fn lifetime_exceeds_max_rejected() {
+    // Max is 15552000 (6 months), so max + 1 should be rejected
+    let content = test_content("exceeds max lifetime test");
+    let resp = create_paste_response(&content, false, Some(15552001), false).await;
+
+    assert_eq!(
+        resp.status().as_u16(),
+        400,
+        "Lifetime exceeding max (15552001) should be rejected with 400"
+    );
+
     let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("Invalid lifetime") || body.contains("exceeds"),
+        "Should show error message about invalid lifetime"
+    );
+}
 
-    // With very large unsigned values that overflow to negative when cast,
-    // the paste may expire immediately
-    println!("Response: {}", &body[..body.len().min(200)]);
+#[tokio::test]
+async fn lifetime_zero_rejected() {
+    // Zero lifetime should be rejected
+    let content = test_content("zero lifetime test");
+    let resp = create_paste_response(&content, false, Some(0), false).await;
+
+    assert_eq!(
+        resp.status().as_u16(),
+        400,
+        "Zero lifetime should be rejected with 400"
+    );
+
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("Invalid lifetime") || body.contains("positive"),
+        "Should show error message about invalid lifetime"
+    );
+}
+
+#[tokio::test]
+async fn lifetime_very_large_rejected() {
+    // u32::MAX exceeds the 6-month maximum
+    let content = test_content("very large lifetime test");
+    let resp = create_paste_response(&content, false, Some(u32::MAX), false).await;
+
+    assert_eq!(
+        resp.status().as_u16(),
+        400,
+        "Very large lifetime (u32::MAX) should be rejected with 400"
+    );
+
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("Invalid lifetime") || body.contains("exceeds"),
+        "Should show error message about invalid lifetime"
+    );
+}
+
+#[tokio::test]
+async fn lifetime_minimum_accepted() {
+    // 1 second is the minimum valid lifetime
+    let content = test_content("minimum lifetime test");
+    let resp = create_paste_response(&content, false, Some(1), false).await;
+
+    assert_eq!(
+        resp.status().as_u16(),
+        302,
+        "Minimum lifetime (1 second) should be accepted"
+    );
+}
+
+#[tokio::test]
+async fn lifetime_non_numeric_rejected() {
+    // Non-numeric lifetime should be rejected
+    let content = test_content("non-numeric lifetime test");
+    let resp = create_paste_with_str_lifetime(&content, "abc").await;
+
+    assert_eq!(
+        resp.status().as_u16(),
+        400,
+        "Non-numeric lifetime should be rejected with 400"
+    );
+
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("Invalid lifetime") || body.contains("not a valid number"),
+        "Should show error message about invalid lifetime"
+    );
+}
+
+#[tokio::test]
+async fn lifetime_negative_rejected() {
+    // Negative lifetime should be rejected
+    let content = test_content("negative lifetime test");
+    let resp = create_paste_with_str_lifetime(&content, "-100").await;
+
+    assert_eq!(
+        resp.status().as_u16(),
+        400,
+        "Negative lifetime should be rejected with 400"
+    );
+
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("Invalid lifetime") || body.contains("positive"),
+        "Should show error message about invalid lifetime"
+    );
 }
 
 // ============================================================================

@@ -97,7 +97,6 @@ async fn shout_s_param_displays_decoded_text() {
 /// BUG: PHP returns text/html content-type even though the response contains no HTML,
 /// just a plain IP address string.
 #[tokio::test]
-#[ignore = "PHP bug: /ip.php returns text/html instead of text/plain for plain IP address response"]
 async fn ip_returns_plain_text() {
     let resp = client().get(url("/ip.php")).send().await.unwrap();
     assert!(resp.status().is_success(), "/ip.php should return 200");

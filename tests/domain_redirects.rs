@@ -13,7 +13,6 @@ use common::{client, is_production_url};
 
 /// www.defuse.ca should redirect to defuse.ca (301)
 #[tokio::test]
-#[ignore = "Apache rewrite bug produces double slash: https://defuse.ca//"]
 async fn www_redirects_to_non_www() {
     if !is_production_url() {
         eprintln!("Skipping www redirect test on local URL");
@@ -49,7 +48,6 @@ async fn www_redirects_to_non_www() {
 
 /// www.defuse.ca/path should redirect to defuse.ca/path (preserving path)
 #[tokio::test]
-#[ignore = "Apache rewrite bug produces double slash: https://defuse.ca//about.htm"]
 async fn www_redirect_preserves_path() {
     if !is_production_url() {
         eprintln!("Skipping www redirect test on local URL");
@@ -90,7 +88,6 @@ async fn www_redirect_preserves_path() {
 /// http://www.defuse.ca/about should redirect to https://defuse.ca/about.htm in one redirect
 /// This tests HTTP→HTTPS + www strip + extension normalization all at once
 #[tokio::test]
-#[ignore = "defuse.ca uses multiple redirects, not single; also www strip has double-slash bug"]
 async fn full_redirect_chain_no_extension() {
     if !is_production_url() {
         eprintln!("Skipping full redirect chain test on local URL");
@@ -127,7 +124,6 @@ async fn full_redirect_chain_no_extension() {
 /// http://www.defuse.ca/aBouT.htm should redirect to https://defuse.ca/about.htm in one redirect
 /// This tests HTTP→HTTPS + www strip + case normalization all at once
 #[tokio::test]
-#[ignore = "defuse.ca lacks single-redirect canonicalization; uses multiple redirects"]
 async fn full_redirect_chain_case_insensitive() {
     if !is_production_url() {
         eprintln!("Skipping full redirect chain test on local URL");

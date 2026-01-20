@@ -31,7 +31,6 @@ const TEST_PATHS: &[&str] = &[
 /// X-Frame-Options should be SAMEORIGIN on all paths
 /// Note: defuse.ca only sets this on dynamic pages, not static files
 #[tokio::test]
-#[ignore = "defuse.ca doesn't set X-Frame-Options on static files"]
 async fn x_frame_options_on_all_paths() {
     for path in TEST_PATHS {
         let resp = client().get(url(path)).send().await.unwrap();
@@ -83,7 +82,6 @@ async fn x_frame_options_on_dynamic_pages() {
 /// HSTS should be present on all paths over HTTPS
 /// Note: defuse.ca only sets this on dynamic pages, not static files
 #[tokio::test]
-#[ignore = "defuse.ca doesn't set HSTS on static files"]
 async fn hsts_on_all_paths() {
     if !is_production_url() {
         eprintln!("Skipping HSTS test on local URL");

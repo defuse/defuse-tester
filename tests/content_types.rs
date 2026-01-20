@@ -80,7 +80,6 @@ async fn downloads_dir_allows_inline_rendering() {
 /// Files in /files2/ should NOT have Content-Disposition: attachment
 /// (allows browser to render inline, unlike /files/, /mirrors/, /upload/)
 #[tokio::test]
-#[ignore = "defuse.ca Apache config incorrectly forces download on files2/"]
 async fn files2_dir_viewable_in_browser() {
     let resp = client().get(url("/files2/poc/pocorgtfo00.pdf")).send().await.unwrap();
 
