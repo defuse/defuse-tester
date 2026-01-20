@@ -19,6 +19,12 @@ struct Args {
     /// Skip elision of dynamic content (hit counts, IPs, etc.)
     #[arg(long)]
     no_elision: bool,
+
+    /// Normalize vim syntax highlighting tags within vimhighlight sections.
+    /// Strips whitelisted span tags (Identifier, Constant, etc.) but preserves text content.
+    /// Use this to compare source code content across different vim versions.
+    #[arg(long)]
+    normalize_vim_tags: bool,
 }
 
 #[derive(Debug, Deserialize)]
@@ -86,11 +92,16 @@ async fn main() -> Result<()> {
                     match response.text().await {
                         Ok(body) => {
                             // Normalize to elide meaningless differences (unless --no-elision)
-                            let normalized = if args.no_elision {
+                            let mut normalized = if args.no_elision {
                                 body.clone()
                             } else {
                                 normalize_html(&body)
                             };
+
+                            // Optionally normalize vim syntax tags
+                            if args.normalize_vim_tags {
+                                normalized = normalize_vim_syntax_tags(&normalized);
+                            }
 
                             // Create parent directories if needed (for slugs like "audits/ecryptfs")
                             if let Some(parent) = output_path.parent() {
@@ -181,4 +192,154 @@ fn normalize_html(html: &str) -> String {
     // Production PHP uses full URLs like "https://defuse.ca:443/page.htm"
     // Rust uses relative URLs like "/page.htm"
     result.replace("https://defuse.ca:443", "")
+}
+
+/// Normalize vim syntax highlighting tags within vimhighlight sections.
+///
+/// This strips span tags with whitelisted vim syntax classes while preserving
+/// the text content. This allows comparing source code content across different
+/// vim versions which may highlight functions/keywords differently.
+///
+/// Whitelisted classes: Identifier, Constant, Special, Statement, LineNr, Comment, PreProc
+fn normalize_vim_syntax_tags(html: &str) -> String {
+    // Whitelisted vim syntax highlighting classes
+    const VIM_CLASSES: &[&str] = &[
+        "Identifier",
+        "Constant",
+        "Special",
+        "Statement",
+        "LineNr",
+        "Comment",
+        "PreProc",
+        "Type",
+        "String",
+        "Number",
+        "Function",
+        "Keyword",
+        "Operator",
+        "Error",
+        "Todo",
+        "Underlined",
+    ];
+
+    // Find and process each vimhighlight section
+    let vimhl_start = "<div class=\"vimhighlight\">";
+    let vimhl_end = "</div>";
+
+    let mut result = String::with_capacity(html.len());
+    let mut remaining = html;
+
+    while let Some(start_idx) = remaining.find(vimhl_start) {
+        // Copy everything before this vimhighlight section
+        result.push_str(&remaining[..start_idx]);
+
+        // Find the end of this section
+        let after_start = &remaining[start_idx + vimhl_start.len()..];
+        if let Some(end_idx) = after_start.find(vimhl_end) {
+            // Copy the opening tag
+            result.push_str(vimhl_start);
+
+            // Get the content and normalize it
+            let content = &after_start[..end_idx];
+            let normalized_content = strip_vim_spans(content, VIM_CLASSES);
+            result.push_str(&normalized_content);
+
+            // Copy the closing tag
+            result.push_str(vimhl_end);
+
+            // Move past this section
+            remaining = &after_start[end_idx + vimhl_end.len()..];
+        } else {
+            // No closing tag found, copy the rest as-is
+            result.push_str(&remaining[start_idx..]);
+            remaining = "";
+        }
+    }
+
+    // Copy any remaining content
+    result.push_str(remaining);
+
+    result
+}
+
+/// Strip span tags with whitelisted classes from content, preserving text.
+fn strip_vim_spans(content: &str, classes: &[&str]) -> String {
+    let mut result = String::with_capacity(content.len());
+    let mut remaining = content;
+
+    while !remaining.is_empty() {
+        // Look for opening span tag
+        if let Some(span_start) = remaining.find("<span") {
+            // Copy everything before the span
+            result.push_str(&remaining[..span_start]);
+
+            // Find the end of the opening tag
+            let after_span = &remaining[span_start..];
+            if let Some(tag_end) = after_span.find('>') {
+                let tag = &after_span[..=tag_end];
+
+                // Check if this span has a whitelisted class
+                let is_vim_span = classes.iter().any(|class| {
+                    tag.contains(&format!("class=\"{}", class))
+                        || tag.contains(&format!("class='{}", class))
+                });
+
+                if is_vim_span {
+                    // Skip the opening tag (don't add it to result)
+                    remaining = &after_span[tag_end + 1..];
+
+                    // Find and skip the matching closing </span>
+                    // Note: we need to handle nested spans correctly
+                    if let Some((inner_content, after_close)) = find_span_content(remaining) {
+                        // Recursively process the inner content (may have nested spans)
+                        let processed_inner = strip_vim_spans(inner_content, classes);
+                        result.push_str(&processed_inner);
+                        remaining = after_close;
+                    } else {
+                        // No closing tag, just continue
+                    }
+                } else {
+                    // Not a vim span, keep it as-is
+                    result.push_str(tag);
+                    remaining = &after_span[tag_end + 1..];
+                }
+            } else {
+                // Malformed tag, copy the < and continue
+                result.push('<');
+                remaining = &remaining[span_start + 1..];
+            }
+        } else {
+            // No more spans, copy the rest
+            result.push_str(remaining);
+            break;
+        }
+    }
+
+    result
+}
+
+/// Find the content inside a span and return (inner_content, remaining_after_close_tag).
+fn find_span_content(s: &str) -> Option<(&str, &str)> {
+    let mut depth = 1;
+    let mut idx = 0;
+
+    while idx < s.len() && depth > 0 {
+        if idx + 6 <= s.len() && &s[idx..idx + 6] == "<span " {
+            depth += 1;
+            idx += 6;
+        } else if idx + 6 <= s.len() && &s[idx..idx + 6] == "<span>" {
+            depth += 1;
+            idx += 6;
+        } else if idx + 7 <= s.len() && &s[idx..idx + 7] == "</span>" {
+            depth -= 1;
+            if depth == 0 {
+                return Some((&s[..idx], &s[idx + 7..]));
+            }
+            idx += 7;
+        } else {
+            idx += 1;
+        }
+    }
+
+    None
 }
