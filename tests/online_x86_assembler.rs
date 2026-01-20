@@ -753,12 +753,11 @@ async fn assemble_double_directive() {
 }
 
 #[tokio::test]
-#[ignore = "PHP sanitizer bug: removes .double then rejects remaining . in 1.0"]
 async fn assemble_double_directive_with_decimal() {
     // .double should accept floating point literals like 1.0
-    // BUG: The PHP sanitizer does str_replace(".double", "", $code) which
-    // turns ".double 1.0" into " 1.0", then rejects it because "1.0" contains
-    // a period. This is a sanitizer bug - decimal literals should be allowed.
+    // Note: PHP has a bug here - it removes ".double" then rejects the remaining
+    // " 1.0" because it contains a period. The Rust implementation fixes this by
+    // also removing decimal float patterns (\d+\.\d+) before checking for periods.
     let body = assemble(".double 1.0", "x86").await;
     let hex = extract_hex_output(&body).expect(".double 1.0 should produce hex output");
     // 1.0 in IEEE 754 double = 0x3FF0000000000000

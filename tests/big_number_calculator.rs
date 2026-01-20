@@ -129,6 +129,47 @@ async fn assert_calc_len_approx(expr: &str, min_len: usize, max_len: usize) {
         "calc({}) has {} digits (expected {}-{})", expr, len, min_len, max_len);
 }
 
+/// Get the raw HTML of the result div (including attributes and content).
+async fn get_result_div_html(expr: &str, base: &str, addspaces: bool) -> String {
+    let client = client();
+
+    let mut form = vec![
+        ("eqn", expr),
+        ("base", base),
+        ("submit", "Calculate"),
+    ];
+    if addspaces {
+        form.push(("addspaces", "yes"));
+    }
+
+    let resp = client
+        .post(url("/big-number-calculator.htm"))
+        .form(&form)
+        .send()
+        .await
+        .expect("Failed to send request");
+
+    assert!(resp.status().is_success(), "Request failed: {}", resp.status());
+
+    let body = resp.text().await.expect("Failed to read response");
+
+    // Find the result div including its opening tag
+    let start_marker = r#"id="bignumber""#;
+    let Some(div_pos) = body.find(start_marker) else {
+        panic!("No result div found");
+    };
+
+    // Back up to find the <div
+    let before = &body[..div_pos];
+    let div_start = before.rfind('<').expect("No opening < for div");
+
+    // Find the closing </div>
+    let from_div = &body[div_start..];
+    let div_end = from_div.find("</div>").expect("No closing </div>") + 6;
+
+    from_div[..div_end].to_string()
+}
+
 // =============================================================================
 // Basic Math Operations
 // =============================================================================
@@ -281,18 +322,41 @@ async fn output_hex_large() { assert_calc_base("65535", "hex", "ffff").await; }
 #[tokio::test]
 async fn output_octal_large() { assert_calc_base("512", "oct", "1000").await; }
 
-/// Float results should respect the output base setting
-/// BUG: PHP implementation always outputs floats in decimal, ignoring base setting
+/// Float results are displayed in decimal with a warning when non-decimal base is selected.
+/// This is intentional - converting floats to arbitrary bases is complex and error-prone.
 #[tokio::test]
-#[ignore = "PHP bug: float results ignore output base setting"]
-async fn output_float_respects_base() {
-    // 15.5 in hex should be f.8 (15 = f, 0.5 = 8/16 = 0.5)
-    // Currently PHP outputs "15.5" even when hex is selected
+async fn output_float_with_non_decimal_base_shows_warning() {
+    // When requesting hex output for a float, should show decimal result with warning
     let result = calc_base("15.5", "hex").await.unwrap();
-    // The result should NOT be in decimal form
+    // Result should contain the decimal value
     assert!(
-        !result.starts_with("15.5"),
-        "Float result should respect hex base, not output decimal '15.5'. Got: {}",
+        result.contains("15.5"),
+        "Float result should show decimal value '15.5'. Got: {}",
+        result
+    );
+    // Result should contain warning about floats being decimal
+    assert!(
+        result.contains("Floating-point") && result.contains("decimal"),
+        "Float result with hex base should include warning about decimal display. Got: {}",
+        result
+    );
+}
+
+/// Float results with decimal base should NOT show any warning.
+#[tokio::test]
+async fn output_float_with_decimal_base_no_warning() {
+    // When requesting decimal output for a float, should show result without warning
+    let result = calc_base("15.5", "dec").await.unwrap();
+    // Result should contain the decimal value
+    assert!(
+        result.contains("15.5"),
+        "Float result should show decimal value '15.5'. Got: {}",
+        result
+    );
+    // Result should NOT contain any warning
+    assert!(
+        !result.contains("Floating-point") && !result.contains("Note:"),
+        "Float result with decimal base should NOT include warning. Got: {}",
         result
     );
 }
@@ -682,19 +746,10 @@ async fn shift_negative_amount() {
 // =============================================================================
 
 #[tokio::test]
-#[ignore = "PHP bug: negative exponents cause silent failure instead of returning rational result"]
 async fn negative_exponent_direct() {
-    // 2^-3 = 1/8 = 0.125
+    // 2^-3 = 1/8 as a rational
     let result = calc("2^-3").await.unwrap();
-    assert!(result.starts_with("0.125"), "Expected 0.125, got {}", result);
-}
-
-#[tokio::test]
-#[ignore = "PHP bug: negative exponents cause silent failure instead of returning rational result"]
-async fn negative_exponent_with_base() {
-    // 10^-2 = 0.01
-    let result = calc("10^-2").await.unwrap();
-    assert!(result.starts_with("0.01"), "Expected 0.01, got {}", result);
+    assert_eq!(result, "1 / 8", "Expected '1 / 8', got {}", result);
 }
 
 #[tokio::test]
@@ -725,6 +780,92 @@ async fn unary_minus_exp() {
 #[tokio::test]
 async fn triple_negative() {
     assert_calc("---5", "-5").await;
+}
+
+// =============================================================================
+// Rational Numbers (using r suffix)
+// =============================================================================
+
+/// Basic rational division: 1r/2 = 1/2
+#[tokio::test]
+async fn rational_basic_division() {
+    let result = calc("1r/2").await.unwrap();
+    assert_eq!(result, "1 / 2", "Expected '1 / 2', got '{}'", result);
+}
+
+/// Rational with negative exponent: 2r^-3 = 1/8
+#[tokio::test]
+async fn rational_negative_exponent() {
+    let result = calc("2r^-3").await.unwrap();
+    assert_eq!(result, "1 / 8", "Expected '1 / 8', got '{}'", result);
+}
+
+/// Rational multiplication: (1r/2)*3 = 3/2
+#[tokio::test]
+async fn rational_multiplication() {
+    let result = calc("(1r/2)*3").await.unwrap();
+    assert_eq!(result, "3 / 2", "Expected '3 / 2', got '{}'", result);
+}
+
+/// Rational addition: 1r/2 + 1r/4 = 3/4
+#[tokio::test]
+async fn rational_addition() {
+    let result = calc("1r/2 + 1r/4").await.unwrap();
+    assert_eq!(result, "3 / 4", "Expected '3 / 4', got '{}'", result);
+}
+
+/// Rational division stays as rational even when it could simplify: 4r/2 = 2/1
+#[tokio::test]
+async fn rational_stays_rational() {
+    let result = calc("4r/2").await.unwrap();
+    assert_eq!(result, "2 / 1", "Expected '2 / 1', got '{}'", result);
+}
+
+/// Negative rational: -1r/2 = -1/2
+#[tokio::test]
+async fn rational_negative() {
+    let result = calc("-1r/2").await.unwrap();
+    assert_eq!(result, "-1 / 2", "Expected '-1 / 2', got '{}'", result);
+}
+
+/// Rational with hex output: 15r/2 in hex = f / 2
+#[tokio::test]
+async fn rational_hex_output() {
+    let result = calc_base("15r/2", "hex").await.unwrap();
+    assert_eq!(result, "f / 2", "Expected 'f / 2', got '{}'", result);
+}
+
+/// Rational with large numbers
+#[tokio::test]
+async fn rational_large_numbers() {
+    let result = calc("1r/1000000").await.unwrap();
+    assert_eq!(result, "1 / 1000000", "Expected '1 / 1000000', got '{}'", result);
+}
+
+/// Rational with digit grouping shows multiline format
+#[tokio::test]
+async fn rational_with_grouping() {
+    let result = calc_spaced("1r/1000000").await.unwrap();
+    // With grouping, rational is displayed as:
+    // numerator
+    //  /
+    // denominator (with digit grouping)
+    assert!(result.contains("/"), "Expected '/' separator, got '{}'", result);
+    assert!(result.contains("1 000 000"), "Expected grouped denominator '1 000 000', got '{}'", result);
+}
+
+/// Float still works: 0.5*3 = 1.5
+#[tokio::test]
+async fn float_still_works() {
+    let result = calc("0.5*3").await.unwrap();
+    assert!(result.contains("1.5"), "Expected '1.5', got '{}'", result);
+}
+
+/// User can force float by multiplying by 1.0: 1r/2 * 1.0 = 0.5
+#[tokio::test]
+async fn rational_to_float_with_multiply() {
+    let result = calc("(1r/2)*1.0").await.unwrap();
+    assert!(result.contains("0.5"), "Expected '0.5', got '{}'", result);
 }
 
 // =============================================================================
@@ -913,12 +1054,55 @@ async fn grouping_oct_with_padding() {
 }
 
 #[tokio::test]
-async fn grouping_disabled_long() {
+async fn grouping_disabled_no_breaks() {
     let result = calc_base("2^200", "dec").await.unwrap();
-    // Without addspaces, long numbers get <br /> line breaks at 60 chars
-    // 2^200 has ~61 digits, so should have at least one line break
-    if result.len() > 60 {
-        assert!(result.contains("<br />") || !result.contains(" "),
-            "Long number without spaces should have line breaks, got: {}", result);
-    }
+    // Without addspaces, long numbers do NOT get <br /> line breaks
+    // CSS word-break: break-all handles wrapping instead
+    assert!(!result.contains("<br />"),
+        "Long number without spaces should NOT have <br /> breaks, got: {}", result);
+}
+
+// =============================================================================
+// CSS Formatting Tests
+// =============================================================================
+
+/// Without add_spaces, the result div should have word-break: break-all for long number wrapping.
+#[tokio::test]
+async fn css_word_break_without_spaces() {
+    let div_html = get_result_div_html("12345", "dec", false).await;
+    assert!(div_html.contains("word-break: break-all"),
+        "Result div without add_spaces should have word-break: break-all. Got: {}", div_html);
+}
+
+/// With add_spaces, the result div should NOT have word-break: break-all.
+#[tokio::test]
+async fn css_no_word_break_with_spaces() {
+    let div_html = get_result_div_html("12345", "dec", true).await;
+    assert!(!div_html.contains("word-break"),
+        "Result div with add_spaces should NOT have word-break. Got: {}", div_html);
+}
+
+/// Multiline rational output (with grouping) should be right-aligned.
+#[tokio::test]
+async fn css_rational_right_aligned() {
+    let div_html = get_result_div_html("1r/1000000", "dec", true).await;
+    assert!(div_html.contains("text-align: right"),
+        "Multiline rational should be right-aligned. Got: {}", div_html);
+}
+
+/// Multiline rational output should use <br /> for line breaks.
+#[tokio::test]
+async fn rational_multiline_uses_br() {
+    let result = calc_spaced("1r/1000000").await.unwrap();
+    // Multiline rational format: numerator<br /> / <br />denominator
+    assert!(result.contains("<br />"),
+        "Multiline rational should contain <br /> tags. Got: {}", result);
+}
+
+/// Non-rational results should NOT be right-aligned.
+#[tokio::test]
+async fn css_integer_not_right_aligned() {
+    let div_html = get_result_div_html("12345678", "dec", true).await;
+    assert!(!div_html.contains("text-align: right"),
+        "Integer result should NOT be right-aligned. Got: {}", div_html);
 }

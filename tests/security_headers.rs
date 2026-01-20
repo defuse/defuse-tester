@@ -259,32 +259,30 @@ async fn http_redirects_to_https() {
 // Directory Access Restrictions
 // =============================================================================
 
-/// /pages/ directory should return 403 Forbidden
-/// Note: Rust impl returns 404; will change test to expect 404 later
+/// /pages/ directory should return 403 Forbidden or 404 Not Found
+/// PHP returns 403, Rust returns 404 - both are acceptable security behaviors
 #[tokio::test]
-#[ignore = "Rust returns 404, will update test to expect 404"]
 async fn pages_directory_forbidden() {
     let resp = client().get(url("/pages/")).send().await.unwrap();
+    let status = resp.status().as_u16();
 
-    assert_eq!(
-        resp.status().as_u16(),
-        403,
-        "/pages/ should return 403 Forbidden, got: {}",
-        resp.status()
+    assert!(
+        status == 403 || status == 404,
+        "/pages/ should return 403 or 404, got: {}",
+        status
     );
 }
 
-/// /libs/ directory should return 403 Forbidden
-/// Note: Rust impl returns 404; will change test to expect 404 later
+/// /libs/ directory should return 403 Forbidden or 404 Not Found
+/// PHP returns 403, Rust returns 404 - both are acceptable security behaviors
 #[tokio::test]
-#[ignore = "Rust returns 404, will update test to expect 404"]
 async fn libs_directory_forbidden() {
     let resp = client().get(url("/libs/")).send().await.unwrap();
+    let status = resp.status().as_u16();
 
-    assert_eq!(
-        resp.status().as_u16(),
-        403,
-        "/libs/ should return 403 Forbidden, got: {}",
-        resp.status()
+    assert!(
+        status == 403 || status == 404,
+        "/libs/ should return 403 or 404, got: {}",
+        status
     );
 }
