@@ -2289,3 +2289,159 @@ async fn main_page_has_source_link() {
         "Should have link to source code on GitHub"
     );
 }
+
+/// Test that step 1 (getting confirmation page) works correctly.
+/// This was broken because existing tests skipped step 1 entirely by
+/// sending confirmed=true directly.
+#[tokio::test]
+async fn create_step1_shows_confirmation_page() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    let params = CreateParams {
+        drawing_num,
+        passcode: &passcode,
+        name: "Step1 Test",
+        description: "Testing confirmation page",
+        lowval: 1,
+        highval: 100,
+        numgen: 5,
+        ..Default::default()
+    };
+
+    let resp = create_step1(&params).await;
+    let body = resp.text().await.unwrap();
+
+    // Should show confirmation page with "Please confirm"
+    assert!(
+        body.contains("Please confirm"),
+        "Step 1 should show confirmation page. Got: {}",
+        &body[..body.len().min(1000)]
+    );
+
+    // Should echo back the form values for verification
+    assert!(
+        body.contains("Step1 Test"),
+        "Confirmation page should show the name"
+    );
+}
+
+/// Extract a hidden input value from HTML by name
+fn extract_hidden_input(html: &str, name: &str) -> Option<String> {
+    // Look for: <input type="hidden" name="NAME" value="VALUE" />
+    // or: value="VALUE" ... name="NAME"
+    let pattern1 = format!(r#"name="{}" value=""#, name);
+    let pattern2 = format!(r#"name="{}""#, name);
+
+    if let Some(pos) = html.find(&pattern1) {
+        let rest = &html[pos + pattern1.len()..];
+        if let Some(end) = rest.find('"') {
+            return Some(rest[..end].to_string());
+        }
+    }
+
+    // Try alternate order: value comes before name
+    for line in html.lines() {
+        if line.contains(&pattern2) && line.contains("type=\"hidden\"") {
+            if let Some(vpos) = line.find("value=\"") {
+                let rest = &line[vpos + 7..];
+                if let Some(end) = rest.find('"') {
+                    return Some(rest[..end].to_string());
+                }
+            }
+        }
+    }
+
+    None
+}
+
+/// Test the REAL two-step flow: parse confirmation page and submit those values.
+/// This mimics what a browser actually does.
+#[tokio::test]
+async fn real_two_step_flow_works() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    let params = CreateParams {
+        drawing_num,
+        passcode: &passcode,
+        name: "RealFlow Test",
+        description: "Testing real browser-like flow",
+        lowval: 1,
+        highval: 10,
+        numgen: 3,
+        ..Default::default()
+    };
+
+    // Step 1: Get confirmation page
+    let resp = create_step1(&params).await;
+    let confirmation_html = resp.text().await.unwrap();
+    assert!(
+        confirmation_html.contains("Please confirm"),
+        "Step 1 should show confirmation page"
+    );
+
+    // Extract values from the confirmation form (like a browser would)
+    let confirmed = extract_hidden_input(&confirmation_html, "confirmed").unwrap_or_default();
+    let form_drawing_num = extract_hidden_input(&confirmation_html, "drawingnumber").unwrap_or_default();
+    let form_passcode = extract_hidden_input(&confirmation_html, "passcode").unwrap_or_default();
+    let form_name = extract_hidden_input(&confirmation_html, "name").unwrap_or_default();
+    let form_desc = extract_hidden_input(&confirmation_html, "description").unwrap_or_default();
+    let form_lowval = extract_hidden_input(&confirmation_html, "lowval").unwrap_or_default();
+    let form_highval = extract_hidden_input(&confirmation_html, "highval").unwrap_or_default();
+    let form_numgen = extract_hidden_input(&confirmation_html, "numgen").unwrap_or_default();
+    let form_randlines1 = extract_hidden_input(&confirmation_html, "randlines1").unwrap_or_default();
+    let form_randlines2 = extract_hidden_input(&confirmation_html, "randlines2").unwrap_or_default();
+    let form_randlines3 = extract_hidden_input(&confirmation_html, "randlines3").unwrap_or_default();
+    let form_chosentwice = extract_hidden_input(&confirmation_html, "chosentwice").unwrap_or_default();
+    let form_file1hash = extract_hidden_input(&confirmation_html, "file1hash").unwrap_or_default();
+    let form_file2hash = extract_hidden_input(&confirmation_html, "file2hash").unwrap_or_default();
+    let form_file3hash = extract_hidden_input(&confirmation_html, "file3hash").unwrap_or_default();
+
+    assert_eq!(confirmed, "true", "Confirmation form should have confirmed=true");
+    assert_eq!(form_drawing_num, drawing_num.to_string(), "Drawing number should match");
+
+    // Step 2: Submit the confirmation form values (like clicking the confirm button)
+    let resp = post_form(
+        "/trustedthirdparty.htm",
+        &[
+            ("create", "These values are correct, draw my random numbers!"),
+            ("confirmed", &confirmed),
+            ("drawingnumber", &form_drawing_num),
+            ("passcode", &form_passcode),
+            ("name", &form_name),
+            ("description", &form_desc),
+            ("lowval", &form_lowval),
+            ("highval", &form_highval),
+            ("numgen", &form_numgen),
+            ("randlines1", &form_randlines1),
+            ("randlines2", &form_randlines2),
+            ("randlines3", &form_randlines3),
+            ("chosentwice", &form_chosentwice),
+            ("file1hash", &form_file1hash),
+            ("file2hash", &form_file2hash),
+            ("file3hash", &form_file3hash),
+        ],
+    )
+    .await;
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("Drawing Complete!"),
+        "Step 2 should complete the drawing. Got: {}",
+        &body[..body.len().min(1000)]
+    );
+
+    // IMMEDIATELY view the drawing
+    let resp = view_drawing(drawing_num).await;
+    let body = resp.text().await.unwrap();
+
+    assert!(
+        !body.contains("does not exist"),
+        "Completed drawing should not show 'does not exist'. Got: {}",
+        &body[..body.len().min(1000)]
+    );
+
+    assert!(
+        body.contains("Results for drawing"),
+        "Completed drawing should show results immediately. Got: {}",
+        &body[..body.len().min(1000)]
+    );
+}
