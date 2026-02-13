@@ -10,6 +10,7 @@ use common::{
     client, post_form, url,
 };
 use regex::Regex;
+use sha2::{Sha256, Digest};
 
 // =============================================================================
 // Helper functions
@@ -915,5 +916,80 @@ async fn message_count_matches_archive() {
         actual_count >= displayed_count && actual_count <= displayed_count + 2,
         "Main page shows {} messages but archive has {} messages (expected {} to {})",
         displayed_count, actual_count, displayed_count, displayed_count + 2
+    );
+}
+
+// =============================================================================
+// 9. Archive Hash Integrity (Blockchain Proofs)
+// =============================================================================
+//
+// The SHA256 hashes of the first N lines of the archive were committed to the
+// Zcash blockchain as proof-of-existence timestamps. These tests verify that
+// the Rust implementation produces byte-identical output to the original PHP
+// for the historical portions of the archive.
+
+/// Extract the first `n` lines from raw bytes (equivalent to `head -n`).
+/// A "line" is everything up to and including a `\n` byte.
+fn first_n_lines_bytes(data: &[u8], n: usize) -> &[u8] {
+    let mut count = 0;
+    for (i, &b) in data.iter().enumerate() {
+        if b == b'\n' {
+            count += 1;
+            if count == n {
+                return &data[..=i];
+            }
+        }
+    }
+    data
+}
+
+/// Compute SHA256 hash of bytes, returning lowercase hex string.
+fn sha256_hex(data: &[u8]) -> String {
+    let mut hasher = Sha256::new();
+    hasher.update(data);
+    hex::encode(hasher.finalize())
+}
+
+/// Archive first 1338 lines match blockchain-recorded SHA256 hash.
+///
+/// Hash f4233140fde1f1efe75d867eeb17cc34ae91a0165f767d6908ed7e3e3bb33b09
+/// was committed in Zcash transaction
+/// ff8221a3ee3322b36ef5817a0a591d7001c0fca2f549b5aa0c2a2b712fe6315a
+/// (block 178,991).
+#[tokio::test]
+async fn archive_first_1338_lines_hash() {
+    let resp = get_archive().await;
+    assert_success(&resp, "archive_first_1338_lines_hash");
+    let bytes = resp.bytes().await.unwrap();
+
+    let first_n = first_n_lines_bytes(&bytes, 1338);
+    let hash = sha256_hex(first_n);
+
+    assert_eq!(
+        hash,
+        "f4233140fde1f1efe75d867eeb17cc34ae91a0165f767d6908ed7e3e3bb33b09",
+        "SHA256 of first 1338 lines must match blockchain-recorded hash"
+    );
+}
+
+/// Archive first 1825 lines match blockchain-recorded SHA256 hash.
+///
+/// Hash 4c72f9ca9a5ea691ed694f6091263d229752f6424cd6048dfbfda3f2498ffa3a
+/// was committed in Zcash transaction
+/// 30ae065eb7d6860776abaa0b1fbb02144d8295a4c803ec44118204b61f8cfa29
+/// (block 476,431).
+#[tokio::test]
+async fn archive_first_1825_lines_hash() {
+    let resp = get_archive().await;
+    assert_success(&resp, "archive_first_1825_lines_hash");
+    let bytes = resp.bytes().await.unwrap();
+
+    let first_n = first_n_lines_bytes(&bytes, 1825);
+    let hash = sha256_hex(first_n);
+
+    assert_eq!(
+        hash,
+        "4c72f9ca9a5ea691ed694f6091263d229752f6424cd6048dfbfda3f2498ffa3a",
+        "SHA256 of first 1825 lines must match blockchain-recorded hash"
     );
 }
