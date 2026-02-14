@@ -1681,6 +1681,13 @@ async fn file_allow_repeat_lines() {
         body.contains("Confirm Drawing"),
         "Should show confirmation page with chosentwice=true"
     );
+
+    // Confirmation page should display the chosentwice setting so users can verify it
+    assert!(
+        body.contains("chosen twice") && body.contains("Yes"),
+        "Confirmation page should show 'Allow lines to be chosen twice: Yes'. Got: {}",
+        &body[..body.len().min(2000)],
+    );
 }
 
 /// BUG: An empty file with chosentwice=true passes validation but silently
