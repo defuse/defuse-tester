@@ -1303,23 +1303,6 @@ async fn random_multiple_numbers() {
 }
 
 #[tokio::test]
-async fn random_zero_numbers() {
-    let (drawing_num, _) = complete_drawing(&test_name(), "Test", 0, 1, 100).await;
-    let resp = view_drawing(drawing_num).await;
-    let body = resp.text().await.unwrap();
-
-    assert!(
-        !body.contains("RANDOM NUMBER NUMBER"),
-        "Should not have any random numbers when numgen=0"
-    );
-    // But should still have the drawing metadata
-    assert!(
-        body.contains("AMOUNT OF NUMBERS: 0"),
-        "Should show amount is 0"
-    );
-}
-
-#[tokio::test]
 async fn random_range_single_value() {
     // When lowval == highval and numgen > 0, PHP considers this invalid
     // ("range is invalid" error because low >= high)
@@ -1379,6 +1362,31 @@ async fn random_negative_range() {
             num
         );
     }
+}
+
+/// BUG: Setting a range (lowval/highval) but requesting 0 random numbers
+/// silently succeeds. The user likely forgot to set numgen and should get
+/// an error rather than a drawing with no numbers.
+#[tokio::test]
+async fn range_set_but_zero_numgen_rejected() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    let resp = create_step1(&CreateParams {
+        drawing_num,
+        passcode: &passcode,
+        name: &test_name(),
+        numgen: 0,
+        lowval: 1,
+        highval: 100,
+        ..Default::default()
+    })
+    .await;
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("set a range but") && body.contains("request any random numbers"),
+        "Should reject when range is set but numgen is 0. Got: {}",
+        &body[..body.len().min(1000)],
+    );
 }
 
 // =============================================================================
@@ -1921,8 +1929,8 @@ async fn file_multiple_files_correct_labels() {
         .text("passcode", passcode.clone())
         .text("name", test_name())
         .text("description", "Test labels")
-        .text("lowval", "1")
-        .text("highval", "10")
+        .text("lowval", "0")
+        .text("highval", "0")
         .text("numgen", "0")
         .text("randlines1", "1")
         .text("randlines2", "1")
