@@ -975,15 +975,19 @@ async fn confirm_shows_file_info() {
 #[tokio::test]
 async fn confirm_shows_randlines() {
     let (drawing_num, passcode) = reserve_drawing(0).await;
-    let resp = create_step1(&CreateParams {
-        drawing_num,
-        passcode: &passcode,
-        name: "Test",
-        numgen: 0,
-        randlines1: 5,
-        randlines2: 3,
-        ..Default::default()
-    })
+    let file_content = b"a\nb\nc\nd\ne\nf\ng\n";
+    let resp = create_with_file(
+        &CreateParams {
+            drawing_num,
+            passcode: &passcode,
+            name: "Test",
+            numgen: 0,
+            randlines1: 5,
+            ..Default::default()
+        },
+        file_content,
+        "lines.txt",
+    )
     .await;
     let body = resp.text().await.unwrap();
     // Check both display and hidden field
