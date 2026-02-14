@@ -378,10 +378,9 @@ async fn view_drawing_non_numeric() {
         .await
         .unwrap();
     let body = resp.text().await.unwrap();
-    // PHP (int)"abc" = 0, so should show "does not exist"
     assert!(
-        body.contains("does not exist"),
-        "Non-numeric should cast to 0 and not exist"
+        body.contains("Invalid drawing number"),
+        "Non-numeric drawingnum should show an error"
     );
 }
 
