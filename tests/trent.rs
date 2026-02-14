@@ -1716,12 +1716,15 @@ async fn file_empty_with_chosentwice_rejected() {
     );
 }
 
+/// Uploading a file with 0 random lines should be allowed (for data integrity
+/// verification). The confirmation page should show a warning, and the
+/// completed drawing should include the file's SHA256 hash but no random lines.
 #[tokio::test]
-async fn file_zero_randlines() {
+async fn file_zero_randlines_hash_only() {
     let (drawing_num, passcode) = reserve_drawing(0).await;
-    let file_content = b"line1\nline2\n";
+    let file_content = b"some data for integrity verification\n";
 
-    // Step 1: Upload file but request 0 random lines
+    // Step 1: Upload file with 0 random lines
     let resp = create_with_file(
         &CreateParams {
             drawing_num,
@@ -1730,20 +1733,76 @@ async fn file_zero_randlines() {
             numgen: 1,
             lowval: 1,
             highval: 10,
-            randlines1: 0, // Zero lines requested
+            randlines1: 0,
             ..Default::default()
         },
         file_content,
-        "test.txt",
+        "data.txt",
+    )
+    .await;
+    let confirmation_html = resp.text().await.unwrap();
+
+    // Should show confirmation (not an error)
+    assert!(
+        confirmation_html.contains("Please confirm") || confirmation_html.contains("Confirm Drawing"),
+        "Should show confirmation page, not an error. Got: {}",
+        &confirmation_html[..confirmation_html.len().min(1000)]
+    );
+
+    // Should warn that no random lines will be selected
+    assert!(
+        confirmation_html.contains("no random lines"),
+        "Confirmation should warn about 0 random lines. Got: {}",
+        &confirmation_html[..confirmation_html.len().min(1000)]
+    );
+
+    // Step 2: Extract hash and confirm
+    let file1_hash = extract_file_hash(&confirmation_html, 1)
+        .expect("Should get file1 hash from confirmation");
+
+    let resp = post_form(
+        "/trustedthirdparty.htm",
+        &[
+            ("create", "These values are correct, draw my random numbers!"),
+            ("confirmed", "true"),
+            ("drawingnumber", &drawing_num.to_string()),
+            ("passcode", &passcode),
+            ("name", &test_name()),
+            ("description", ""),
+            ("lowval", "1"),
+            ("highval", "10"),
+            ("numgen", "1"),
+            ("randlines1", "0"),
+            ("randlines2", "0"),
+            ("randlines3", "0"),
+            ("chosentwice", ""),
+            ("file1hash", &file1_hash),
+            ("file2hash", ""),
+            ("file3hash", ""),
+        ],
     )
     .await;
     let body = resp.text().await.unwrap();
-
-    // Uploading a file without specifying randlines is an error
     assert!(
-        body.contains("specify the number of random lines"),
-        "Should show error for file without randlines: {}",
-        body,
+        body.contains("Drawing Complete!"),
+        "Should complete the drawing. Got: {}",
+        &body[..body.len().min(1000)]
+    );
+
+    // View the results
+    let resp = view_drawing(drawing_num).await;
+    let body = resp.text().await.unwrap();
+
+    // The file hash should be in the printout
+    assert!(
+        body.contains("FILE1 SHA256:"),
+        "Results should contain file hash even with 0 random lines"
+    );
+
+    // But no random lines should be present
+    assert!(
+        !body.contains("FILE1 RANDOM LINE"),
+        "Should not have random lines when randlines=0"
     );
 }
 
@@ -2836,5 +2895,73 @@ async fn error_drawing_not_found_repopulates_form() {
         body.contains("NotFound Test Name") || body.contains(r#"value="NotFound Test Name""#),
         "Name should be preserved in form on error. Body: {}",
         &body[..body.len().min(2000)]
+    );
+}
+
+/// Test that clicking Cancel on the confirmation screen shows a message
+/// and repopulates the form so the user can make corrections.
+#[tokio::test]
+async fn cancel_confirmation_repopulates_form() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    // Post the confirmation form with cancel instead of create
+    let resp = post_form(
+        "/trustedthirdparty.htm",
+        &[
+            ("cancel", "Cancel"),
+            ("confirmed", "true"),
+            ("drawingnumber", &drawing_num.to_string()),
+            ("passcode", &passcode),
+            ("name", "Cancel Test Name"),
+            ("description", "Cancel test description"),
+            ("lowval", "10"),
+            ("highval", "50"),
+            ("numgen", "3"),
+            ("randlines1", "2"),
+            ("randlines2", "0"),
+            ("randlines3", "0"),
+            ("chosentwice", ""),
+            ("file1hash", ""),
+            ("file2hash", ""),
+            ("file3hash", ""),
+        ],
+    )
+    .await;
+    let body = resp.text().await.unwrap();
+
+    // Should show the cancellation message
+    assert!(
+        body.contains("Drawing cancelled"),
+        "Should show cancellation message. Got: {}",
+        &body[..body.len().min(1000)]
+    );
+
+    // Should NOT show the confirmation screen
+    assert!(
+        !body.contains("Confirm Drawing"),
+        "Should not show confirmation screen after cancel"
+    );
+
+    // Form should be repopulated with the values
+    assert!(
+        body.contains("Cancel Test Name") || body.contains(r#"value="Cancel Test Name""#),
+        "Name should be preserved in form after cancel. Body: {}",
+        &body[..body.len().min(2000)]
+    );
+    assert!(
+        body.contains("Cancel test description"),
+        "Description should be preserved in form after cancel"
+    );
+    assert!(
+        body.contains(r#"name="numgen" size="9" value="3"#),
+        "numgen should be repopulated with 3"
+    );
+    assert!(
+        body.contains(r#"name="lowval" value="10"#),
+        "lowval should be repopulated with 10"
+    );
+    assert!(
+        body.contains(r#"name="highval" value="50"#),
+        "highval should be repopulated with 50"
     );
 }
