@@ -1220,16 +1220,20 @@ async fn create_results_has_random_numbers() {
     let resp = view_drawing(drawing_num).await;
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("RANDOM NUMBER NUMBER 1:"),
+        body.contains("RANDOM NUMBER, NUMBER 1:"),
         "Should have random number 1"
     );
     assert!(
-        body.contains("RANDOM NUMBER NUMBER 2:"),
+        body.contains("RANDOM NUMBER, NUMBER 2:"),
         "Should have random number 2"
     );
     assert!(
-        body.contains("RANDOM NUMBER NUMBER 3:"),
+        body.contains("RANDOM NUMBER, NUMBER 3:"),
         "Should have random number 3"
+    );
+    assert!(
+        body.contains("ALLOW REPEAT LINES: No"),
+        "Printout should indicate repeat lines are not allowed"
     );
 }
 
@@ -1256,7 +1260,7 @@ async fn random_numbers_in_range() {
     let body = resp.text().await.unwrap();
 
     // Extract random numbers and verify they're in range
-    let re = Regex::new(r"RANDOM NUMBER NUMBER \d+: (\d+)").unwrap();
+    let re = Regex::new(r"RANDOM NUMBER, NUMBER \d+: (\d+)").unwrap();
     for cap in re.captures_iter(&body) {
         let num: i32 = cap.get(1).unwrap().as_str().parse().unwrap();
         assert!(
@@ -1274,11 +1278,11 @@ async fn random_single_number() {
     let body = resp.text().await.unwrap();
 
     assert!(
-        body.contains("RANDOM NUMBER NUMBER 1:"),
+        body.contains("RANDOM NUMBER, NUMBER 1:"),
         "Should have exactly one random number"
     );
     assert!(
-        !body.contains("RANDOM NUMBER NUMBER 2:"),
+        !body.contains("RANDOM NUMBER, NUMBER 2:"),
         "Should not have second random number"
     );
 }
@@ -1291,13 +1295,13 @@ async fn random_multiple_numbers() {
 
     for i in 1..=5 {
         assert!(
-            body.contains(&format!("RANDOM NUMBER NUMBER {}:", i)),
+            body.contains(&format!("RANDOM NUMBER, NUMBER {}:", i)),
             "Should have random number {}",
             i
         );
     }
     assert!(
-        !body.contains("RANDOM NUMBER NUMBER 6:"),
+        !body.contains("RANDOM NUMBER, NUMBER 6:"),
         "Should not have 6th random number"
     );
 }
@@ -1336,7 +1340,7 @@ async fn random_large_range() {
     );
     // Verify numbers were generated
     assert!(
-        body.contains("RANDOM NUMBER NUMBER 1:"),
+        body.contains("RANDOM NUMBER, NUMBER 1:"),
         "Should generate numbers in large range"
     );
 }
@@ -1353,7 +1357,7 @@ async fn random_negative_range() {
     );
 
     // Extract and verify numbers are negative
-    let re = Regex::new(r"RANDOM NUMBER NUMBER \d+: (-?\d+)").unwrap();
+    let re = Regex::new(r"RANDOM NUMBER, NUMBER \d+: (-?\d+)").unwrap();
     for cap in re.captures_iter(&body) {
         let num: i32 = cap.get(1).unwrap().as_str().parse().unwrap();
         assert!(
@@ -1687,6 +1691,46 @@ async fn file_allow_repeat_lines() {
         body.contains("chosen twice") && body.contains("Yes"),
         "Confirmation page should show 'Allow lines to be chosen twice: Yes'. Got: {}",
         &body[..body.len().min(2000)],
+    );
+
+    // Step 2: Confirm the drawing and verify the printout records chosentwice
+    let form_file1hash = extract_file_hash(&body, 1).expect("Should get file1 hash");
+    let form_randlines1 = extract_hidden_input(&body, "randlines1").unwrap_or_default();
+    let form_chosentwice = extract_hidden_input(&body, "chosentwice").unwrap_or_default();
+    let resp = post_form(
+        "/trustedthirdparty.htm",
+        &[
+            ("create", "These values are correct, draw my random numbers!"),
+            ("confirmed", "true"),
+            ("drawingnumber", &drawing_num.to_string()),
+            ("passcode", &passcode),
+            ("name", "repeat lines test"),
+            ("description", "test"),
+            ("lowval", "0"),
+            ("highval", "0"),
+            ("numgen", "0"),
+            ("randlines1", &form_randlines1),
+            ("randlines2", "0"),
+            ("randlines3", "0"),
+            ("chosentwice", &form_chosentwice),
+            ("file1hash", &form_file1hash),
+            ("file2hash", ""),
+            ("file3hash", ""),
+        ],
+    )
+    .await;
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("Drawing Complete!"),
+        "Drawing should complete successfully"
+    );
+
+    // View the results and check the printout
+    let resp = view_drawing(drawing_num).await;
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("ALLOW REPEAT LINES: Yes"),
+        "Printout should indicate repeat lines are allowed"
     );
 }
 
@@ -2259,7 +2303,7 @@ async fn max_numbers_1000() {
         "Should allow 1000 numbers"
     );
     assert!(
-        body.contains("RANDOM NUMBER NUMBER 1000:"),
+        body.contains("RANDOM NUMBER, NUMBER 1000:"),
         "Should have 1000th number"
     );
 }
@@ -2730,8 +2774,14 @@ async fn real_two_step_flow_with_file() {
 
     // Verify random numbers were also generated
     assert!(
-        body.contains("RANDOM NUMBER NUMBER 1:") && body.contains("RANDOM NUMBER NUMBER 2:"),
+        body.contains("RANDOM NUMBER, NUMBER 1:") && body.contains("RANDOM NUMBER, NUMBER 2:"),
         "Should also have random numbers"
+    );
+
+    // Verify chosentwice status is recorded in printout
+    assert!(
+        body.contains("ALLOW REPEAT LINES: No"),
+        "Printout should indicate repeat lines are not allowed"
     );
 }
 
