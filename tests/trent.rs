@@ -2521,6 +2521,73 @@ async fn error_wrong_password_repopulates_form() {
     );
 }
 
+/// Test that form fields are repopulated on the confirmation screen,
+/// so the user can modify and resubmit without re-entering everything.
+/// This is a Rust-only improvement; the original PHP does not do this.
+#[ignore]
+#[tokio::test]
+async fn confirmation_page_repopulates_form() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    let file_content = b"line1\nline2\nline3\nline4\nline5\n";
+    let resp = create_with_file(
+        &CreateParams {
+            drawing_num,
+            passcode: &passcode,
+            name: "Confirm Repop Name",
+            description: "Confirm repop description",
+            numgen: 7,
+            lowval: 42,
+            highval: 99,
+            randlines1: 3,
+            chosentwice: true,
+            ..Default::default()
+        },
+        file_content,
+        "test.txt",
+    )
+    .await;
+    let body = resp.text().await.unwrap();
+
+    // Should be the confirmation page
+    assert!(
+        body.contains("Confirm Drawing"),
+        "Should show confirmation page. Body: {}",
+        &body[..body.len().min(3000)]
+    );
+
+    // The create form below the confirmation should have repopulated values
+    assert!(
+        body.contains(r#"value="Confirm Repop Name"#),
+        "Name should be repopulated in the form below confirmation. Body: {}",
+        &body[..body.len().min(3000)]
+    );
+    assert!(
+        body.contains("Confirm repop description"),
+        "Description should be repopulated in the form"
+    );
+    assert!(
+        body.contains(r#"name="numgen" size="9" value="7"#),
+        "numgen should be repopulated with 7"
+    );
+    assert!(
+        body.contains(r#"name="lowval" value="42"#),
+        "lowval should be repopulated with 42"
+    );
+    assert!(
+        body.contains(r#"name="highval" value="99"#),
+        "highval should be repopulated with 99"
+    );
+    assert!(
+        body.contains(r#"name="randlines1" value="3"#),
+        "randlines1 should be repopulated with 3"
+    );
+    assert!(
+        body.contains(r#"checked="checked"#),
+        "chosentwice checkbox should be checked"
+    );
+}
+
 /// Test that form values are preserved when drawing doesn't exist
 #[tokio::test]
 async fn error_drawing_not_found_repopulates_form() {
