@@ -1479,6 +1479,22 @@ async fn file_random_lines_selected() {
         body.contains("FILE1 RANDOM LINE 2:"),
         "Should have second random line"
     );
+
+    // Verify the line previews are actual lines from the file
+    let valid_lines = ["apple", "banana", "cherry", "orange", "grape"];
+    let re = Regex::new(r"LINE PREVIEW: (.+)").unwrap();
+    let previews: Vec<&str> = re
+        .captures_iter(&body)
+        .filter_map(|cap| cap.get(1).map(|m| m.as_str().trim()))
+        .collect();
+    assert_eq!(previews.len(), 2, "Should have exactly 2 line previews");
+    for preview in &previews {
+        assert!(
+            valid_lines.iter().any(|line| preview.contains(line)),
+            "Line preview '{}' should be from the file",
+            preview
+        );
+    }
 }
 
 #[tokio::test]
@@ -1521,6 +1537,14 @@ async fn file_line_preview_shown() {
     assert!(
         body.contains("LINE PREVIEW:"),
         "Should show line preview"
+    );
+    // Verify the preview is actually a line from the file
+    let re = Regex::new(r"LINE PREVIEW: (.+)").unwrap();
+    let preview = re.captures(&body).expect("Should have LINE PREVIEW").get(1).unwrap().as_str().trim();
+    assert!(
+        preview.contains("uniquelinecontentxyz123") || preview.contains("anotherline"),
+        "Line preview '{}' should be from the file",
+        preview
     );
 }
 
@@ -1651,6 +1675,39 @@ async fn file_allow_repeat_lines() {
     );
 }
 
+/// BUG: An empty file with chosentwice=true passes validation but silently
+/// produces 0 random lines in the printout. The count_lines check is gated
+/// on !chosentwice, so it's skipped when repeats are allowed.
+#[tokio::test]
+async fn file_empty_with_chosentwice_rejected() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+    let file_content = b""; // Empty file: 0 lines
+
+    let resp = create_with_file(
+        &CreateParams {
+            drawing_num,
+            passcode: &passcode,
+            name: &test_name(),
+            numgen: 0,
+            randlines1: 1,
+            chosentwice: true, // Skips the count_lines check
+            ..Default::default()
+        },
+        file_content,
+        "empty.txt",
+    )
+    .await;
+    let body = resp.text().await.unwrap();
+
+    // Should reject: can't select lines from a file with 0 lines,
+    // even with repeats allowed.
+    assert!(
+        body.contains("enough lines") || body.contains("error") || body.contains("Error"),
+        "Should reject empty file even with chosentwice=true. Got: {}",
+        &body[..body.len().min(1000)],
+    );
+}
+
 #[tokio::test]
 async fn file_zero_randlines() {
     let (drawing_num, passcode) = reserve_drawing(0).await;
@@ -1679,6 +1736,55 @@ async fn file_zero_randlines() {
         body.contains("specify the number of random lines"),
         "Should show error for file without randlines: {}",
         body,
+    );
+}
+
+#[tokio::test]
+async fn file_non_latin1_rejected() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+    // File containing emoji (not Latin-1)
+    let file_content = "line one\nhello 🎉 world\nline three\n".as_bytes();
+
+    let resp = create_with_file(
+        &CreateParams {
+            drawing_num,
+            passcode: &passcode,
+            name: &test_name(),
+            numgen: 0,
+            randlines1: 1,
+            ..Default::default()
+        },
+        file_content,
+        "emoji.txt",
+    )
+    .await;
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("Latin-1"),
+        "Should reject file with non-Latin-1 characters: {}",
+        &body[..body.len().min(1000)],
+    );
+}
+
+#[tokio::test]
+async fn randlines_without_file() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+
+    // Request 5 random lines from file slot 1 but don't upload any file
+    let resp = create_step1(&CreateParams {
+        drawing_num,
+        passcode: &passcode,
+        name: &test_name(),
+        numgen: 0,
+        randlines1: 5,
+        ..Default::default()
+    })
+    .await;
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("upload a file"),
+        "Should reject randlines without a file upload: {}",
+        &body[..body.len().min(1000)],
     );
 }
 
@@ -2444,6 +2550,114 @@ async fn real_two_step_flow_works() {
         body.contains("Results for drawing"),
         "Completed drawing should show results immediately. Got: {}",
         &body[..body.len().min(1000)]
+    );
+}
+
+/// Test the full two-step flow with a file upload, like a real browser would.
+/// Step 1: upload file, get confirmation page with hash.
+/// Step 2: submit confirmation form values including the hash.
+/// Then verify the results contain the file's actual content.
+#[tokio::test]
+async fn real_two_step_flow_with_file() {
+    let (drawing_num, passcode) = reserve_drawing(0).await;
+    let file_content = b"alpha\nbeta\ngamma\ndelta\nepsilon\n";
+
+    // Step 1: Upload file
+    let resp = create_with_file(
+        &CreateParams {
+            drawing_num,
+            passcode: &passcode,
+            name: "File Flow Test",
+            description: "Testing two-step flow with file",
+            numgen: 2,
+            lowval: 1,
+            highval: 100,
+            randlines1: 3,
+            ..Default::default()
+        },
+        file_content,
+        "greek.txt",
+    )
+    .await;
+    let confirmation_html = resp.text().await.unwrap();
+    assert!(
+        confirmation_html.contains("Please confirm") || confirmation_html.contains("Confirm Drawing"),
+        "Step 1 should show confirmation page. Got: {}",
+        &confirmation_html[..confirmation_html.len().min(1000)]
+    );
+
+    // Extract values from confirmation form (like a browser would)
+    let form_file1hash = extract_file_hash(&confirmation_html, 1)
+        .expect("Should get file1 hash from confirmation");
+    let form_drawing_num = extract_hidden_input(&confirmation_html, "drawingnumber").unwrap_or_default();
+    let form_passcode = extract_hidden_input(&confirmation_html, "passcode").unwrap_or_default();
+    let form_name = extract_hidden_input(&confirmation_html, "name").unwrap_or_default();
+    let form_desc = extract_hidden_input(&confirmation_html, "description").unwrap_or_default();
+    let form_lowval = extract_hidden_input(&confirmation_html, "lowval").unwrap_or_default();
+    let form_highval = extract_hidden_input(&confirmation_html, "highval").unwrap_or_default();
+    let form_numgen = extract_hidden_input(&confirmation_html, "numgen").unwrap_or_default();
+    let form_randlines1 = extract_hidden_input(&confirmation_html, "randlines1").unwrap_or_default();
+    let form_chosentwice = extract_hidden_input(&confirmation_html, "chosentwice").unwrap_or_default();
+
+    // Step 2: Confirm using the extracted form values
+    let resp = post_form(
+        "/trustedthirdparty.htm",
+        &[
+            ("create", "These values are correct, draw my random numbers!"),
+            ("confirmed", "true"),
+            ("drawingnumber", &form_drawing_num),
+            ("passcode", &form_passcode),
+            ("name", &form_name),
+            ("description", &form_desc),
+            ("lowval", &form_lowval),
+            ("highval", &form_highval),
+            ("numgen", &form_numgen),
+            ("randlines1", &form_randlines1),
+            ("randlines2", "0"),
+            ("randlines3", "0"),
+            ("chosentwice", &form_chosentwice),
+            ("file1hash", &form_file1hash),
+            ("file2hash", ""),
+            ("file3hash", ""),
+        ],
+    )
+    .await;
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("Drawing Complete!"),
+        "Step 2 should complete the drawing. Got: {}",
+        &body[..body.len().min(1000)]
+    );
+
+    // View the results and verify file content is present
+    let resp = view_drawing(drawing_num).await;
+    let body = resp.text().await.unwrap();
+
+    assert!(
+        body.contains("FILE1 SHA256:"),
+        "Results should contain file hash"
+    );
+    assert!(
+        body.contains("FILE1 RANDOM LINE 1:"),
+        "Results should contain random lines from file"
+    );
+
+    // Verify the line previews are actual lines from the file
+    let valid_lines = ["alpha", "beta", "gamma", "delta", "epsilon"];
+    let re = Regex::new(r"LINE PREVIEW: (.+)").unwrap();
+    for cap in re.captures_iter(&body) {
+        let preview = cap.get(1).unwrap().as_str().trim();
+        assert!(
+            valid_lines.iter().any(|line| preview.contains(line)),
+            "Line preview '{}' should be a line from the uploaded file",
+            preview
+        );
+    }
+
+    // Verify random numbers were also generated
+    assert!(
+        body.contains("RANDOM NUMBER NUMBER 1:") && body.contains("RANDOM NUMBER NUMBER 2:"),
+        "Should also have random numbers"
     );
 }
 
