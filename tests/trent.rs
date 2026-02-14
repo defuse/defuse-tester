@@ -1673,13 +1673,12 @@ async fn file_zero_randlines() {
     )
     .await;
     let body = resp.text().await.unwrap();
-    let _file_hash = extract_file_hash(&body, 1);
 
-    // File hash might not be recorded if randlines is 0 and file isn't used
-    // Just verify we get confirmation page
+    // Uploading a file without specifying randlines is an error
     assert!(
-        body.contains("Confirm Drawing"),
-        "Should show confirmation"
+        body.contains("specify the number of random lines"),
+        "Should show error for file without randlines: {}",
+        body,
     );
 }
 
