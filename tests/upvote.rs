@@ -75,6 +75,7 @@ impl VoteClient for AjaxClient {
         let resp = self
             .client
             .post(url("/upvote.php"))
+            .header("origin", common::origin())
             .form(&[
                 ("upvotes_id", page_id),
                 ("upvotes_direction", dir.as_str()),
@@ -118,6 +119,7 @@ impl VoteClient for FormClient {
         let resp = self
             .client
             .post(&page_url)
+            .header("origin", common::origin())
             .form(&[
                 ("upvotes_id", page_id),
                 ("upvotes_direction", dir.as_str()),
@@ -298,6 +300,7 @@ async fn vote_via_form_post(
 ) -> VoteState {
     let resp = client
         .post(url(form_action_url))
+        .header("origin", common::origin())
         .form(&[
             ("upvotes_id", page_id),
             ("upvotes_direction", direction.as_str()),

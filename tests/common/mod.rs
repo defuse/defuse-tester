@@ -15,6 +15,20 @@ pub fn client() -> Client {
         .expect("Failed to create HTTP client")
 }
 
+/// Derive the Origin header value (scheme + host) from DEFUSE_URL.
+/// e.g. "https://defuse.ca/foo" -> "https://defuse.ca"
+/// Use this when making POST requests that need to pass CSRF checks.
+pub fn origin() -> String {
+    let base = base_url();
+    if let Some(scheme_end) = base.find("://") {
+        let after_scheme = &base[scheme_end + 3..];
+        let host_end = after_scheme.find('/').unwrap_or(after_scheme.len());
+        base[..scheme_end + 3 + host_end].to_string()
+    } else {
+        base
+    }
+}
+
 /// Get the base URL to test against.
 /// DEFUSE_URL environment variable must be set.
 pub fn base_url() -> String {
