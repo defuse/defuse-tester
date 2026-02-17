@@ -603,11 +603,52 @@ async fn disassemble_single_byte() {
 #[tokio::test]
 async fn disassemble_odd_length_hex() {
     let body = disassemble("909", "x86").await;
-    // Should handle gracefully - either truncate, pad, or show error
-    // Main thing is it shouldn't crash
+    // Should show a helpful error about odd number of hex digits
     assert!(
-        body.len() > 0,
-        "Odd-length hex should be handled gracefully"
+        body.contains("Odd number of hex digits"),
+        "Odd-length hex should show error about odd digit count, got: {}",
+        &body[..std::cmp::min(500, body.len())]
+    );
+}
+
+// =============================================================================
+// Input Size Limit Tests
+// =============================================================================
+
+#[tokio::test]
+async fn assemble_over_size_limit_rejected() {
+    // Assembly input limit is 10KB. Send >10KB of code.
+    let large_code = "nop\n".repeat(3000); // ~12KB
+    let body = assemble(&large_code, "x86").await;
+    assert!(
+        body.contains("too big") || body.contains("unsafe"),
+        "Assembly input over 10KB should be rejected, got: {}",
+        &body[..std::cmp::min(500, body.len())]
+    );
+}
+
+#[tokio::test]
+async fn assemble_under_size_limit_accepted() {
+    // Just under the limit should work fine
+    let code = "nop\n".repeat(2000); // ~8KB
+    let body = assemble(&code, "x86").await;
+    let hex = extract_hex_output(&body);
+    assert!(
+        hex.is_some(),
+        "Assembly input under 10KB should be accepted"
+    );
+}
+
+#[tokio::test]
+async fn disassemble_over_binary_size_limit_rejected() {
+    // Binary input limit is 1MB. Send >1MB of hex data.
+    // Each "90" is 1 byte, so we need >1M pairs = >2M hex chars
+    let large_hex = "90".repeat(1024 * 1024 + 1); // 1MB + 1 byte
+    let body = disassemble(&large_hex, "x86").await;
+    assert!(
+        body.contains("too large") || body.contains("1MB") || contains_error(&body),
+        "Disassembly binary input over 1MB should be rejected, got: {}",
+        &body[..std::cmp::min(500, body.len())]
     );
 }
 
