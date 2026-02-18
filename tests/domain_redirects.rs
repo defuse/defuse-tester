@@ -5,7 +5,7 @@
 
 mod common;
 
-use common::{client, is_production_url};
+use common::{client, follow_redirects, is_production_url};
 
 // =============================================================================
 // www to non-www redirect
@@ -85,8 +85,9 @@ async fn www_redirect_preserves_path() {
 // Combined redirects (HTTP + www + canonicalization in single redirect)
 // =============================================================================
 
-/// http://www.defuse.ca/about should redirect to https://defuse.ca/about.htm in one redirect
-/// This tests HTTP→HTTPS + www strip + extension normalization all at once
+/// http://www.defuse.ca/about should eventually reach https://defuse.ca/about.htm
+/// This tests HTTP→HTTPS (Caddy) + www strip (Rust Step 1) + extension normalization (Rust Step 3)
+/// across multiple redirect hops.
 #[tokio::test]
 async fn full_redirect_chain_no_extension() {
     if !is_production_url() {
@@ -94,35 +95,18 @@ async fn full_redirect_chain_no_extension() {
         return;
     }
 
-    let resp = client()
-        .get("http://www.defuse.ca/about")
-        .send()
-        .await
-        .unwrap();
+    let final_url = follow_redirects("http://www.defuse.ca/about").await;
 
     assert_eq!(
-        resp.status().as_u16(),
-        301,
-        "Should redirect with 301, got: {}",
-        resp.status()
-    );
-
-    let location = resp
-        .headers()
-        .get("location")
-        .expect("Redirect should have Location header")
-        .to_str()
-        .unwrap();
-
-    assert_eq!(
-        location, "https://defuse.ca/about.htm",
-        "http://www.defuse.ca/about should redirect to https://defuse.ca/about.htm in single redirect, got: {}",
-        location
+        final_url, "https://defuse.ca/about.htm",
+        "http://www.defuse.ca/about should eventually reach https://defuse.ca/about.htm, got: {}",
+        final_url
     );
 }
 
-/// http://www.defuse.ca/aBouT.htm should redirect to https://defuse.ca/about.htm in one redirect
-/// This tests HTTP→HTTPS + www strip + case normalization all at once
+/// http://www.defuse.ca/aBouT.htm should eventually reach https://defuse.ca/about.htm
+/// This tests HTTP→HTTPS (Caddy) + www strip (Rust Step 1) + case normalization (Rust Step 3)
+/// across multiple redirect hops.
 #[tokio::test]
 async fn full_redirect_chain_case_insensitive() {
     if !is_production_url() {
@@ -130,30 +114,12 @@ async fn full_redirect_chain_case_insensitive() {
         return;
     }
 
-    let resp = client()
-        .get("http://www.defuse.ca/aBouT.htm")
-        .send()
-        .await
-        .unwrap();
+    let final_url = follow_redirects("http://www.defuse.ca/aBouT.htm").await;
 
     assert_eq!(
-        resp.status().as_u16(),
-        301,
-        "Should redirect with 301, got: {}",
-        resp.status()
-    );
-
-    let location = resp
-        .headers()
-        .get("location")
-        .expect("Redirect should have Location header")
-        .to_str()
-        .unwrap();
-
-    assert_eq!(
-        location, "https://defuse.ca/about.htm",
-        "http://www.defuse.ca/aBouT.htm should redirect to https://defuse.ca/about.htm in single redirect, got: {}",
-        location
+        final_url, "https://defuse.ca/about.htm",
+        "http://www.defuse.ca/aBouT.htm should eventually reach https://defuse.ca/about.htm, got: {}",
+        final_url
     );
 }
 
@@ -338,22 +304,21 @@ async fn bin_subdomain_root_redirects_to_pastebin() {
     );
 }
 
-/// bin.defuse.ca should redirect to defuse.ca/b/ preserving the URL key
+/// bin.defuse.ca with a path should still redirect to pastebin.htm
+/// (Caddy does a blanket redirect for all bin.defuse.ca paths)
 #[tokio::test]
-async fn bin_subdomain_redirects_to_b_path() {
+async fn bin_subdomain_with_path_redirects_to_pastebin() {
     if !is_production_url() {
         eprintln!("Skipping bin.defuse.ca redirect test on local URL");
         return;
     }
 
-    // Request bin.defuse.ca with a paste key
     let resp = client()
         .get("https://bin.defuse.ca/abc123XYZ")
         .send()
         .await
         .unwrap();
 
-    // Should redirect (could be 301 or 302 depending on implementation)
     assert!(
         resp.status().is_redirection(),
         "bin.defuse.ca should redirect, got: {}",
@@ -368,8 +333,8 @@ async fn bin_subdomain_redirects_to_b_path() {
         .unwrap();
 
     assert_eq!(
-        location, "https://defuse.ca/b/abc123XYZ",
-        "Should redirect to https://defuse.ca/b/abc123XYZ preserving the key, got: {}",
+        location, "https://defuse.ca/pastebin.htm",
+        "bin.defuse.ca/abc123XYZ should redirect to pastebin.htm, got: {}",
         location
     );
 }

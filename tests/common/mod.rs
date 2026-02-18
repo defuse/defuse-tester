@@ -193,6 +193,43 @@ pub fn assert_body_does_not_contain(body: &str, needle: &str, context: &str) {
     );
 }
 
+/// Follow 301 redirects from an initial URL until a non-redirect response (up to 10 hops).
+/// Returns the final response URL. Panics if any redirect is not a 301.
+/// Useful for testing multi-hop redirect chains where Caddy and the Rust server
+/// each handle different aspects (HTTP→HTTPS, host canonicalization, URL normalization).
+pub async fn follow_redirects(initial_url: &str) -> String {
+    let c = client();
+    let mut current_url = initial_url.to_string();
+    for i in 0..10 {
+        let resp = c
+            .get(&current_url)
+            .send()
+            .await
+            .unwrap_or_else(|e| panic!("Request {} to {} failed: {}", i + 1, current_url, e));
+        let status = resp.status().as_u16();
+        if status == 301 {
+            let location = resp
+                .headers()
+                .get("location")
+                .unwrap_or_else(|| panic!("301 redirect {} from {} has no Location header", i + 1, current_url))
+                .to_str()
+                .unwrap_or_else(|e| panic!("Invalid Location header on redirect {} from {}: {}", i + 1, current_url, e));
+            current_url = location.to_string();
+        } else if resp.status().is_redirection() {
+            panic!(
+                "Request {} to {} returned non-301 redirect ({}). Only 301 redirects are expected.",
+                i + 1, current_url, status
+            );
+        } else {
+            return current_url;
+        }
+    }
+    panic!(
+        "Too many redirects (>10) starting from {}. Last URL: {}",
+        initial_url, current_url
+    );
+}
+
 /// Helper to POST form data and return the response.
 /// Fields are key-value pairs.
 pub async fn post_form(path: &str, fields: &[(&str, &str)]) -> reqwest::Response {
