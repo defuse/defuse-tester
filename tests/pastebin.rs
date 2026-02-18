@@ -417,8 +417,9 @@ async fn view_paste_not_found() {
     let body = resp.text().await.unwrap();
 
     assert!(
-        body.contains("could not be found"),
-        "Should show not found message"
+        body.contains("Sorry, the paste you were looking for could not be found."),
+        "Should show not found message, got: {}",
+        &body.chars().take(500).collect::<String>()
     );
 }
 
@@ -581,12 +582,15 @@ async fn raw_paste_preserves_content() {
 #[tokio::test]
 async fn raw_paste_not_found() {
     let resp = get_paste_raw("nonexistent123456789012").await;
+    assert_eq!(
+        resp.status().as_u16(),
+        404,
+        "Raw not-found should return 404"
+    );
     let body = resp.text().await.unwrap();
-
-    // Should be empty or error, not a 500
-    assert!(
-        body.is_empty() || body.contains("not found") || body.contains("error"),
-        "Should handle not found gracefully"
+    assert_eq!(
+        body,
+        "Sorry, the paste you were looking for could not be found."
     );
 }
 

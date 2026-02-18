@@ -2861,7 +2861,6 @@ async fn error_wrong_password_repopulates_form() {
 /// Test that form fields are repopulated on the confirmation screen,
 /// so the user can modify and resubmit without re-entering everything.
 /// This is a Rust-only improvement; the original PHP does not do this.
-#[ignore]
 #[tokio::test]
 async fn confirmation_page_repopulates_form() {
     let (drawing_num, passcode) = reserve_drawing(0).await;
