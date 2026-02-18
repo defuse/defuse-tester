@@ -16,7 +16,7 @@ const TEST_PATHS: &[&str] = &[
     "/about.htm",                             // Regular page (dynamic)
     "/main.css",                              // Static CSS
     "/images/1by1.gif",                       // Static image
-    "/js/checksums.js",                       // Static JS
+    "/js/csprng.js",                          // Static JS
     "/files/eharmony-hashes.txt",             // files/ alias (force download)
     "/files2/poc/pocorgtfo00.pdf",            // files2/ alias (force download, large files)
     "/mirrors/zcash-mainnet-2019-10.tar.bz2", // mirrors/ alias (force download)
@@ -34,6 +34,7 @@ const TEST_PATHS: &[&str] = &[
 async fn x_frame_options_on_all_paths() {
     for path in TEST_PATHS {
         let resp = client().get(url(path)).send().await.unwrap();
+        assert!(resp.status().is_success(), "{} should return 200, got {}", path, resp.status());
 
         let header = resp
             .headers()
@@ -145,6 +146,7 @@ async fn hsts_on_dynamic_pages() {
 async fn x_content_type_options_on_all_paths() {
     for path in TEST_PATHS {
         let resp = client().get(url(path)).send().await.unwrap();
+        assert!(resp.status().is_success(), "{} should return 200, got {}", path, resp.status());
 
         let header = resp
             .headers()
@@ -176,6 +178,7 @@ async fn x_content_type_options_on_all_paths() {
 async fn referrer_policy_on_all_paths() {
     for path in TEST_PATHS {
         let resp = client().get(url(path)).send().await.unwrap();
+        assert!(resp.status().is_success(), "{} should return 200, got {}", path, resp.status());
 
         let header = resp
             .headers()
@@ -227,6 +230,34 @@ async fn http_redirects_to_https() {
         location.starts_with("https://"),
         "Should redirect to HTTPS, got: {}",
         location
+    );
+}
+
+// =============================================================================
+// Security Headers on Error Responses
+// =============================================================================
+
+/// 404 error pages should still carry security headers
+#[tokio::test]
+async fn security_headers_on_404() {
+    let resp = client().get(url("/nonexistent-page-12345.htm")).send().await.unwrap();
+    assert_eq!(resp.status().as_u16(), 404, "Should return 404");
+
+    let headers = resp.headers();
+    assert_eq!(
+        headers.get("x-frame-options").expect("404 should have X-Frame-Options").to_str().unwrap().to_uppercase(),
+        "SAMEORIGIN",
+        "404 should have X-Frame-Options: SAMEORIGIN"
+    );
+    assert_eq!(
+        headers.get("x-content-type-options").expect("404 should have X-Content-Type-Options").to_str().unwrap().to_lowercase(),
+        "nosniff",
+        "404 should have X-Content-Type-Options: nosniff"
+    );
+    assert_eq!(
+        headers.get("referrer-policy").expect("404 should have Referrer-Policy").to_str().unwrap(),
+        "strict-origin-when-cross-origin",
+        "404 should have Referrer-Policy: strict-origin-when-cross-origin"
     );
 }
 

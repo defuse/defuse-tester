@@ -1116,6 +1116,44 @@ async fn view_has_lifetime_dropdown() {
     );
 }
 
+// ============================================================================
+// 13. Size Limits
+// ============================================================================
+
+/// Pastes exceeding 50 MB should be rejected with 400
+#[tokio::test]
+async fn paste_too_large_rejected() {
+    // Server limit is 50 MB (50 * 1024 * 1024 = 52428800 bytes)
+    // Send 1 byte over the limit
+    let content = "x".repeat(50 * 1024 * 1024 + 1);
+    let resp = create_paste_response(&content, false, None, false).await;
+
+    assert_eq!(
+        resp.status().as_u16(),
+        400,
+        "Paste exceeding 50 MB should be rejected with 400, got: {}",
+        resp.status()
+    );
+}
+
+/// 30 MB paste should be accepted
+#[tokio::test]
+async fn paste_30mb_accepted() {
+    let content = "x".repeat(30 * 1024 * 1024);
+    let resp = create_paste_response(&content, false, None, false).await;
+
+    assert_eq!(
+        resp.status().as_u16(),
+        302,
+        "30 MB paste should be accepted (302 redirect), got: {}",
+        resp.status()
+    );
+
+    let key = extract_key_from_response(&resp)
+        .expect("30 MB paste should redirect to /b/{key}");
+    assert!(!key.is_empty(), "Key should not be empty");
+}
+
 #[tokio::test]
 async fn view_has_shorturl_checkbox() {
     let content = test_content("shorturl checkbox test");

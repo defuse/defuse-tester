@@ -196,6 +196,22 @@ async fn libs_bibliography_php_returns_403_or_404() {
 }
 
 // =============================================================================
+// Directory Listing Tests
+// =============================================================================
+
+/// /source/ directory listing must be denied
+#[tokio::test]
+async fn source_directory_listing_denied() {
+    let resp = client().get(url("/source/")).send().await.unwrap();
+    let status = resp.status().as_u16();
+    assert!(
+        status == 403 || status == 404,
+        "/source/ should return 403 or 404 (no directory listing), got {}",
+        status
+    );
+}
+
+// =============================================================================
 // Path Traversal Tests
 // =============================================================================
 // Storage directories serve files from STORAGE_PATH/extras/*. Path traversal

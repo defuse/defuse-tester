@@ -29,6 +29,9 @@ async fn head_request_on_css_returns_200() {
         resp.headers().contains_key("content-length"),
         "HEAD response should include Content-Length header"
     );
+
+    // HEAD response must have empty body
+    assert_eq!(resp.text().await.unwrap().len(), 0, "HEAD response should have empty body");
 }
 
 /// HEAD request on JS file should return 200

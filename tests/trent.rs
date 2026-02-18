@@ -1368,7 +1368,9 @@ async fn random_negative_range() {
 
     // Extract and verify numbers are negative
     let re = Regex::new(r"RANDOM NUMBER, NUMBER \d+: (-?\d+)").unwrap();
-    for cap in re.captures_iter(&body) {
+    let captures: Vec<_> = re.captures_iter(&body).collect();
+    assert_eq!(captures.len(), 5, "Should find exactly 5 random numbers");
+    for cap in &captures {
         let num: i32 = cap.get(1).unwrap().as_str().parse().unwrap();
         assert!(
             num >= -100 && num <= -10,
@@ -2225,6 +2227,13 @@ async fn name_with_latin1_extended_works() {
         !body.contains("not yet been chosen"),
         "Drawing with Latin-1 extended chars should complete"
     );
+
+    // Verify the name survived the database round-trip
+    // Askama HTML-escapes output, so check for the name or its encoded form
+    assert!(
+        body.contains("Über café señor") || body.contains("&Uuml;ber caf&eacute; se&ntilde;or"),
+        "Latin-1 name should be preserved after DB round-trip"
+    );
 }
 
 #[tokio::test]
@@ -2440,6 +2449,34 @@ async fn xss_prevention_description() {
     assert!(
         !body.contains("<script>document.cookie"),
         "XSS in description should be escaped"
+    );
+}
+
+#[tokio::test]
+async fn xss_prevention_apostrophe() {
+    let name = "Test's \"name\" with on'click";
+    let (drawing_num, _) = complete_drawing(name, "Test", 1, 1, 10).await;
+    let resp = view_drawing(drawing_num).await;
+    let body = resp.text().await.unwrap();
+
+    // The raw unescaped name must NOT appear in the HTML output
+    assert!(
+        !body.contains("Test's"),
+        "Literal apostrophe from user input should be escaped, but found raw \"Test's\" in body"
+    );
+    assert!(
+        !body.contains("on'click"),
+        "Literal apostrophe from user input should be escaped, but found raw \"on'click\" in body"
+    );
+
+    // The escaped version MUST appear (proves the name survived the round-trip)
+    assert!(
+        body.contains("Test&#x27;s") || body.contains("Test&#039;s"),
+        "Escaped form of \"Test's\" should appear in body"
+    );
+    assert!(
+        body.contains("on&#x27;click") || body.contains("on&#039;click"),
+        "Escaped form of \"on'click\" should appear in body"
     );
 }
 

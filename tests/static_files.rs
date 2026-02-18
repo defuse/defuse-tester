@@ -220,6 +220,18 @@ async fn source_blind_birthday_rb() {
         .unwrap();
     assert!(resp.status().is_success(), "/source/blind-birthday.rb should return 200");
 
+    let content_disp = resp
+        .headers()
+        .get("content-disposition")
+        .expect("/source/blind-birthday.rb should have Content-Disposition header")
+        .to_str()
+        .unwrap();
+    assert!(
+        content_disp.contains("attachment"),
+        "/source/ non-PHP files should also force download, got: {}",
+        content_disp
+    );
+
     let body = resp.text().await.unwrap();
     assert!(
         body.contains("def") || body.contains("HMAC"),
@@ -277,6 +289,16 @@ async fn upload_vim_vimrc() {
         "/upload/ files should force download, got: {}",
         content_disp
     );
+
+    // vimrc has no extension — Content-Type should be application/octet-stream or text/plain
+    let content_type = resp.headers().get("content-type")
+        .expect("/upload/vim/vimrc should have Content-Type header")
+        .to_str().unwrap();
+    assert!(
+        content_type.starts_with("application/octet-stream") || content_type.starts_with("text/plain"),
+        "/upload/vim/vimrc Content-Type should be octet-stream or text/plain, got: {}",
+        content_type
+    );
 }
 
 #[tokio::test]
@@ -299,6 +321,16 @@ async fn upload_vim_zip() {
         content_disp.contains("attachment"),
         "/upload/ files should force download, got: {}",
         content_disp
+    );
+
+    // .zip should have application/zip Content-Type
+    let content_type = resp.headers().get("content-type")
+        .expect("/upload/vim/vim.zip should have Content-Type header")
+        .to_str().unwrap();
+    assert!(
+        content_type.contains("zip"),
+        "/upload/vim/vim.zip Content-Type should contain 'zip', got: {}",
+        content_type
     );
 }
 
@@ -328,6 +360,16 @@ async fn files_eharmony_hashes() {
         "/files/ should force download, got: {}",
         content_disp
     );
+
+    // .txt should have text/plain Content-Type
+    let content_type = resp.headers().get("content-type")
+        .expect("/files/eharmony-hashes.txt should have Content-Type header")
+        .to_str().unwrap();
+    assert!(
+        content_type.starts_with("text/plain"),
+        "/files/eharmony-hashes.txt Content-Type should be text/plain, got: {}",
+        content_type
+    );
 }
 
 // =============================================================================
@@ -355,5 +397,15 @@ async fn mirrors_zcash_blockchain() {
         content_disp.contains("attachment"),
         "/mirrors/ files should force download, got: {}",
         content_disp
+    );
+
+    // .tar.bz2 should have a compressed archive Content-Type
+    let content_type = resp.headers().get("content-type")
+        .expect("/mirrors/ file should have Content-Type header")
+        .to_str().unwrap();
+    assert!(
+        content_type.contains("bzip2") || content_type.contains("octet-stream") || content_type.contains("x-tar"),
+        "/mirrors/ .tar.bz2 Content-Type should indicate archive, got: {}",
+        content_type
     );
 }

@@ -193,3 +193,20 @@ async fn alias_pphos_to_hall_of_shame() {
     let resp = client().get(url("/pphos")).send().await.unwrap();
     assert_redirect(&resp, &url("/password-policy-hall-of-shame.htm"), "/pphos → /password-policy-hall-of-shame.htm");
 }
+
+// =============================================================================
+// .php Extension Handling
+// =============================================================================
+
+/// /about.php should return 404, not redirect to /about.htm
+/// .php is NOT a canonicalizable extension (only /index.php is special-cased)
+#[tokio::test]
+async fn php_extension_returns_404() {
+    let resp = client().get(url("/about.php")).send().await.unwrap();
+    assert_eq!(
+        resp.status().as_u16(),
+        404,
+        "/about.php should return 404 (not redirect to /about.htm), got: {}",
+        resp.status()
+    );
+}

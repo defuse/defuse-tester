@@ -39,8 +39,8 @@ async fn research_password_hashing_after_phc() {
     assert_success(&resp, "password-hashing-after-phc");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("Password Hashing") || body.contains("password hashing"),
-        "Page should contain 'Password Hashing'"
+        body.contains("cache_put"),
+        "Page should contain 'cache_put'"
     );
 }
 
@@ -55,8 +55,8 @@ async fn research_side_channel_attacks() {
     assert_success(&resp, "side-channel-attacks-on-everyday-applications");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("Side") || body.contains("side"),
-        "Page should contain 'Side'"
+        body.contains("Black Hat USA 2016"),
+        "Page should contain 'Black Hat USA 2016'"
     );
 }
 
@@ -71,8 +71,8 @@ async fn research_breach_mitigation() {
     assert_success(&resp, "mitigating-breach-tls-attack-in-php");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("BREACH") || body.contains("breach"),
-        "Page should contain 'BREACH'"
+        body.contains("Masking Secrets"),
+        "Page should contain 'Masking Secrets'"
     );
 }
 
@@ -87,8 +87,8 @@ async fn research_triangle_secure_code() {
     assert_success(&resp, "triangle-of-secure-code-delivery");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("Triangle") || body.contains("triangle") || body.contains("secure code"),
-        "Page should contain 'Triangle' or 'secure code'"
+        body.contains("Reproducible Builds"),
+        "Page should contain 'Reproducible Builds'"
     );
 }
 
@@ -175,8 +175,8 @@ async fn project_secure_php_encryption() {
     assert_success(&resp, "secure-php-encryption");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("encryption") || body.contains("Encryption") || body.contains("PHP"),
-        "Page should contain 'encryption' or 'PHP'"
+        body.contains("MCRYPT_RIJNDAEL_256"),
+        "Page should contain 'MCRYPT_RIJNDAEL_256'"
     );
 }
 
@@ -207,8 +207,8 @@ async fn project_generating_random_passwords() {
     assert_success(&resp, "generating-random-passwords");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("password") || body.contains("Password") || body.contains("random"),
-        "Page should contain 'password' or 'random'"
+        body.contains("PasswordGenerator"),
+        "Page should contain 'PasswordGenerator'"
     );
 }
 
@@ -227,8 +227,8 @@ async fn misc_writing_tips() {
     assert_success(&resp, "writing-tips");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("Writing") || body.contains("writing") || body.contains("Tips"),
-        "Page should contain 'Writing' or 'Tips'"
+        body.contains("re-read the previous sentence"),
+        "Page should contain 're-read the previous sentence'"
     );
 }
 
@@ -243,8 +243,8 @@ async fn misc_reading_list() {
     assert_success(&resp, "reading-list");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("Reading") || body.contains("reading") || body.contains("Books") || body.contains("books"),
-        "Page should contain 'Reading' or 'Books'"
+        body.contains("bibliography"),
+        "Page should contain 'bibliography'"
     );
 }
 
@@ -263,8 +263,8 @@ async fn page_about() {
     assert_success(&resp, "about");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("About") || body.contains("about") || body.contains("Taylor"),
-        "Page should contain 'About' or author name"
+        body.contains("Privacy and Usability Policy"),
+        "Page should contain 'Privacy and Usability Policy'"
     );
 }
 
@@ -279,8 +279,8 @@ async fn page_contact() {
     assert_success(&resp, "contact");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("Contact") || body.contains("contact") || body.contains("email"),
-        "Page should contain 'Contact' or 'email'"
+        body.contains("PGP Keys"),
+        "Page should contain 'PGP Keys'"
     );
 }
 
@@ -295,7 +295,7 @@ async fn page_transparency() {
     assert_success(&resp, "transparency");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("Transparency") || body.contains("transparency") || body.contains("warrant"),
-        "Page should contain 'Transparency' or 'warrant'"
+        body.contains("removed things from the pastebin"),
+        "Page should contain 'removed things from the pastebin'"
     );
 }

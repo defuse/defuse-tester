@@ -51,15 +51,10 @@ async fn shout_e_param_redirects_to_s_param() {
         .to_str()
         .unwrap();
 
-    // "hello" in base64 is "aGVsbG8="
+    // "hello" in base64 (no padding) is "aGVsbG8"
     assert!(
-        location.contains("?s=") || location.contains("&s="),
-        "/s.php?e=text should redirect to ?s=base64, got: {}",
-        location
-    );
-    assert!(
-        location.contains("aGVsbG8"),
-        "/s.php?e=hello should redirect to URL containing base64 of 'hello' (aGVsbG8), got: {}",
+        location.ends_with("/s.php?s=aGVsbG8"),
+        "/s.php?e=hello should redirect to /s.php?s=aGVsbG8, got: {}",
         location
     );
 }
@@ -83,8 +78,35 @@ async fn shout_s_param_displays_decoded_text() {
         &body.chars().take(500).collect::<String>()
     );
     assert!(
-        body.contains("300pt") || body.contains("300px"),
+        body.contains("300pt"),
         "/s.php should use 300pt font styling"
+    );
+}
+
+/// /s.php XSS test: HTML special chars in decoded base64 must be escaped
+#[tokio::test]
+async fn shout_xss_escaped() {
+    // base64("<script>alert(1)</script>") = "PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg"
+    let payload_b64 = "PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg";
+    let resp = client()
+        .get(url(&format!("/s.php?s={}", payload_b64)))
+        .send()
+        .await
+        .unwrap();
+
+    assert!(resp.status().is_success(), "/s.php?s=... should return 200");
+    let body = resp.text().await.unwrap();
+
+    // Must NOT contain unescaped script tag
+    assert!(
+        !body.contains("<script>"),
+        "/s.php should HTML-escape decoded text, but found raw <script> tag"
+    );
+    // Should contain the escaped form
+    assert!(
+        body.contains("&lt;script&gt;"),
+        "/s.php should contain escaped &lt;script&gt;, got: {}",
+        &body.chars().take(500).collect::<String>()
     );
 }
 
@@ -182,7 +204,7 @@ async fn ip_insecure_uses_large_font() {
 
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("30pt") || body.contains("30px"),
+        body.contains("30pt"),
         "/ip-insecure.php should use 30pt font styling"
     );
 }
@@ -303,5 +325,31 @@ async fn getmyip_custom_user_agent() {
         "/getmyip.php should display the custom User-Agent '{}', body: {}",
         custom_ua,
         &body.chars().take(500).collect::<String>()
+    );
+}
+
+/// /getmyip.php XSS test: HTML special chars in User-Agent must be escaped
+#[tokio::test]
+async fn getmyip_xss_user_agent_escaped() {
+    let malicious_ua = "<script>alert(1)</script>";
+    let resp = client()
+        .get(url("/getmyip.php"))
+        .header(USER_AGENT, malicious_ua)
+        .send()
+        .await
+        .unwrap();
+
+    assert!(resp.status().is_success());
+    let body = resp.text().await.unwrap();
+
+    // Must NOT contain unescaped script tag
+    assert!(
+        !body.contains("<script>"),
+        "/getmyip.php should HTML-escape the User-Agent, but found raw <script> tag"
+    );
+    // Should contain the escaped form
+    assert!(
+        body.contains("&lt;script&gt;"),
+        "/getmyip.php should contain escaped &lt;script&gt;"
     );
 }
