@@ -230,13 +230,13 @@ async fn getmyip_shows_ip() {
 
     let body = resp.text().await.unwrap();
 
-    // Check for IPv4 pattern (simple check)
+    // Check for IPv4 pattern
     let has_ipv4 = regex::Regex::new(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}")
         .unwrap()
         .is_match(&body);
 
-    // Or IPv6 pattern (contains colons with hex)
-    let has_ipv6 = body.contains(":") && regex::Regex::new(r"[0-9a-fA-F:]+")
+    // Check for IPv6 pattern (at least 3 colon-separated hex groups)
+    let has_ipv6 = regex::Regex::new(r"[0-9a-fA-F]{1,4}(:[0-9a-fA-F]{1,4}){2,7}")
         .unwrap()
         .is_match(&body);
 

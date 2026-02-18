@@ -30,29 +30,31 @@ async fn vim_highlight_has_code_section() {
     assert_success(&resp, "vim_highlight_has_code_section");
     let body = resp.text().await.unwrap();
 
-    // Check for the vimhighlight div or pre
+    // Check for the vimhighlight CSS class (used by highlight_string output)
     assert!(
-        body.contains("vimhighlight") || body.contains("vim-highlight") || body.contains("highlight"),
-        "VIM highlighting page should have a highlighted code section"
+        body.contains("vimhighlight"),
+        "VIM highlighting page should have a highlighted code section with 'vimhighlight' class"
     );
 }
 
-/// VIM highlighting contains PHP function keyword
+/// VIM highlighting contains syntax-highlighted PHP keywords
 #[tokio::test]
-async fn vim_highlight_has_function_keyword() {
+async fn vim_highlight_has_highlighted_keywords() {
     let resp = client()
         .get(url("/syntax-highlighting-in-php-with-vim.htm"))
         .send()
         .await
         .unwrap();
 
-    assert_success(&resp, "vim_highlight_has_function_keyword");
+    assert_success(&resp, "vim_highlight_has_highlighted_keywords");
     let body = resp.text().await.unwrap();
 
-    // The page shows PHP code with functions
+    // PHP keywords like require_once, new, echo should appear inside
+    // vim syntax-highlighted <span class="PreProc"> tags
+    let re = regex::Regex::new(r#"<span class="PreProc">(require_once|new|echo)</span>"#).unwrap();
     assert!(
-        body.contains("function"),
-        "VIM highlighting page should contain 'function' keyword in code samples"
+        re.is_match(&body),
+        "VIM highlighting page should contain PHP keywords inside highlighted <span> tags"
     );
 }
 

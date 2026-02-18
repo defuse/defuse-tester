@@ -623,18 +623,20 @@ async fn submit_message_and_verify_in_archive() {
         "Message should have ciphertext"
     );
 
-    // Verify timestamp is reasonable (within last minute)
+    // Verify timestamp is reasonable (within last 5 minutes)
     let time_re = Regex::new(r"time:(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})").unwrap();
-    if let Some(caps) = time_re.captures(our_message) {
-        let timestamp_str = caps.get(1).unwrap().as_str();
-        // Just verify it parses as a valid timestamp (detailed validation not critical)
-        assert!(
-            timestamp_str.len() >= 19,
-            "Timestamp should be ISO 8601 format"
-        );
-    } else {
-        panic!("Message should have valid timestamp format");
-    }
+    let caps = time_re.captures(our_message).expect("Message should have valid timestamp format");
+    let timestamp_str = caps.get(1).unwrap().as_str();
+    let timestamp = chrono::NaiveDateTime::parse_from_str(timestamp_str, "%Y-%m-%dT%H:%M:%S")
+        .expect("Timestamp should parse as ISO 8601");
+    let now = chrono::Utc::now().naive_utc();
+    let age = now - timestamp;
+    assert!(
+        age.num_seconds() >= 0 && age.num_seconds() < 300,
+        "Timestamp should be within the last 5 minutes, got {:?} (age: {}s)",
+        timestamp_str,
+        age.num_seconds()
+    );
 }
 
 /// Too large message is rejected (does not add to archive)

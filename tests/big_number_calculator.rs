@@ -949,32 +949,24 @@ async fn mixed_word_bitwise() {
 // =============================================================================
 
 #[tokio::test]
-async fn error_scientific_notation() {
-    // 'e' is valid hex char but 1e5 isn't valid hex literal format
-    // This may actually work as octal or error depending on interpretation
-    let result = calc("1e5").await;
-    // Either error or interprets differently
-    if let Ok(val) = result {
-        // If it succeeds, it's not 100000 (scientific notation)
-        assert_ne!(val, "100000", "Should not interpret as scientific notation");
-    }
+async fn scientific_notation() {
+    assert_calc("1e5", "100000.0").await;
+}
+
+#[tokio::test]
+async fn scientific_notation_negative_exponent() {
+    assert_calc("1e-5", "1.0e-05").await;
+}
+
+#[tokio::test]
+async fn scientific_notation_float_mantissa() {
+    assert_calc("2.5e3", "2500.0").await;
 }
 
 #[tokio::test]
 async fn error_whitespace_only() {
-    // Empty/whitespace-only should produce no result or error
-    let client = client();
-    let resp = client
-        .post(url("/big-number-calculator.htm"))
-        .form(&[("eqn", "   "), ("base", "dec"), ("submit", "Calculate")])
-        .send()
-        .await
-        .unwrap();
-    let body = resp.text().await.unwrap();
-    // Should either not have result div or have error
-    let result = extract_result(&body);
-    assert!(result.is_err() || result.as_ref().map(|s| s.trim().is_empty()).unwrap_or(false),
-        "Whitespace-only should error or be empty, got: {:?}", result);
+    let result = calc("   ").await;
+    assert!(result.is_err(), "Whitespace-only input should produce an error, got: {:?}", result);
 }
 
 #[tokio::test]
