@@ -1272,3 +1272,37 @@ async fn raw_content_type_plain() {
         content_type
     );
 }
+
+#[tokio::test]
+async fn raw_no_cache_headers() {
+    let content = test_content("raw no cache test");
+    let key = create_paste(&content).await;
+
+    let resp = get_paste_raw(&key).await;
+
+    let cache_control = resp
+        .headers()
+        .get("cache-control")
+        .expect("Should have Cache-Control on raw view")
+        .to_str()
+        .unwrap();
+
+    assert!(
+        cache_control.contains("no-cache") && cache_control.contains("must-revalidate"),
+        "Raw view should have no-cache, must-revalidate, got: {}",
+        cache_control
+    );
+
+    let expires = resp
+        .headers()
+        .get("expires")
+        .expect("Should have Expires on raw view")
+        .to_str()
+        .unwrap();
+
+    assert!(
+        expires.contains("1990") || expires.contains("1970"),
+        "Raw view Expires should be in the past, got: {}",
+        expires
+    );
+}
