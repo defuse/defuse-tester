@@ -104,3 +104,20 @@ async fn blog_slug_redirects_to_html() {
         location
     );
 }
+
+/// Nonexistent blog slug should return 404
+#[tokio::test]
+async fn blog_nonexistent_slug_returns_404() {
+    let resp = client()
+        .get(url("/blog/nonexistent-slug-xyz-12345"))
+        .send()
+        .await
+        .unwrap();
+
+    assert_eq!(
+        resp.status().as_u16(),
+        404,
+        "/blog/nonexistent-slug should return 404, got: {}",
+        resp.status()
+    );
+}

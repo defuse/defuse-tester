@@ -41,6 +41,7 @@ async fn home_page_has_correct_content_type() {
 #[tokio::test]
 async fn not_found_page_has_html_content_type() {
     let resp = client().get(url("/nonexistent-page-12345.htm")).send().await.unwrap();
+    assert_eq!(resp.status().as_u16(), 404, "Nonexistent page should return 404, got: {}", resp.status());
     assert_content_type(&resp, "text/html", "404 page");
 }
 
@@ -65,16 +66,12 @@ async fn pdf_download_has_correct_content_type() {
 async fn downloads_dir_allows_inline_rendering() {
     let resp = client().get(url("/downloads/thesis.pdf")).send().await.unwrap();
 
-    // Should NOT have Content-Disposition header (or if present, not "attachment")
-    if let Some(disposition) = resp.headers().get("content-disposition") {
-        let value = disposition.to_str().unwrap();
-        assert!(
-            !value.to_lowercase().contains("attachment"),
-            "/downloads/ files should render inline, but got Content-Disposition: {}",
-            value
-        );
-    }
-    // No Content-Disposition header is fine (allows inline rendering)
+    let disposition = resp.headers().get("content-disposition");
+    assert!(
+        disposition.is_none(),
+        "/downloads/ files should be viewable inline (no Content-Disposition), got: {:?}",
+        disposition
+    );
 }
 
 /// Files in /files2/ should NOT have Content-Disposition: attachment

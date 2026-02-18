@@ -454,6 +454,25 @@ async fn file_upload_binary_ntlm_hash() {
     );
 }
 
+/// normalize=no should preserve line endings in the hash input.
+const TEST_NEWLINE_TEST_MD5: &str = "be778b473235e210cc577056226536a4";
+
+#[tokio::test]
+async fn normalize_no_preserves_line_endings() {
+    let resp = post_form("/checksums.htm", &[("data", "test\ntest"), ("normalize", "no")]).await;
+    assert!(resp.status().is_success(), "POST to checksums failed: {}", resp.status());
+
+    let body = resp.text().await.expect("Failed to read response body");
+    let hashes = extract_hashes(&body);
+
+    let md5_hash = hashes.get("md5").expect("md5 hash not found");
+    assert_eq!(
+        md5_hash, TEST_NEWLINE_TEST_MD5,
+        "normalize=no should preserve line endings: md5('test\\ntest') should be '{}', got '{}'",
+        TEST_NEWLINE_TEST_MD5, md5_hash
+    );
+}
+
 /// Test that empty file uploads produce hashes of empty string (not "no results").
 #[tokio::test]
 async fn file_upload_empty_file() {
