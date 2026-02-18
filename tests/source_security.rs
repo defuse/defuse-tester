@@ -194,3 +194,57 @@ async fn libs_bibliography_php_returns_403_or_404() {
         resp.status()
     );
 }
+
+// =============================================================================
+// Path Traversal Tests
+// =============================================================================
+// Storage directories serve files from STORAGE_PATH/extras/*. Path traversal
+// attacks must not escape the served directory. tower_http::ServeDir handles
+// this, but a version upgrade or route refactoring could break it.
+// The storage root contains credentials — escaping extras/ is critical.
+
+/// Helper to assert a path traversal attempt returns 400 or 404
+fn assert_traversal_blocked(status: u16, path: &str) {
+    assert!(
+        status == 400 || status == 404,
+        "{}: path traversal should return 400 or 404, got {}",
+        path,
+        status
+    );
+}
+
+#[tokio::test]
+async fn path_traversal_files_dotdot() {
+    let resp = client().get(url("/files/../../.env")).send().await.unwrap();
+    assert_traversal_blocked(resp.status().as_u16(), "/files/../../.env");
+}
+
+#[tokio::test]
+async fn path_traversal_files_encoded() {
+    let resp = client().get(url("/files/..%2F..%2F.env")).send().await.unwrap();
+    assert_traversal_blocked(resp.status().as_u16(), "/files/..%2F..%2F.env");
+}
+
+#[tokio::test]
+async fn path_traversal_files2_dotdot() {
+    let resp = client().get(url("/files2/../../.env")).send().await.unwrap();
+    assert_traversal_blocked(resp.status().as_u16(), "/files2/../../.env");
+}
+
+#[tokio::test]
+async fn path_traversal_mirrors_dotdot() {
+    let resp = client().get(url("/mirrors/../../../etc/passwd")).send().await.unwrap();
+    assert_traversal_blocked(resp.status().as_u16(), "/mirrors/../../../etc/passwd");
+}
+
+#[tokio::test]
+async fn path_traversal_upload_dotdot() {
+    let resp = client().get(url("/upload/../../../etc/passwd")).send().await.unwrap();
+    assert_traversal_blocked(resp.status().as_u16(), "/upload/../../../etc/passwd");
+}
+
+#[tokio::test]
+async fn path_traversal_source_dotdot() {
+    let resp = client().get(url("/source/../../.env")).send().await.unwrap();
+    assert_traversal_blocked(resp.status().as_u16(), "/source/../../.env");
+}

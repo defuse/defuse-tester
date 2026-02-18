@@ -460,11 +460,15 @@ async fn disassemble_c_array_format() {
 #[tokio::test]
 async fn disassemble_mixed_case_hex() {
     let body = disassemble("9a9A9a", "x86").await;
-    // Should handle mixed case - 9A is "call far" or similar
+    // Should handle mixed case hex input without error
     assert!(
-        !body.contains("Error"),
+        !contains_error(&body),
         "Mixed case hex disassembly should not error, got: {}",
         &body[..body.len().min(500)]
+    );
+    assert!(
+        extract_hex_output(&body).is_some(),
+        "Mixed case hex should produce disassembly output"
     );
 }
 
@@ -624,21 +628,26 @@ async fn output_disassembly_text() {
 #[tokio::test]
 async fn assemble_empty_input() {
     let body = assemble("", "x86").await;
-    // Should handle gracefully - either show empty result or appropriate message
-    // Should not crash or return 500
     assert!(
-        body.len() > 0,
-        "Empty input should return a page, not crash"
+        !contains_error(&body),
+        "Empty assembly input should not produce an error"
+    );
+    assert!(
+        extract_hex_output(&body).is_none(),
+        "Empty assembly input should not produce hex output"
     );
 }
 
 #[tokio::test]
 async fn disassemble_empty_input() {
     let body = disassemble("", "x86").await;
-    // Should handle gracefully
     assert!(
-        body.len() > 0,
-        "Empty disassembly input should return a page, not crash"
+        !contains_error(&body),
+        "Empty disassembly input should not produce an error"
+    );
+    assert!(
+        extract_hex_output(&body).is_none(),
+        "Empty disassembly input should not produce hex output"
     );
 }
 
@@ -1047,12 +1056,18 @@ async fn assemble_invalid_architecture() {
         .await
         .expect("Failed to send request");
 
-    // Should either return error or fall back to default
+    // Server defaults to x86 for invalid architectures
     let body = resp.text().await.unwrap();
-    // Either shows error or ignores invalid arch and assembles anyway
     assert!(
-        body.len() > 0,
-        "Invalid architecture should be handled gracefully"
+        !contains_error(&body),
+        "Invalid architecture should fall back to x86 without error"
+    );
+    let hex = extract_hex_output(&body)
+        .expect("Invalid arch should fall back to x86 and produce output");
+    assert!(
+        hex.contains("90"),
+        "nop should assemble to 0x90 (x86 fallback), got: {}",
+        hex
     );
 }
 
@@ -1063,17 +1078,22 @@ async fn disassemble_invalid_architecture() {
         .post(url("/online-x86-assembler.htm"))
         .form(&[
             ("hexstring", "90"),
-            ("arch", "invalid_arch"),
+            ("arch", "invalid_arch"), // Not a valid architecture
             ("submit", "Disassemble"),
         ])
         .send()
         .await
         .expect("Failed to send request");
 
+    // Server defaults to x86 for invalid architectures
     let body = resp.text().await.unwrap();
     assert!(
-        body.len() > 0,
-        "Invalid architecture should be handled gracefully"
+        !contains_error(&body),
+        "Invalid architecture should fall back to x86 without error"
+    );
+    assert!(
+        body.to_lowercase().contains("nop"),
+        "0x90 should disassemble to nop (x86 fallback)"
     );
 }
 

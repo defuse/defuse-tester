@@ -366,8 +366,11 @@ async fn view_drawing_negative_number() {
         .await
         .unwrap();
     assert_success(&resp, "view_drawing_negative_number");
-    let _body = resp.text().await.unwrap();
-    // Should handle gracefully (either not exist or show something)
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("does not exist"),
+        "Negative drawing number should show 'does not exist' message"
+    );
 }
 
 #[tokio::test]
@@ -1262,7 +1265,13 @@ async fn random_numbers_in_range() {
 
     // Extract random numbers and verify they're in range
     let re = Regex::new(r"RANDOM NUMBER, NUMBER \d+: (\d+)").unwrap();
-    for cap in re.captures_iter(&body) {
+    let captures: Vec<_> = re.captures_iter(&body).collect();
+    assert_eq!(
+        captures.len(),
+        10,
+        "Should have found 10 random numbers"
+    );
+    for cap in &captures {
         let num: i32 = cap.get(1).unwrap().as_str().parse().unwrap();
         assert!(
             num >= 50 && num <= 60,

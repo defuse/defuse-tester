@@ -67,6 +67,16 @@ async fn bh2016_whitepaper() {
 // Requires STORAGE_PATH to be set and the files to exist.
 // =============================================================================
 
+/// Helper to assert that /files2/ responses are viewable in browser (no forced download)
+fn assert_no_attachment(resp: &reqwest::Response, context: &str) {
+    assert!(
+        resp.headers().get("content-disposition").is_none(),
+        "{}: /files2/ files should be viewable in browser (no Content-Disposition), got: {:?}",
+        context,
+        resp.headers().get("content-disposition")
+    );
+}
+
 #[tokio::test]
 async fn pocorgtfo_00() {
     let resp = client()
@@ -75,6 +85,7 @@ async fn pocorgtfo_00() {
         .await
         .unwrap();
     assert_success(&resp, "/files2/poc/pocorgtfo00.pdf");
+    assert_no_attachment(&resp, "/files2/poc/pocorgtfo00.pdf");
 }
 
 #[tokio::test]
@@ -86,6 +97,7 @@ async fn pocorgtfo_10() {
         .await
         .unwrap();
     assert_success(&resp, "/files2/poc/pocorgtfo10.pdf");
+    assert_no_attachment(&resp, "/files2/poc/pocorgtfo10.pdf");
 }
 
 #[tokio::test]
@@ -97,6 +109,7 @@ async fn pocorgtfo_21() {
         .await
         .unwrap();
     assert_success(&resp, "/files2/poc/pocorgtfo21.pdf");
+    assert_no_attachment(&resp, "/files2/poc/pocorgtfo21.pdf");
 }
 
 #[tokio::test]
@@ -107,4 +120,5 @@ async fn insfilter_pdf() {
         .await
         .unwrap();
     assert_success(&resp, "/files2/insfilter.pdf");
+    assert_no_attachment(&resp, "/files2/insfilter.pdf");
 }

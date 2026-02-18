@@ -794,15 +794,24 @@ async fn message_format_single_line() {
 
     assert!(!messages.is_empty(), "Should have at least one message");
 
-    // Each message should be self-contained on one line
-    // (we're iterating by lines so this is implicitly true,
-    // but we verify the message contains all expected fields)
     for msg in messages.iter().take(5) {
-        // Check a sample
+        // Each line must contain all expected fields
         assert!(
             msg.contains("algorithm:") && msg.contains("ciphertext:"),
-            "Each message line should contain all fields"
+            "Each message line should contain all fields: {}",
+            msg
         );
+
+        // Fields must not be duplicated on the same line — if they are,
+        // it means multiple messages were merged onto one line
+        for field in &["time:", "algorithm:", "ciphertext:"] {
+            let count = msg.matches(field).count();
+            assert_eq!(
+                count, 1,
+                "Field '{}' appears {} times on one line (expected 1): {}",
+                field, count, msg
+            );
+        }
     }
 }
 

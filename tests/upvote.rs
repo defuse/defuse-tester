@@ -871,6 +871,126 @@ async fn homepage_second_item_downvote() {
 }
 
 // =============================================================================
+// CSRF Protection Tests
+// =============================================================================
+
+/// POST to /upvote.php without Origin/Referer header should be rejected
+#[tokio::test]
+#[serial]
+async fn ajax_csrf_rejected_no_origin() {
+    let client = Client::builder()
+        .redirect(reqwest::redirect::Policy::none())
+        .timeout(std::time::Duration::from_secs(30))
+        .build()
+        .unwrap();
+
+    let resp = client
+        .post(url("/upvote.php"))
+        // No Origin or Referer header
+        .form(&[
+            ("upvotes_id", TEST_PAGE),
+            ("upvotes_direction", "up"),
+        ])
+        .send()
+        .await
+        .unwrap();
+
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("<status>fail</status>"),
+        "POST without Origin should return status=fail, got: {}",
+        body
+    );
+}
+
+/// POST to /upvote.php with evil Origin header should be rejected
+#[tokio::test]
+#[serial]
+async fn ajax_csrf_rejected_evil_origin() {
+    let client = Client::builder()
+        .redirect(reqwest::redirect::Policy::none())
+        .timeout(std::time::Duration::from_secs(30))
+        .build()
+        .unwrap();
+
+    let resp = client
+        .post(url("/upvote.php"))
+        .header("origin", "https://evil.com")
+        .form(&[
+            ("upvotes_id", TEST_PAGE),
+            ("upvotes_direction", "up"),
+        ])
+        .send()
+        .await
+        .unwrap();
+
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("<status>fail</status>"),
+        "POST with evil Origin should return status=fail, got: {}",
+        body
+    );
+}
+
+/// Form POST to a page without Origin/Referer should return 403
+#[tokio::test]
+#[serial]
+async fn form_csrf_rejected_no_origin() {
+    let client = Client::builder()
+        .redirect(reqwest::redirect::Policy::none())
+        .timeout(std::time::Duration::from_secs(30))
+        .build()
+        .unwrap();
+
+    let resp = client
+        .post(url(&format!("/{}.htm", TEST_PAGE_URL)))
+        // No Origin or Referer header
+        .form(&[
+            ("upvotes_id", TEST_PAGE),
+            ("upvotes_direction", "up"),
+        ])
+        .send()
+        .await
+        .unwrap();
+
+    assert_eq!(
+        resp.status().as_u16(),
+        403,
+        "Form POST without Origin should return 403, got: {}",
+        resp.status()
+    );
+}
+
+/// Form POST to a page with evil Origin should return 403
+#[tokio::test]
+#[serial]
+async fn form_csrf_rejected_evil_origin() {
+    let client = Client::builder()
+        .redirect(reqwest::redirect::Policy::none())
+        .timeout(std::time::Duration::from_secs(30))
+        .build()
+        .unwrap();
+
+    let resp = client
+        .post(url(&format!("/{}.htm", TEST_PAGE_URL)))
+        .header("origin", "https://evil.com")
+        .form(&[
+            ("upvotes_id", TEST_PAGE),
+            ("upvotes_direction", "up"),
+        ])
+        .send()
+        .await
+        .unwrap();
+
+    assert_eq!(
+        resp.status().as_u16(),
+        403,
+        "Form POST with evil Origin should return 403, got: {}",
+        resp.status()
+    );
+}
+
+// =============================================================================
 // All-Pages Upvote Form Tests
 // =============================================================================
 

@@ -68,13 +68,9 @@ async fn vim_highlight_has_method_name() {
     assert_success(&resp, "vim_highlight_has_method_name");
     let body = resp.text().await.unwrap();
 
-    // The page demonstrates VimHighlight class with these methods
-    let has_method = body.contains("vimhl_convert")
-        || body.contains("vimhl_exec")
-        || body.contains("VimHighlight");
-
+    // The page shows highlighted PHP code using the VimHighlight class
     assert!(
-        has_method,
-        "VIM highlighting page should contain method names like 'vimhl_convert', 'vimhl_exec', or 'VimHighlight'"
+        body.contains("setVimCommand"),
+        "VIM highlighting page should contain 'setVimCommand' from the highlighted PHP example"
     );
 }

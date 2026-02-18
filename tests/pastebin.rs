@@ -414,6 +414,12 @@ async fn view_paste_exists() {
 #[tokio::test]
 async fn view_paste_not_found() {
     let resp = get_paste("nonexistent123456789012").await;
+    assert_eq!(
+        resp.status().as_u16(),
+        404,
+        "Not-found paste should return 404, got: {}",
+        resp.status()
+    );
     let body = resp.text().await.unwrap();
 
     assert!(
@@ -1051,8 +1057,8 @@ async fn invalid_url_key() {
 
     assert_eq!(
         resp.status().as_u16(),
-        200,
-        "Invalid key should return 200 with not-found page, got: {}",
+        404,
+        "Invalid key should return 404 with not-found page, got: {}",
         resp.status()
     );
     let body = resp.text().await.unwrap();
@@ -1069,8 +1075,8 @@ async fn extremely_long_key() {
 
     assert_eq!(
         resp.status().as_u16(),
-        200,
-        "Extremely long key should return 200 with not-found page, got: {}",
+        404,
+        "Extremely long key should return 404 with not-found page, got: {}",
         resp.status()
     );
     let body = resp.text().await.unwrap();
