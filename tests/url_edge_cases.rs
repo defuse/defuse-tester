@@ -38,8 +38,7 @@ async fn double_slash_at_start_returns_404() {
     assert_status(&resp, 404, "//about.htm (double slash)");
 }
 
-/// Double slash in static file paths gets normalized by Apache (serves the file)
-/// Rust implementation intentionally does NOT normalize double slashes - returns 404
+/// Double slash in static file paths gets normalized (serves the file)
 #[tokio::test]
 async fn double_slash_in_static_path_normalized() {
     let resp = client().get(url("/downloads//thesis.pdf")).send().await.unwrap();

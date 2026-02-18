@@ -1049,10 +1049,16 @@ async fn post_without_paste_field() {
 async fn invalid_url_key() {
     let resp = get_paste("!@#$%^").await;
 
-    // Should not crash, should show not found or error
+    assert_eq!(
+        resp.status().as_u16(),
+        200,
+        "Invalid key should return 200 with not-found page, got: {}",
+        resp.status()
+    );
+    let body = resp.text().await.unwrap();
     assert!(
-        resp.status().is_success() || resp.status().is_client_error(),
-        "Should handle invalid key gracefully"
+        body.contains("Sorry, the paste you were looking for could not be found."),
+        "Invalid key should show not-found message"
     );
 }
 
@@ -1061,10 +1067,16 @@ async fn extremely_long_key() {
     let long_key = "a".repeat(1000);
     let resp = get_paste(&long_key).await;
 
-    // Should handle gracefully, not crash
+    assert_eq!(
+        resp.status().as_u16(),
+        200,
+        "Extremely long key should return 200 with not-found page, got: {}",
+        resp.status()
+    );
+    let body = resp.text().await.unwrap();
     assert!(
-        resp.status().is_success() || resp.status().is_client_error(),
-        "Should handle extremely long key gracefully"
+        body.contains("Sorry, the paste you were looking for could not be found."),
+        "Extremely long key should show not-found message"
     );
 }
 

@@ -266,9 +266,10 @@ async fn assemble_relative_jump_x86() {
     // Test the `. ` directive for relative jumps
     let body = assemble("jmp . + 5", "x86").await;
     // Should assemble without error (tests safe directive)
+    assert!(!contains_error(&body), "Relative jump should assemble without error");
     assert!(
-        !contains_error(&body) || extract_hex_output(&body).is_some(),
-        "Relative jump should assemble successfully"
+        extract_hex_output(&body).is_some(),
+        "Relative jump should produce hex output"
     );
 }
 
@@ -460,10 +461,10 @@ async fn disassemble_c_array_format() {
 async fn disassemble_mixed_case_hex() {
     let body = disassemble("9a9A9a", "x86").await;
     // Should handle mixed case - 9A is "call far" or similar
-    // Just verify it doesn't error
     assert!(
-        !body.contains("Error") || body.to_lowercase().contains("call") || body.contains("Disassembly"),
-        "Mixed case hex should be handled"
+        !body.contains("Error"),
+        "Mixed case hex disassembly should not error, got: {}",
+        &body[..body.len().min(500)]
     );
 }
 
@@ -474,35 +475,28 @@ async fn disassemble_mixed_case_hex() {
 #[tokio::test]
 async fn disassemble_with_nul_byte() {
     let body = disassemble("90 00 90", "x86").await;
-    let hex_bold = extract_hex_with_bold(&body);
-    if let Some(hex) = hex_bold {
-        assert!(
-            hex.contains("<b>00</b>"),
-            "Nul byte should be bold in output, got: {}",
-            hex
-        );
-    }
-    // Also verify the page shows the result somehow
+    let hex_bold = extract_hex_with_bold(&body)
+        .expect("Should have hex bold output for disassemble_with_nul_byte");
     assert!(
-        body.contains("90") || body.to_lowercase().contains("nop"),
-        "Should show disassembly result"
+        hex_bold.contains("<b>00</b>"),
+        "Nul byte should be bold in output, got: {}",
+        hex_bold
     );
 }
 
 #[tokio::test]
 async fn disassemble_multiple_nul_bytes() {
     let body = disassemble("00 00 00", "x86").await;
-    let hex_bold = extract_hex_with_bold(&body);
-    if let Some(hex) = hex_bold {
-        // Count occurrences of <b>00</b>
-        let count = hex.matches("<b>00</b>").count();
-        assert!(
-            count >= 3,
-            "All three nul bytes should be bold, got {} bold bytes in: {}",
-            count,
-            hex
-        );
-    }
+    let hex_bold = extract_hex_with_bold(&body)
+        .expect("Should have hex bold output for disassemble_multiple_nul_bytes");
+    // Count occurrences of <b>00</b>
+    let count = hex_bold.matches("<b>00</b>").count();
+    assert!(
+        count >= 3,
+        "All three nul bytes should be bold, got {} bold bytes in: {}",
+        count,
+        hex_bold
+    );
 }
 
 #[tokio::test]

@@ -821,15 +821,13 @@ async fn main_page_content_type() {
 #[tokio::test]
 async fn download_no_sniff() {
     let resp = get_archive().await;
-    let header = resp.headers().get("x-content-type-options");
-    if let Some(value) = header {
-        assert_eq!(
-            value.to_str().unwrap(),
-            "nosniff",
-            "X-Content-Type-Options should be 'nosniff'"
-        );
-    }
-    // Note: If header is missing, we don't fail - this is a nice-to-have
+    let header = resp.headers().get("x-content-type-options")
+        .expect("X-Content-Type-Options header should be present");
+    assert_eq!(
+        header.to_str().unwrap(),
+        "nosniff",
+        "X-Content-Type-Options should be 'nosniff'"
+    );
 }
 
 // =============================================================================

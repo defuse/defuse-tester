@@ -828,8 +828,9 @@ async fn create_file_too_large() {
     .await;
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("maximum file size") || body.contains("10MB") || body.contains("too large"),
-        "Should reject file larger than 10MB"
+        body.contains("Sorry, maximum file size is 10MB."),
+        "Should reject file larger than 10MB with exact message. Got: {}",
+        &body[..body.len().min(1000)]
     );
 }
 
@@ -1647,7 +1648,10 @@ async fn file_no_repeat_lines() {
     let re = Regex::new(r"RANDOM LINE NUMBER \(FILE1\): (\d+)").unwrap();
     let line_nums: Vec<u32> = re
         .captures_iter(&body)
-        .filter_map(|cap| cap.get(1)?.as_str().parse().ok())
+        .map(|cap| {
+            let s = cap.get(1).expect("Regex capture group 1 missing").as_str();
+            s.parse::<u32>().unwrap_or_else(|e| panic!("Failed to parse line number '{}': {}", s, e))
+        })
         .collect();
 
     // Should have 5 unique line numbers
@@ -1695,8 +1699,10 @@ async fn file_allow_repeat_lines() {
 
     // Step 2: Confirm the drawing and verify the printout records chosentwice
     let form_file1hash = extract_file_hash(&body, 1).expect("Should get file1 hash");
-    let form_randlines1 = extract_hidden_input(&body, "randlines1").unwrap_or_default();
-    let form_chosentwice = extract_hidden_input(&body, "chosentwice").unwrap_or_default();
+    let form_randlines1 = extract_hidden_input(&body, "randlines1")
+        .expect("Should find randlines1 hidden input on confirmation page");
+    let form_chosentwice = extract_hidden_input(&body, "chosentwice")
+        .expect("Should find chosentwice hidden input on confirmation page");
     let resp = post_form(
         "/trustedthirdparty.htm",
         &[
@@ -1761,9 +1767,9 @@ async fn file_empty_with_chosentwice_rejected() {
     // Should reject: can't select lines from a file with 0 lines,
     // even with repeats allowed.
     assert!(
-        body.contains("enough lines") || body.contains("error") || body.contains("Error"),
+        body.contains("have enough lines"),
         "Should reject empty file even with chosentwice=true. Got: {}",
-        &body[..body.len().min(1000)],
+        &body[..body.len().min(2000)],
     );
 }
 
@@ -2009,9 +2015,7 @@ async fn file_multiple_files() {
     );
 }
 
-// BUG: Random lines from FILE2 and FILE3 are incorrectly labeled as FILE1 in results.
-// All lines show "FILE1 RANDOM LINE" and "RANDOM LINE NUMBER (FILE1)" regardless of
-// which file they actually came from. See docs/issues/trent-multifile-label-bug.md
+// Previously FILE2 and FILE3 random lines were incorrectly labeled as FILE1 (fixed).
 #[tokio::test]
 async fn file_multiple_files_correct_labels() {
     let (drawing_num, passcode) = reserve_drawing(0).await;

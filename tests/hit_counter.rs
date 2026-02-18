@@ -32,9 +32,11 @@ fn extract_hit_counts(html: &str) -> (i64, i64) {
             let value_text = td.text().collect::<String>();
 
             if header_text.contains("Page Hits") {
-                page_hits = value_text.trim().parse().ok();
+                page_hits = Some(value_text.trim().parse()
+                    .unwrap_or_else(|e| panic!("Page Hits value '{}' is not a number: {}", value_text.trim(), e)));
             } else if header_text.contains("Unique Hits") {
-                unique_hits = value_text.trim().parse().ok();
+                unique_hits = Some(value_text.trim().parse()
+                    .unwrap_or_else(|e| panic!("Unique Hits value '{}' is not a number: {}", value_text.trim(), e)));
             }
         }
     }

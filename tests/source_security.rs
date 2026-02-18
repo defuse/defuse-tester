@@ -35,8 +35,9 @@ async fn source_php_not_executed() {
     let content_type = resp
         .headers()
         .get("content-type")
-        .map(|v| v.to_str().unwrap_or(""))
-        .unwrap_or("");
+        .expect("source_php_not_executed: Content-Type header should be present")
+        .to_str()
+        .unwrap();
 
     // Content-Type MUST NOT be text/html (that indicates PHP execution)
     // Should be text/plain, text/x-php, or application/octet-stream
@@ -123,8 +124,9 @@ async fn source_files_have_attachment_disposition() {
     let disposition = resp
         .headers()
         .get("content-disposition")
-        .map(|v| v.to_str().unwrap_or(""))
-        .unwrap_or("");
+        .expect("source_files_have_attachment_disposition: Content-Disposition header should be present")
+        .to_str()
+        .unwrap();
 
     // Should have attachment disposition to trigger download
     // Note: "attachment" alone is acceptable, doesn't need filename
