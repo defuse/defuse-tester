@@ -540,15 +540,6 @@ async fn submit_message(
 /// - Message has all expected fields
 #[tokio::test]
 async fn submit_message_and_verify_in_archive() {
-    // Skip if no bypass key available
-    let bypass_key = match get_captcha_bypass_key() {
-        Some(key) => key,
-        None => {
-            eprintln!("Skipping test: CAPTCHA bypass key not found");
-            return;
-        }
-    };
-
     // Get initial archive state
     let archive_before = get_archive().await.text().await.unwrap();
     let count_before = count_archive_messages(&archive_before);
@@ -569,21 +560,14 @@ async fn submit_message_and_verify_in_archive() {
         test_timestamp
     );
 
-    // Submit the message
-    // The "message" field is the plaintext, only used for error recovery (not stored)
-    let resp = client()
-        .post(url("/quantum-computer-time-capsule.htm"))
-        .header("X-Captcha-Bypass", &bypass_key)
-        .form(&[
-            ("ciphertext", ciphertext.as_str()),
-            ("message", "AUTOMATED_TEST"),
-            ("algorithm", algorithm),
-            ("present_public_key", present_public_key),
-            ("future_public_key", future_public_key),
-        ])
-        .send()
-        .await
-        .expect("Failed to submit message");
+    // Submit the message via the shared helper
+    let resp = submit_message(
+        "AUTOMATED_TEST",
+        algorithm,
+        present_public_key,
+        future_public_key,
+        &ciphertext,
+    ).await;
 
     let status = resp.status();
     let body = resp.text().await.unwrap();
@@ -656,33 +640,12 @@ async fn submit_message_and_verify_in_archive() {
 /// Too large message is rejected (does not add to archive)
 #[tokio::test]
 async fn submit_too_large_rejected() {
-    // Skip if no bypass key available
-    let bypass_key = match get_captcha_bypass_key() {
-        Some(key) => key,
-        None => {
-            eprintln!("Skipping test: CAPTCHA bypass key not found");
-            return;
-        }
-    };
-
     // Create a message that will exceed 200KB when combined
     // The combined line is: time:... algorithm:... presentpublickey:... futurepublickey:... ciphertext:...
     // We need the total to be >= 200000 bytes
     let large_ciphertext = "X".repeat(200000);
 
-    let resp = client()
-        .post(url("/quantum-computer-time-capsule.htm"))
-        .header("X-Captcha-Bypass", &bypass_key)
-        .form(&[
-            ("message", "Test"),
-            ("algorithm", "test"),
-            ("present_public_key", "test"),
-            ("future_public_key", "test"),
-            ("ciphertext", &large_ciphertext),
-        ])
-        .send()
-        .await
-        .expect("Failed to submit message");
+    let resp = submit_message("Test", "test", "test", "test", &large_ciphertext).await;
 
     assert!(resp.status().is_success(), "POST should return 200");
     let body = resp.text().await.unwrap();
@@ -702,30 +665,7 @@ async fn submit_too_large_rejected() {
 /// Message with newlines in ciphertext is rejected (does not add to archive)
 #[tokio::test]
 async fn submit_with_newlines_rejected() {
-    // Skip if no bypass key available
-    let bypass_key = match get_captcha_bypass_key() {
-        Some(key) => key,
-        None => {
-            eprintln!("Skipping test: CAPTCHA bypass key not found");
-            return;
-        }
-    };
-
-    let ciphertext_with_newline = "valid_part\ninvalid_newline";
-
-    let resp = client()
-        .post(url("/quantum-computer-time-capsule.htm"))
-        .header("X-Captcha-Bypass", &bypass_key)
-        .form(&[
-            ("message", "Test"),
-            ("algorithm", "test"),
-            ("present_public_key", "test"),
-            ("future_public_key", "test"),
-            ("ciphertext", ciphertext_with_newline),
-        ])
-        .send()
-        .await
-        .expect("Failed to submit message");
+    let resp = submit_message("Test", "test", "test", "test", "valid_part\ninvalid_newline").await;
 
     assert!(resp.status().is_success(), "POST should return 200");
     let body = resp.text().await.unwrap();

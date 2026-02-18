@@ -5,7 +5,7 @@
 
 mod common;
 
-use common::{assert_redirect, assert_status, assert_success, client, url};
+use common::{assert_redirect, assert_success, client, url};
 
 // =============================================================================
 // Extension & Case Normalization
