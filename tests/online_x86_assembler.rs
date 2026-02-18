@@ -148,14 +148,56 @@ fn extract_array_literal(html: &str) -> Option<String> {
     None
 }
 
-/// Check if the response contains an error message
-fn contains_error(html: &str) -> bool {
-    html.contains("Error") || html.contains("error") || html.contains("unsafe")
+/// Extract the disassembly text from the response HTML.
+/// Converts HTML formatting (&nbsp; -> space, <br /> -> newline) to plain text.
+fn extract_disassembly(html: &str) -> Option<String> {
+    // The disassembly is inside: <div ...>Disassembly:</div>\n<div ...>\n<p>...</p>
+    // We look for the second "Disassembly:</div>" (the disassembly result, not the form)
+    // by finding the one followed by a monospace div with a <p> containing the actual text.
+    let marker = "Disassembly:</div>";
+    let mut search_from = 0;
+    // Find each occurrence and check if it's followed by the actual disassembly content
+    while let Some(pos) = html[search_from..].find(marker) {
+        let abs_pos = search_from + pos + marker.len();
+        let after = &html[abs_pos..];
+        // Look for <p> inside a monospace div
+        if let Some(p_start) = after.find("<p>") {
+            let content_start = p_start + 3;
+            if let Some(p_end) = after[content_start..].find("</p>") {
+                let raw = &after[content_start..content_start + p_end];
+                // Only accept if it looks like disassembly (contains hex addresses)
+                if raw.contains("push") || raw.contains("mov") || raw.contains("nop") || raw.contains("ret") {
+                    let text = raw
+                        .replace("<br />", "\n")
+                        .replace("<br/>", "\n")
+                        .replace("&nbsp;", " ")
+                        .replace("&amp;", "&")
+                        .replace("&lt;", "<")
+                        .replace("&gt;", ">");
+                    // Normalize: trim each line, drop empty lines, rejoin
+                    let normalized: String = text
+                        .lines()
+                        .map(|l| l.trim())
+                        .filter(|l| !l.is_empty())
+                        .collect::<Vec<_>>()
+                        .join("\n");
+                    return Some(normalized.trim().to_string());
+                }
+            }
+        }
+        search_from = abs_pos;
+    }
+    None
 }
 
-/// Check if response indicates unsafe code rejection
+/// Check if the response contains an error message
+fn contains_error(html: &str) -> bool {
+    html.contains("Error") || html.contains("error")
+}
+
+/// Check if response indicates unsafe directive rejection
 fn is_unsafe_rejection(html: &str) -> bool {
-    html.contains("unsafe") || html.contains("Unsafe") || html.contains("not allowed")
+    html.contains("unsafe directives")
 }
 
 // =============================================================================
@@ -331,7 +373,7 @@ async fn assemble_invalid_instruction() {
 async fn assemble_unsafe_fill_directive() {
     let body = assemble(".fill 1000000, 1, 0x90", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".fill should be rejected as unsafe"
     );
 }
@@ -340,7 +382,7 @@ async fn assemble_unsafe_fill_directive() {
 async fn assemble_unsafe_app_comment() {
     let body = assemble("#APP\nnop", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         "#APP should be rejected as unsafe"
     );
 }
@@ -349,7 +391,7 @@ async fn assemble_unsafe_app_comment() {
 async fn assemble_unsafe_no_app_comment() {
     let body = assemble("#NO_APP\nnop", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         "#NO_APP should be rejected as unsafe"
     );
 }
@@ -621,8 +663,8 @@ async fn assemble_over_size_limit_rejected() {
     let large_code = "nop\n".repeat(3000); // ~12KB
     let body = assemble(&large_code, "x86").await;
     assert!(
-        body.contains("too big") || body.contains("unsafe"),
-        "Assembly input over 10KB should be rejected, got: {}",
+        body.contains("too large"),
+        "Assembly input over 10KB should be rejected with size error, got: {}",
         &body[..std::cmp::min(500, body.len())]
     );
 }
@@ -837,7 +879,7 @@ async fn assemble_unsafe_org_directive() {
     // .org can set arbitrary addresses - should be rejected
     let body = assemble(".org 0x1000\nnop", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".org should be rejected as unsafe"
     );
 }
@@ -847,7 +889,7 @@ async fn assemble_unsafe_section_directive() {
     // .section can create arbitrary sections - should be rejected
     let body = assemble(".section .text\nnop", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".section should be rejected as unsafe"
     );
 }
@@ -857,7 +899,7 @@ async fn assemble_unsafe_include_directive() {
     // .include can include arbitrary files - should be rejected
     let body = assemble(".include \"/etc/passwd\"\n", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".include should be rejected as unsafe"
     );
 }
@@ -867,7 +909,7 @@ async fn assemble_unsafe_incbin_directive() {
     // .incbin can include binary files - should be rejected
     let body = assemble(".incbin \"/etc/passwd\"\n", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".incbin should be rejected as unsafe"
     );
 }
@@ -877,7 +919,7 @@ async fn assemble_unsafe_macro_directive() {
     // .macro can define macros - should be rejected
     let body = assemble(".macro mymacro\nnop\n.endm\nmymacro", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".macro should be rejected as unsafe"
     );
 }
@@ -887,7 +929,7 @@ async fn assemble_unsafe_rept_directive() {
     // .rept can repeat blocks - could be used for memory exhaustion
     let body = assemble(".rept 1000000\nnop\n.endr", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".rept should be rejected as unsafe"
     );
 }
@@ -897,7 +939,7 @@ async fn assemble_unsafe_space_directive() {
     // .space reserves space - could exhaust memory
     let body = assemble(".space 1000000", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".space should be rejected as unsafe"
     );
 }
@@ -907,7 +949,7 @@ async fn assemble_unsafe_skip_directive() {
     // .skip is another form of reserving space
     let body = assemble(".skip 1000000", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".skip should be rejected as unsafe"
     );
 }
@@ -917,7 +959,7 @@ async fn assemble_unsafe_set_directive() {
     // .set can set symbols - should be rejected
     let body = assemble(".set foo, 42\n.byte foo", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".set should be rejected as unsafe"
     );
 }
@@ -927,7 +969,7 @@ async fn assemble_unsafe_equ_directive() {
     // .equ can assign values to symbols
     let body = assemble(".equ foo, 42\n.byte foo", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".equ should be rejected as unsafe"
     );
 }
@@ -937,7 +979,7 @@ async fn assemble_unsafe_global_directive() {
     // .global/.globl can export symbols
     let body = assemble(".global _start\n_start: nop", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".global should be rejected as unsafe"
     );
 }
@@ -947,7 +989,7 @@ async fn assemble_unsafe_extern_directive() {
     // .extern can reference external symbols
     let body = assemble(".extern printf\ncall printf", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         ".extern should be rejected as unsafe"
     );
 }
@@ -962,7 +1004,7 @@ async fn assemble_unsafe_app_comment_multiline() {
     // #APP starts inline assembly passthrough - should be rejected
     let body = assemble("#APP\nmov eax, 0\n#NO_APP", "x86").await;
     assert!(
-        is_unsafe_rejection(&body) || contains_error(&body),
+        is_unsafe_rejection(&body),
         "#APP/#NO_APP comments should be rejected as unsafe"
     );
 }
@@ -1173,5 +1215,170 @@ async fn disassemble_simd_instruction_x64() {
     assert!(
         body.to_lowercase().contains("pxor") || body.to_lowercase().contains("xmm"),
         "SIMD instruction should be disassembled showing xmm registers"
+    );
+}
+
+// =============================================================================
+// Exact Output Tests (test vectors from live defuse.ca)
+// These verify all output formats exactly match the PHP implementation.
+// =============================================================================
+
+/// x86 fibonacci-like sequence: stack frame setup, loop with add/xchg, return.
+/// Tests labels, memory operands, loop control, and nul byte highlighting.
+/// Test vector obtained from live defuse.ca on 2026-02-17.
+#[tokio::test]
+async fn assemble_exact_output_x86_fibonacci() {
+    let code = "\
+push ebp
+mov ebp, esp
+sub esp, 16
+mov dword ptr [ebp-4], 0
+mov dword ptr [ebp-8], 1
+mov ecx, 10
+loop_start:
+mov eax, [ebp-4]
+add eax, [ebp-8]
+mov [ebp-4], eax
+xchg eax, [ebp-8]
+mov [ebp-4], eax
+dec ecx
+jnz loop_start
+mov eax, [ebp-8]
+mov esp, ebp
+pop ebp
+ret";
+
+    let body = assemble(code, "x86").await;
+
+    let hex = extract_hex_output(&body).expect("Should have hex output");
+    assert_eq!(
+        hex,
+        "5589E583EC10C745FC00000000C745F801000000B90A0000008B45FC0345F88945FC8745F88945FC4975EE8B45F889EC5DC3",
+        "x86 fibonacci hex mismatch"
+    );
+
+    let hex_bold = extract_hex_with_bold(&body).expect("Should have hex bold output");
+    assert_eq!(
+        hex_bold,
+        "5589E583EC10C745FC<b>00</b><b>00</b><b>00</b><b>00</b>C745F801<b>00</b><b>00</b><b>00</b>B90A<b>00</b><b>00</b><b>00</b>8B45FC0345F88945FC8745F88945FC4975EE8B45F889EC5DC3",
+        "x86 fibonacci hex bold mismatch"
+    );
+
+    let string_lit = extract_string_literal(&body).expect("Should have string literal");
+    assert_eq!(
+        string_lit,
+        r#""\x55\x89\xE5\x83\xEC\x10\xC7\x45\xFC\x00\x00\x00\x00\xC7\x45\xF8\x01\x00\x00\x00\xB9\x0A\x00\x00\x00\x8B\x45\xFC\x03\x45\xF8\x89\x45\xFC\x87\x45\xF8\x89\x45\xFC\x49\x75\xEE\x8B\x45\xF8\x89\xEC\x5D\xC3""#,
+        "x86 fibonacci string literal mismatch"
+    );
+
+    let array_lit = extract_array_literal(&body).expect("Should have array literal");
+    assert_eq!(
+        array_lit,
+        "{ 0x55, 0x89, 0xE5, 0x83, 0xEC, 0x10, 0xC7, 0x45, 0xFC, 0x00, 0x00, 0x00, 0x00, 0xC7, 0x45, 0xF8, 0x01, 0x00, 0x00, 0x00, 0xB9, 0x0A, 0x00, 0x00, 0x00, 0x8B, 0x45, 0xFC, 0x03, 0x45, 0xF8, 0x89, 0x45, 0xFC, 0x87, 0x45, 0xF8, 0x89, 0x45, 0xFC, 0x49, 0x75, 0xEE, 0x8B, 0x45, 0xF8, 0x89, 0xEC, 0x5D, 0xC3 }",
+        "x86 fibonacci array literal mismatch"
+    );
+}
+
+/// x64 fibonacci with conditional branches, 64-bit registers, and REX prefixes.
+/// Test vector obtained from live defuse.ca on 2026-02-17.
+#[tokio::test]
+async fn assemble_exact_output_x64_fibonacci() {
+    let code = "\
+push rbp
+mov rbp, rsp
+sub rsp, 32
+mov qword ptr [rbp-8], rdi
+mov qword ptr [rbp-16], rsi
+xor rax, rax
+mov rcx, [rbp-16]
+test rcx, rcx
+jz done
+cmp rcx, 1
+je done
+mov rax, 1
+mov rdx, 0
+fib_loop:
+mov r8, rax
+add rax, rdx
+mov rdx, r8
+dec rcx
+cmp rcx, 1
+jg fib_loop
+done:
+leave
+ret";
+
+    let body = assemble(code, "x64").await;
+
+    let hex = extract_hex_output(&body).expect("Should have hex output");
+    assert_eq!(
+        hex,
+        "554889E54883EC2048897DF8488975F04831C0488B4DF04885C974264883F901742048C7C001000000\
+48C7C2000000004989C04801D04C89C248FFC94883F9017FEEC9C3",
+        "x64 fibonacci hex mismatch"
+    );
+
+    let string_lit = extract_string_literal(&body).expect("Should have string literal");
+    assert_eq!(
+        string_lit,
+        r#""\x55\x48\x89\xE5\x48\x83\xEC\x20\x48\x89\x7D\xF8\x48\x89\x75\xF0\x48\x31\xC0\x48\x8B\x4D\xF0\x48\x85\xC9\x74\x26\x48\x83\xF9\x01\x74\x20\x48\xC7\xC0\x01\x00\x00\x00\x48\xC7\xC2\x00\x00\x00\x00\x49\x89\xC0\x48\x01\xD0\x4C\x89\xC2\x48\xFF\xC9\x48\x83\xF9\x01\x7F\xEE\xC9\xC3""#,
+        "x64 fibonacci string literal mismatch"
+    );
+
+    let array_lit = extract_array_literal(&body).expect("Should have array literal");
+    assert_eq!(
+        array_lit,
+        "{ 0x55, 0x48, 0x89, 0xE5, 0x48, 0x83, 0xEC, 0x20, 0x48, 0x89, 0x7D, 0xF8, 0x48, 0x89, \
+0x75, 0xF0, 0x48, 0x31, 0xC0, 0x48, 0x8B, 0x4D, 0xF0, 0x48, 0x85, 0xC9, 0x74, 0x26, 0x48, \
+0x83, 0xF9, 0x01, 0x74, 0x20, 0x48, 0xC7, 0xC0, 0x01, 0x00, 0x00, 0x00, 0x48, 0xC7, 0xC2, \
+0x00, 0x00, 0x00, 0x00, 0x49, 0x89, 0xC0, 0x48, 0x01, 0xD0, 0x4C, 0x89, 0xC2, 0x48, 0xFF, \
+0xC9, 0x48, 0x83, 0xF9, 0x01, 0x7F, 0xEE, 0xC9, 0xC3 }",
+        "x64 fibonacci array literal mismatch"
+    );
+}
+
+/// Disassembly round-trip: disassemble the x86 fibonacci hex and verify
+/// all output formats match exactly, including the disassembled instructions.
+/// Test vector obtained from live defuse.ca on 2026-02-17.
+#[tokio::test]
+async fn disassemble_exact_output_x86_roundtrip() {
+    let hex_input = "5589E583EC10C745FC00000000C745F801000000B90A0000008B45FC0345F88945FC8745F88945FC4975EE8B45F889EC5DC3";
+    let body = disassemble(hex_input, "x86").await;
+
+    let hex = extract_hex_output(&body).expect("Should have hex output");
+    assert_eq!(
+        hex, hex_input,
+        "Disassembly round-trip hex should match input exactly"
+    );
+
+    let string_lit = extract_string_literal(&body).expect("Should have string literal");
+    assert_eq!(
+        string_lit,
+        r#""\x55\x89\xE5\x83\xEC\x10\xC7\x45\xFC\x00\x00\x00\x00\xC7\x45\xF8\x01\x00\x00\x00\xB9\x0A\x00\x00\x00\x8B\x45\xFC\x03\x45\xF8\x89\x45\xFC\x87\x45\xF8\x89\x45\xFC\x49\x75\xEE\x8B\x45\xF8\x89\xEC\x5D\xC3""#,
+        "Disassembly round-trip string literal mismatch"
+    );
+
+    let disasm = extract_disassembly(&body).expect("Should have disassembly output");
+    let expected_disasm = "\
+0:  55                      push   ebp
+1:  89 e5                   mov    ebp,esp
+3:  83 ec 10                sub    esp,0x10
+6:  c7 45 fc 00 00 00 00    mov    DWORD PTR [ebp-0x4],0x0
+d:  c7 45 f8 01 00 00 00    mov    DWORD PTR [ebp-0x8],0x1
+14: b9 0a 00 00 00          mov    ecx,0xa
+19: 8b 45 fc                mov    eax,DWORD PTR [ebp-0x4]
+1c: 03 45 f8                add    eax,DWORD PTR [ebp-0x8]
+1f: 89 45 fc                mov    DWORD PTR [ebp-0x4],eax
+22: 87 45 f8                xchg   DWORD PTR [ebp-0x8],eax
+25: 89 45 fc                mov    DWORD PTR [ebp-0x4],eax
+28: 49                      dec    ecx
+29: 75 ee                   jne    0x19
+2b: 8b 45 f8                mov    eax,DWORD PTR [ebp-0x8]
+2e: 89 ec                   mov    esp,ebp
+30: 5d                      pop    ebp
+31: c3                      ret";
+    assert_eq!(
+        disasm, expected_disasm,
+        "Disassembly instructions mismatch"
     );
 }
