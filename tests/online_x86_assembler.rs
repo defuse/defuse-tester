@@ -505,6 +505,21 @@ async fn disassemble_multiple_nul_bytes() {
     }
 }
 
+#[tokio::test]
+async fn assemble_cross_byte_00_not_bolded() {
+    // "nop" = 0x90, "or ecx, ecx" = 0x09 0xC9
+    // Combined hex: 9009C9 — the "00" spans a byte boundary and must NOT be bolded.
+    let body = assemble("nop\nor ecx, ecx", "x86").await;
+    let hex = extract_hex_output(&body).expect("Should have hex output");
+    assert_eq!(hex, "9009C9", "Expected 9009C9, got: {}", hex);
+    let hex_bold = extract_hex_with_bold(&body).expect("Should have hex bold output");
+    assert!(
+        !hex_bold.contains("<b>"),
+        "Cross-byte 00 pattern should not be bolded, got: {}",
+        hex_bold
+    );
+}
+
 // =============================================================================
 // Disassembly Architecture Tests
 // =============================================================================
