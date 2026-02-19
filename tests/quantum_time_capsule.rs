@@ -818,6 +818,41 @@ async fn message_format_single_line() {
 }
 
 // =============================================================================
+// 6b. Timestamp Format Validation (DateTime::ATOM compatibility)
+// =============================================================================
+
+/// Every message in the archive must have a timestamp matching PHP's DateTime::ATOM
+/// format exactly: YYYY-MM-DDTHH:MM:SS+HH:MM (e.g., 2024-01-15T12:30:00+00:00)
+#[tokio::test]
+async fn all_timestamps_match_atom_format() {
+    let resp = get_archive().await;
+    let body = resp.text().await.unwrap();
+
+    // PHP's DateTime::ATOM is Y-m-d\TH:i:sP which produces e.g. 2024-01-15T12:30:00+00:00
+    // Since the server always uses UTC, the offset must be exactly +00:00
+    let atom_re = Regex::new(
+        r"^time:(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+00:00) "
+    ).unwrap();
+
+    let messages: Vec<&str> = body
+        .lines()
+        .filter(|line| line.starts_with("time:"))
+        .collect();
+
+    assert!(!messages.is_empty(), "Archive should contain at least one message");
+
+    for (i, msg) in messages.iter().enumerate() {
+        assert!(
+            atom_re.is_match(msg),
+            "Message {} has timestamp not matching DateTime::ATOM UTC format (YYYY-MM-DDTHH:MM:SS+00:00).\n\
+             Line: {}",
+            i + 1,
+            msg.chars().take(80).collect::<String>()
+        );
+    }
+}
+
+// =============================================================================
 // 7. Security Headers
 // =============================================================================
 
