@@ -373,6 +373,33 @@ async fn file_upload_small_file() {
     }
 }
 
+/// Test LM hash with a 14-byte binary input (fills both 7-byte DES key halves).
+/// Uses bytes with high bits set to exercise all bit positions in the 7-to-8 byte
+/// key expansion, where parity bit calculation differences would surface.
+/// Expected value from production PHP site.
+#[tokio::test]
+async fn lm_hash_full_14_byte_binary_input() {
+    let file_content: Vec<u8> = vec![
+        0xFF, 0x80, 0xC3, 0xA5, 0x96, 0x7E, 0xDB,
+        0xE1, 0xF0, 0x0F, 0xAA, 0x55, 0xCC, 0x33,
+    ];
+    let resp = post_multipart_file(
+        "/checksums.htm",
+        "filetohash",
+        "test.bin",
+        file_content,
+    )
+    .await;
+    assert!(resp.status().is_success());
+    let body = resp.text().await.unwrap();
+    let hashes = extract_hashes(&body);
+    let lm = hashes.get("LM").expect("LM hash not found");
+    assert_eq!(
+        lm, "edc42736d551fef23aba406453d0e148",
+        "LM hash of 14-byte binary input should match PHP output"
+    );
+}
+
 /// Test that binary files with invalid UTF-8 produce correct LM/NTLM hashes.
 /// PHP treats strings as raw bytes, so bytes 0x80-0xFF are processed directly.
 /// Rust must NOT use String::from_utf8_lossy which replaces invalid UTF-8 with U+FFFD.
