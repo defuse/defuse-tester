@@ -664,7 +664,7 @@ async fn submit_too_large_rejected() {
     );
 }
 
-/// Message with newlines in ciphertext is rejected (does not add to archive)
+/// Message with newlines in ciphertext is rejected
 #[tokio::test]
 async fn submit_with_newlines_rejected() {
     let resp = submit_message("Test", "test", "test", "test", "valid_part\ninvalid_newline").await;
@@ -672,15 +672,48 @@ async fn submit_with_newlines_rejected() {
     assert!(resp.status().is_success(), "POST should return 200");
     let body = resp.text().await.unwrap();
 
-    // Should show error, not success
     assert!(
-        body.contains("Something went wrong") || body.contains("newlines"),
-        "Should reject message with newlines, got: {}",
+        body.contains("invalid characters"),
+        "Should reject ciphertext with newline, got: {}",
         &body.chars().take(500).collect::<String>()
     );
     assert!(
-        !body.contains("Your message has been sent to the future"),
+        !body.contains("has been sent to"),
         "Should NOT show success message for newline submission"
+    );
+}
+
+/// Fields containing non-printable-ASCII characters are rejected
+#[tokio::test]
+async fn submit_with_non_ascii_rejected() {
+    // Tab in algorithm field
+    let resp = submit_message("Test", "alg\torithm", "key", "key", "ciphertext").await;
+    assert!(resp.status().is_success());
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("invalid characters"),
+        "Should reject algorithm with tab, got: {}",
+        &body.chars().take(500).collect::<String>()
+    );
+
+    // Space in ciphertext field
+    let resp = submit_message("Test", "alg", "key", "key", "cipher text").await;
+    assert!(resp.status().is_success());
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("invalid characters"),
+        "Should reject ciphertext with space, got: {}",
+        &body.chars().take(500).collect::<String>()
+    );
+
+    // Non-ASCII (UTF-8) in public key field
+    let resp = submit_message("Test", "alg", "k\u{00e9}y", "key", "ciphertext").await;
+    assert!(resp.status().is_success());
+    let body = resp.text().await.unwrap();
+    assert!(
+        body.contains("invalid characters"),
+        "Should reject public key with non-ASCII, got: {}",
+        &body.chars().take(500).collect::<String>()
     );
 }
 

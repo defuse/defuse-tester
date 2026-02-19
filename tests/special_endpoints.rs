@@ -8,7 +8,7 @@
 
 mod common;
 
-use common::{client, url};
+use common::{client, is_production_url, url};
 use reqwest::header::USER_AGENT;
 
 // =============================================================================
@@ -326,6 +326,57 @@ async fn getmyip_custom_user_agent() {
         custom_ua,
         &body.chars().take(500).collect::<String>()
     );
+}
+
+// =============================================================================
+// IP endpoints return real client IP in production (not proxy loopback)
+// =============================================================================
+
+/// All IP-returning endpoints must return the real client IP, not the reverse
+/// proxy's loopback address. Only runs against production URLs.
+#[tokio::test]
+async fn ip_endpoints_not_localhost_in_production() {
+    if !is_production_url() {
+        eprintln!("Skipping IP loopback test on local URL");
+        return;
+    }
+
+    let localhost_addrs = ["127.0.0.1", "::1", "0:0:0:0:0:0:0:1"];
+
+    // /ip.php - plain text IP
+    let resp = client().get(url("/ip.php")).send().await.unwrap();
+    assert!(resp.status().is_success());
+    let ip_text = resp.text().await.unwrap();
+    let ip_trimmed = ip_text.trim();
+    assert!(
+        !localhost_addrs.contains(&ip_trimmed),
+        "/ip.php returned localhost address '{}' in production — proxy IP is leaking",
+        ip_trimmed
+    );
+
+    // /ip-insecure.php - HTML page with IP
+    let resp = client().get(url("/ip-insecure.php")).send().await.unwrap();
+    assert!(resp.status().is_success());
+    let body = resp.text().await.unwrap();
+    for addr in &localhost_addrs {
+        assert!(
+            !body.contains(addr),
+            "/ip-insecure.php contains localhost address '{}' in production — proxy IP is leaking",
+            addr
+        );
+    }
+
+    // /getmyip.php - HTML page with IP, hostname, user-agent
+    let resp = client().get(url("/getmyip.php")).send().await.unwrap();
+    assert!(resp.status().is_success());
+    let body = resp.text().await.unwrap();
+    for addr in &localhost_addrs {
+        assert!(
+            !body.contains(addr),
+            "/getmyip.php contains localhost address '{}' in production — proxy IP is leaking",
+            addr
+        );
+    }
 }
 
 /// /getmyip.php XSS test: HTML special chars in User-Agent must be escaped
