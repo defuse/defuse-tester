@@ -409,3 +409,37 @@ async fn mirrors_zcash_blockchain() {
         content_type
     );
 }
+
+// =============================================================================
+// Storage 404 with page slug collision (BUG-04-07)
+// =============================================================================
+// nest_service strips the prefix before passing to ServeDir's not_found_service.
+// A request to /files/about arrives at the handler as /about, which collides
+// with the registered "about" page slug. This must return 404, not serve the
+// about page or panic.
+
+#[tokio::test]
+async fn storage_404_does_not_collide_with_page_slug() {
+    for path in ["/files/about", "/files/about.htm", "/files2/about", "/mirrors/about", "/upload/about"] {
+        let resp = client().get(url(path)).send().await.unwrap();
+        assert_eq!(
+            resp.status().as_u16(),
+            404,
+            "{} should return 404, not serve the registered 'about' page",
+            path
+        );
+    }
+}
+
+// The static file fallback (root-level ServeDir) does NOT strip prefixes, so
+// a nonexistent static file like /nonexistent-file-xyz correctly passes the
+// original path to the registered page handler, which 404s normally.
+#[tokio::test]
+async fn static_fallback_preserves_path() {
+    let resp = client().get(url("/nonexistent-file-xyz")).send().await.unwrap();
+    assert_eq!(
+        resp.status().as_u16(),
+        404,
+        "/nonexistent-file-xyz should 404 cleanly through static fallback"
+    );
+}
