@@ -503,7 +503,11 @@ fn get_captcha_bypass_key() -> Option<String> {
     std::fs::read_to_string(key_path).ok().map(|s| s.trim().to_string())
 }
 
-/// Submit a message to the time capsule with CAPTCHA bypass
+/// Submit a message to the time capsule.
+///
+/// Uses the CAPTCHA bypass header if the key is available at secrets/captcha-bypass-key.txt.
+/// Otherwise, sends a dummy g-recaptcha-response field which works when the server is
+/// configured with Google's test secret key (6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe).
 async fn submit_message(
     message: &str,
     algorithm: &str,
@@ -511,19 +515,31 @@ async fn submit_message(
     future_public_key: &str,
     ciphertext: &str,
 ) -> reqwest::Response {
-    let bypass_key = get_captcha_bypass_key()
-        .expect("CAPTCHA bypass key not found - create secrets/captcha-bypass-key.txt");
+    let bypass_key = get_captcha_bypass_key();
 
-    client()
-        .post(url("/quantum-computer-time-capsule.htm"))
-        .header("X-Captcha-Bypass", bypass_key)
-        .form(&[
-            ("message", message),
-            ("algorithm", algorithm),
-            ("present_public_key", present_public_key),
-            ("future_public_key", future_public_key),
-            ("ciphertext", ciphertext),
-        ])
+    let mut request = client()
+        .post(url("/quantum-computer-time-capsule.htm"));
+
+    if let Some(key) = &bypass_key {
+        request = request.header("X-Captcha-Bypass", key.clone());
+    }
+
+    let mut form_fields: Vec<(&str, &str)> = vec![
+        ("message", message),
+        ("algorithm", algorithm),
+        ("present_public_key", present_public_key),
+        ("future_public_key", future_public_key),
+        ("ciphertext", ciphertext),
+    ];
+
+    // Without bypass key, send a dummy reCAPTCHA response token.
+    // This works when the server uses Google's test secret key.
+    if bypass_key.is_none() {
+        form_fields.push(("g-recaptcha-response", "test"));
+    }
+
+    request
+        .form(&form_fields)
         .send()
         .await
         .expect("Failed to submit message")
@@ -577,7 +593,13 @@ async fn submit_message_and_verify_in_archive() {
     // Verify success message (note: HTML has line break in "sent to\nthe future")
     assert!(
         body.contains("has been sent to"),
-        "Should show success message, got: {}",
+        "Should show success message but didn't. {}\nBody preview: {}",
+        if body.contains("Please solve the CAPTCHA") {
+            "Submission was blocked by CAPTCHA. If you're running this test against the \
+             production server, place the CAPTCHA bypass key at secrets/captcha-bypass-key.txt"
+        } else {
+            "Unexpected error"
+        },
         &body.chars().take(500).collect::<String>()
     );
 
