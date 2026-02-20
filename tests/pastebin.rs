@@ -472,11 +472,12 @@ async fn view_paste_tabs_converted() {
     let resp = get_paste(&key).await;
     let body = resp.text().await.unwrap();
 
-    // In the display div (.codebox), tabs are converted to 4 nbsp
+    // In the display div (.codebox), tabs are converted to spaces via escape_text
+    // with tab_width=8. 'X' at pos 0, tab at pos 1 → 7 spaces → " &nbsp; &nbsp; &nbsp; "
     // The textarea preserves the raw tab for re-editing
     assert!(
-        body.contains("X&nbsp;&nbsp;&nbsp;&nbsp;Y"),
-        "Tab should be converted to 4 nbsp in display area"
+        body.contains("X &nbsp; &nbsp; &nbsp; Y"),
+        "Tab should be converted to spaces with nbsp pairs in display area"
     );
 }
 
@@ -488,10 +489,10 @@ async fn view_paste_double_spaces() {
     let resp = get_paste(&key).await;
     let body = resp.text().await.unwrap();
 
-    // Double spaces become double nbsp in the display area
+    // Double spaces become " &nbsp;" via escape_text (space before nbsp allows line breaking)
     assert!(
-        body.contains("A&nbsp;&nbsp;B"),
-        "Double spaces should be converted to double nbsp in display"
+        body.contains("A &nbsp;B"),
+        "Double spaces should be converted to space+nbsp in display"
     );
 }
 
