@@ -1,0 +1,860 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>My .vimrc - Defuse Security</title>
+<meta name="description" content="My Vim configuration file" />
+<meta name="keywords" content="vim, vimrc, vim configuration" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" >            <div class="upvotearrows">
+                    <div class="upvoteuparrow">
+            <form 
+                action="/vimrc.htm" 
+                method="post"
+                onsubmit="return upvote.submit('myvimrc', 'up')"
+                class="upvoteform upvoteUpFormmyvimrc"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="myvimrc" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagemyvimrc"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountermyvimrc" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="/vimrc.htm" 
+                method="post"
+                onsubmit="return upvote.submit('myvimrc', 'down')"
+                class="upvoteform upvoteDownFormmyvimrc"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="myvimrc" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagemyvimrc"
+                    />
+                            </form>
+        </div>
+                </div>
+        <h1>My .vimrc</h1>
+
+<p>
+    This page is updated with the .vimrc on my PC at home every midnight.
+    The file can be downloaded without formatting <a href="/upload/vim/vimrc">here</a>.
+    The color scheme I use for gVim is
+    <a href="https://vimcolorschemetest.googlecode.com/svn/colors/dw_cyan.vim">dw_cyan</a>, and I
+    use <a href="https://github.com/nanotech/jellybeans.vim">jellybeans</a> for command-line Vim.
+</p>
+
+<p>
+    Download my entire .vim directory <a href="/upload/vim/vim.zip">here</a>.
+</p>
+
+<p>
+    You can also find my entire <a href="https://github.com/defuse/vim">Vim configuration on
+    GitHub</a>.
+</p>
+
+<p>
+   If you would like a list of my favourite .vimrc lines, see my blog post
+  <a href="https://defuse.ca/blog/random-vimrc-tips.html">Random vimrc tips</a>.
+</p>
+
+<h2>Screenshots</h2>
+<p style="text-align: center;"><i>These screenshots are not updated automatically, and may be out of date.</i></p>
+<center>
+<img src="/images/vim.png" alt="My Vim configuration (gVim)"/> <br /><br />
+<img src="/images/vim-cli.png" alt="My Vim configuration (command-line Vim)"/>
+</center>
+
+<h2>Synchronization Script</h2>
+
+<div class="vimhighlight"><pre id='vimCodeElement'>
+#!/bin/bash
+
+# Script for pulling Taylor's vim config from <a href="https://defuse.ca/vimrc.htm">https://defuse.ca/vimrc.htm</a>
+# This will destroy the current user's vim configuration (~/.vim, ~/.vimrc)
+# and replace it with Havoc's.
+
+# Use unique temp file names so the script can be run by many users at the
+# same time.
+TMPID=&quot;$RANDOM$(whoami)&quot;
+
+# Grab the vimrc
+wget -O ~/.vimrc <a href="https://defuse.ca/upload/vim/vimrc">https://defuse.ca/upload/vim/vimrc</a>
+
+# Grab the .vim folder, extract it in /tmp, then move to ~
+wget -O /tmp/vimupdate_$TMPID.zip <a href="https://defuse.ca/upload/vim/vim.zip">https://defuse.ca/upload/vim/vim.zip</a>
+unzip -o /tmp/vimupdate_$TMPID.zip -d /tmp/vimupdate_$TMPID
+rm -rf ~/.vim/*
+mv /tmp/vimupdate_$TMPID/* ~/.vim/
+
+# Clean up the temporary files
+rm -f /tmp/vimupdate_$TMPID.zip
+rm -rf /tmp/vimupdate_$TMPID
+</pre>
+</div>
+<h2>~/.vimrc</h2>
+
+<div class="vimhighlight"><pre id='vimCodeElement'>
+&quot; ============= FUNCTIONALITY =============
+    &quot; This is not a virus. It is required by pathogen.vim, which does something
+    &quot; or other with plugins.
+    execute pathogen#infect()
+
+    set nocompatible
+
+    &quot; Don't leak shit to the .viminfo file in my home directory.
+    set viminfo=&quot;NONE&quot;
+
+    &quot; Make j,k move by screen lines instead of file lines.
+    &quot; WARNING: If you use this vimrc, make sure you understand the implications
+    &quot; of the following two mappings, especially if you use macros frequently.
+    &quot; A temporary workaround for writing macros is to go into insert mode, use
+    &quot; the up/down arrow keys, then exit to normal mode.
+    map j gj
+    map k gk
+
+    &quot; TODO: Uncomment these lines to enable clipboard-over-ssh with a headless
+    &quot; server. Both ends must have xclip installed and X forwarding must be ON.
+    &quot; Add 'ForwardX11 yes' to /etc/ssh/ssh_config to avoid having to type
+    &quot; ssh -X so much.
+    &quot;vmap &quot;+y :!xclip -f -sel clip&lt;CR&gt;
+    &quot;map &quot;+p :r!xclip -o -sel clip&lt;CR&gt;
+
+    &quot; backspace and cursor keys wrap to previous/next line
+    &quot;set backspace=indent,eol,start whichwrap+=&lt;,&gt;,[,]
+
+    &quot; backspace in Visual mode deletes selection
+    vnoremap &lt;BS&gt; d
+
+    &quot; Alt-Space is System menu
+    if has(&quot;gui&quot;)
+      noremap &lt;M-Space&gt; :simalt ~&lt;CR&gt;
+      inoremap &lt;M-Space&gt; &lt;C-O&gt;:simalt ~&lt;CR&gt;
+      cnoremap &lt;M-Space&gt; &lt;C-C&gt;:simalt ~&lt;CR&gt;
+    endif
+
+    &quot; Make indenting and unindenting in visual mode retain the selection so
+    &quot; you don't have to re-select or type gv every time.
+    vnoremap &gt; &gt;&lt;CR&gt;gv
+    vnoremap &lt; &lt;&lt;CR&gt;gv
+
+    &quot; Make CTRL+u and CTRL+d less confusing
+    map &lt;C-u&gt; 10&lt;C-Y&gt;10k
+    map &lt;C-d&gt; 10&lt;C-E&gt;10j
+    &quot; Scroll the /screen/ with ALT+{j,k}
+    map &lt;A-j&gt; 2&lt;C-E&gt;
+    map &lt;A-k&gt; 2&lt;C-Y&gt;
+
+    &quot; Switch windows quickly with CTRL+{h,j,k,l}
+    &quot; This breaks backspace in a terminal, but I never use backspace in normal mode
+    map &lt;C-h&gt; &lt;C-W&gt;h
+    map &lt;C-j&gt; &lt;C-W&gt;j
+    map &lt;C-k&gt; &lt;C-W&gt;k
+    map &lt;C-l&gt; &lt;C-W&gt;l
+    &quot; This would break in a terminal where ^H is backspace.
+    if has(&quot;gui_running&quot;)
+        imap &lt;C-h&gt; &lt;Esc&gt;&lt;C-W&gt;h
+    endif
+    imap &lt;C-j&gt; &lt;Esc&gt;&lt;C-W&gt;j
+    imap &lt;C-k&gt; &lt;Esc&gt;&lt;C-W&gt;k
+    imap &lt;C-l&gt; &lt;Esc&gt;&lt;C-W&gt;l
+
+    &quot; Quickly switch between buffers with CTRL+b
+    map &lt;C-b&gt; :b#&lt;Cr&gt;
+
+    &quot; Easy save from any mode
+    imap &lt;C-\&gt; &lt;Esc&gt;:w&lt;Cr&gt;
+    map &lt;C-\&gt; &lt;Esc&gt;:w&lt;Cr&gt;
+    &quot; So both C-[ and C-] are equivalent to &lt;Esc&gt; (widen the target area)
+    &quot; Note that in normal mode, C-] means follow link, so you should train 
+    &quot; yourself to use C-[, this is just here in case you screw up once.
+    imap &lt;C-]&gt; &lt;Esc&gt;
+    vmap &lt;C-]&gt; &lt;Esc&gt;
+
+    &quot; FIXME: this breaks c-u for scrolling
+    &quot; &quot; Make &lt;C-y&gt; behave as &quot;+y so that in visual mode it copies to the clipboard
+    &quot; &quot; and in normal mode it sets it up to copy the next movement.
+    &quot; vmap &lt;C-y&gt; &quot;+y
+    &quot; nmap &lt;C-y&gt; &quot;+y
+    &quot; &quot; Can't use C-p for paste since it overlaps with CtrlP plugin and completion
+    &quot; &quot; so paste from the clipboard by doing a C-y in insert mode.
+    &quot; &quot; FIXME: sometimes the stuff is in * and sometimes its in &quot; wtf...
+    &quot; imap &lt;C-y&gt; &lt;F5&gt;&lt;C-r&gt;*&lt;F5&gt;
+    &quot; &quot; Note: &lt;F5&gt; is the paste toggle set below.
+
+    set listchars=tab:&gt;-,eol:$
+    set foldmethod=marker
+    set tabstop=4
+    set shiftwidth=4
+    set autoindent
+    set expandtab
+    &quot; Allow middle-click pasting of large texts in terminal
+    set pastetoggle=&lt;F5&gt;
+    &quot; Clear paste mode when going back to normal mode
+    au InsertLeave * set nopaste
+    set sidescrolloff=20
+    set wrap linebreak textwidth=0
+    &quot; Automatic indentation based on file type
+    filetype indent on
+    filetype plugin on
+    set backspace=2
+    set history=1000
+    &quot; First tab completes as much as possible and shows the list if there is
+    &quot; more than one matching item. Next tabs iterate through the list.
+    set wildmode=list:longest,full
+    set wildmenu
+    set incsearch
+    set hidden
+    set splitright
+    set splitbelow
+    set shiftround
+    set nostartofline
+    set smarttab
+
+    set nobackup
+    set nowb
+    set noswapfile
+
+    &quot; By default, J and gq put two spaces after a period.
+    &quot; I like one space after a period, so turn that off.
+    set nojoinspaces
+
+    &quot; More intuitive selecting in visual mode
+    set selection=exclusive
+
+    &quot; Visual mode pressing * or # searches for the current selection
+    &quot; Super useful! From an idea by Michael Naumann
+    vnoremap &lt;silent&gt; * :call VisualSelection('f')&lt;CR&gt;
+    vnoremap &lt;silent&gt; # :call VisualSelection('b')&lt;CR&gt;
+
+    &quot; Double slash -&gt; Case insensitive search
+    map // /\c
+    map ?? ?\c
+
+    &quot; Easy access to NERDTree
+    nmap ,e :NERDTreeToggle&lt;CR&gt;
+    if(!exists('vimrc_already_sourced'))
+        command Nt NERDTree
+        command Nc NERDTreeClose
+    endif
+
+    &quot; Fix annoying surround.vim message
+    vmap s S
+
+    &quot;let g:EasyMotion_leader_key = '&lt;Leader&gt;'
+    let g:EasyMotion_leader_key = 'z'
+
+    &quot; ----------------------- Diff Commands ---------------------------------
+    function! s:DiffWithSaved()
+      let filetype=&amp;ft
+      diffthis
+      vnew | r # | normal! 1Gdd
+      diffthis
+      exe &quot;setlocal bt=nofile bh=wipe nobl noswf ro ft=&quot; . filetype
+    endfunction
+    com! DiffSaved call s:DiffWithSaved()
+
+    function! s:DiffWithCVSCheckedOut()
+      let filetype=&amp;ft
+      diffthis
+      vnew | r !cvs up -pr BASE #
+      1,6d
+      diffthis
+      exe &quot;setlocal bt=nofile bh=wipe nobl noswf ro ft=&quot; . filetype
+    endfunction
+    com! DiffCVS call s:DiffWithCVSCheckedOut()
+
+    function! s:DiffWithSVNCheckedOut()
+      let filetype=&amp;ft
+      diffthis
+      vnew | exe &quot;%!svn cat &quot; . expand(&quot;#:p:h&quot;)
+      diffthis
+      exe &quot;setlocal bt=nofile bh=wipe nobl noswf ro ft=&quot; . filetype
+    endfunction
+    com! DiffSVN call s:DiffWithSVNCheckedOut()
+    &quot; ----------------------- End Diff Commands ------------------------------
+
+    &quot; tab navigation like firefox
+    nmap &lt;C-S-tab&gt; :tabprevious&lt;CR&gt;
+    nmap &lt;C-tab&gt; :tabnext&lt;CR&gt;
+    map &lt;C-S-tab&gt; :tabprevious&lt;CR&gt;
+    map &lt;C-tab&gt; :tabnext&lt;CR&gt;
+    imap &lt;C-S-tab&gt; &lt;Esc&gt;:tabprevious&lt;CR&gt;i
+    imap &lt;C-tab&gt; &lt;Esc&gt;:tabnext&lt;CR&gt;i
+    &quot;nmap &lt;C-t&gt; :tabnew&lt;CR&gt;
+    &quot;imap &lt;C-t&gt; &lt;Esc&gt;:tabnew&lt;CR&gt;
+
+    &quot; TAB on select indents:
+    &quot; Note: Using &gt; and &lt; is a lot easier!
+    smap &lt;Tab&gt; &lt;Esc&gt;:'&lt;,'&gt; &gt; &lt;CR&gt;
+    vmap &lt;Tab&gt; &lt;Esc&gt;:'&lt;,'&gt; &gt; &lt;CR&gt;gv
+
+    &quot; Omnicomplete
+    &quot; TODO: Windows needs CTAGS <a href="http://vim.wikia.com/wiki/Omni_completion">http://vim.wikia.com/wiki/Omni_completion</a>
+    &quot; apt-get install exuberant-ctags
+    &quot; set ofu=syntaxcomplete#Complete
+
+    &quot; Don't auto-wrap long lines that are already longer
+    set formatoptions+=l
+    &quot; Don't wrap before a one-letter word.
+    set formatoptions+=1
+    set lbr
+
+    set ttyfast
+
+    &quot; ---- PRINTING ----
+    set popt=left:1in,right:1in,top:1in,bottom:1in,header:2,syntax:a,paper:letter
+    &quot; On PostScript systems, Vim ignores the font but NOT the size.
+    &quot; So this will make us print in 8-pt (but not necessarily courier)
+    set printfont=courier:h8
+    set printoptions+=duplex:off
+    &quot;set printoptions+=duplex:long
+
+    &quot; Make snipmate HTML snippets work in php and eruby files
+    au BufRead,BufNewFile *.php set filetype=php.html
+    au BufRead,BufNewFile *.erb set filetype=eruby.html
+    au BufRead,BufNewFile *.md set filetype=markdown
+
+    set iskeyword +=-,_
+
+    &quot; Use unix line endings (LF) unless the file already has DOS line endings
+    set fileformats=unix,dos
+    &quot; Set the initial buffer to unix line endings
+    set fileformat=unix
+
+    &quot; Don't comment the new line when pressing o or O on a commented line
+    &quot; This block must come after the other filetype lines in this file.
+    set formatoptions -=o
+    augroup myft
+      au!
+      au FileType * setlocal formatoptions-=o
+    augroup END
+
+    &quot; Use strong encryption
+    set cm=blowfish
+
+    &quot; Use vim's current working directory but fall back to the file directory
+    &quot; if it's way off.
+    let g:ctrlp_working_path_mode = 'a'
+
+    &quot; Fast buffer search
+    nmap ; :CtrlPBuffer&lt;CR&gt;
+    nmap ,b :CtrlP&lt;CR&gt;
+
+    set wildignore+=*.aux,*.log,*.class
+    let g:ctrlp_custom_ignore = {
+        \ 'dir': '\v[\/]\.(git|hg|svn)$',
+        \ 'file': '\v\.(exe|so|dll|class|aux|log)$',
+      \ }
+
+    set tw=80
+
+    &quot; Highlight other references to the variable under the cursor
+    &quot; autocmd CursorMoved * exe printf('match NonText /\V\&lt;%s\&gt;/', escape(expand('&lt;cword&gt;'), '/\'))
+
+    autocmd BufNewFile,BufReadPost *.ino,*.pde set filetype=cpp
+
+    &quot; Make sure we don't syntax check when a file is open as doing so might lead
+    &quot; to vulnerabilities or performance issues.
+    let g:syntastic_check_on_open = 0
+    &quot; Always stick detected errors into the location list.
+    let g:syntastic_always_populate_loc_list=1
+    &quot; Automatically open when errors are detected and close when there are none.
+    let g:syntastic_auto_loc_list=1
+    &quot; Default only to 5 lines instead of 10 (better when in the terminal)
+    let g:syntastic_loc_list_height = 5
+
+    &quot; For easy updating of work standup log
+    command Standup !git commit -a -m &quot;update Taylor's standup log&quot;; git push
+
+    &quot; Important for security (modlines are 'not guaranteed to be 100% secure')
+    &quot; according to the manual.
+    set modelines=0
+    set nomodeline
+
+&quot; ================ VISUAL =================
+
+    colorscheme dw_cyan
+    set background=dark
+    syntax on
+
+    &quot; gnome-terminal really does support 256 colors, and jellybeans looks nice
+    &quot;in 256 colors. The &amp;t_Co==8 is a hack to detect gnome-terminal vs
+    &quot;console2 (which does not support 256 color)
+    if !has(&quot;gui_running&quot;) &amp;&amp; &amp;t_Co==8
+        set t_Co=256
+        colorscheme jellybeans
+        &quot; Make spelling mistake highlighting easier on the eyes.
+        hi clear SpellBad
+        hi SpellBad cterm=underline ctermfg=red
+        hi clear SpellCap
+        hi SpellCap cterm=underline ctermfg=blue
+        hi clear SpellLocal
+        hi SpellLocal cterm=underline ctermfg=blue
+        hi clear SpellRare
+        hi SpellRare cterm=underline ctermfg=blue
+    else
+        &quot; dw_cyan modifications
+        hi CursorLine cterm=NONE ctermbg=black guibg=#101520
+        hi CursorColumn cterm=NONE ctermbg=black guibg=#101520
+        highlight Cursor guifg=black guibg=yellow
+        highlight iCursor guifg=black guibg=yellow
+        set guicursor+=a:blinkon0
+    end
+
+    if has(&quot;gui_running&quot;)
+        &quot; Make statusline color depend on the current mode
+        &quot; TODO: make visual/select mode dark green
+        function! InsertStatuslineColor(mode)
+        if a:mode == 'i'
+            hi statusline guibg=#005151 ctermbg=darkgray
+        elseif a:mode == 'r'
+            hi statusline guibg=#000071
+        else
+            hi statusline guibg=#710000
+        endif
+        endfunction
+
+        au InsertEnter * call InsertStatuslineColor(v:insertmode)
+        &quot; Default status line color (the following two 'hi' should be the same)
+        au InsertLeave * hi StatusLine cterm=NONE ctermbg=NONE ctermfg=gray guibg=#202020 guifg=white
+    end
+    hi StatusLine cterm=NONE ctermbg=NONE ctermfg=gray guibg=#202020 guifg=white
+
+    &quot; Highlight column 80 (color set here because most themes don't specify it)
+    if v:version &gt;= 703
+        set cc=80
+        hi ColorColumn ctermbg=Gray ctermfg=Black guibg=#404040
+        if(!exists('vimrc_already_sourced'))
+            command Skinny set cc=73
+            command Wide set cc=80
+        endif
+    endif
+
+    &quot; Highlight unwanted whitespace
+    highlight TrailingWhitespace ctermbg=red guibg=red
+    highlight TabWhitespace ctermbg=darkgreen guibg=darkgreen
+    highlight DoubleSpaceAfterPeriod ctermbg=red guibg=red
+    autocmd Syntax * syn match TrailingWhitespace /\s\+$/
+    autocmd Syntax * syn match TabWhitespace /[\t]/
+    autocmd Syntax * syn match DoubleSpaceAfterPeriod /\.  /
+
+    &quot; Highlight the line the cursor is on
+    set cursorline
+
+    &quot; Always show the last line on the screen, even when it's too long (gets
+    &quot; rid of the annoying @@@@@ crap)
+    set display+=lastline
+
+    &quot; Always show the status line
+    set laststatus=2
+    &quot; Status line content
+    &quot;set statusline=%n:\ %F\ [%{&amp;ff}]%y%m%h%w%r\ %=char=0x%B\ \ \ x=%v\ y=%l/%L\ -\ %p%%\ 
+    set statusline=%n:\ %F\ [%{&amp;ff}]%y%m%h%w%r\ %=[char:\ 0x%B]\ \[column:\ %v]\ [line:\ %l\ of\ %L\ \(%p%%\)]\
+
+    &quot; Make the default window size bigger
+    if has(&quot;gui_running&quot;) &amp;&amp; !exists('vimrc_already_sourced')
+        set lines=32 columns=120
+    endif
+
+    &quot; Use forward slashes in windows
+    set shellslash
+
+    &quot; No annoying flashes
+    set novb
+
+    &quot; Fix GNOME disappearing mouse bug
+    set nomousehide
+
+    set mouse=nicr
+
+    &quot;Hide the toolbar
+    set guioptions-=T
+    &quot; Hide the menu bar
+    set guioptions-=m
+    &quot; Scroll bars are for noobs
+    set guioptions-=r
+    set guioptions-=l
+    set guioptions-=L
+    &quot; Make visual selection copy to the middle click buffer.
+    &quot; If enabled on Windows, this will make selection copy to the Windows
+    &quot; clipboard, which can be a pain if you need to select something and
+    &quot; delete it before pasting.
+    if has(&quot;unix&quot;)
+      set guioptions+=a
+    endif
+    &quot; When in gui mode, don't open an entire messagebox to ask a question
+    set guioptions+=c
+
+    &quot; Quickly jump to opening brace and back to avoid mistakes
+    set showmatch
+    set matchtime=1
+
+    &quot; Line numbers
+    set nu
+
+    if has(&quot;unix&quot;)
+        set guifont=Monospace\ 8
+    else
+        set guifont=Lucida_Console:h10:cANSI
+    endif
+
+    &quot; $ for change command instead of deleting word then insert
+    set cpoptions+=$
+
+    &quot; Highlight search terms
+    set hlsearch
+
+    &quot; Skip the splash screen
+    set shortmess+=I
+
+    &quot; Don't update the display while executing macros
+    set lazyredraw
+
+    &quot; When the page starts to scroll, keep the cursor 4 lines from the top and 8
+    &quot; lines from the bottom
+    set scrolloff=4
+
+    &quot; Show the command as it's being typed in the lower right
+    set showcmd
+
+    &quot; Spell checking
+    setglobal spell spelllang=en_ca
+    &quot; By default spelling is off...
+    set nospell
+    &quot; ...but enable it for the English text files I use a lot.
+    au BufRead,BufNewFile,BufWrite *.txt,*.tex,*.latex set spell
+
+    &quot; Keep more context when editing PHP files so Vim doesn't try to highlight
+    &quot; PHP as HTML and vice-versa.
+    let php_minlines=500
+
+    &quot; Rainbow parentheses colors.
+    &quot; Left column is for terminal environment.
+    &quot; Right column is for GUI environment.
+    &quot; Outermost is determined by last.
+    let g:rbpt_colorpairs = [
+        \ ['blue',       '#FF6000'],
+        \ ['cyan', '#00FFFF'],
+        \ ['darkmagenta',    '#CC00FF'],
+        \ ['yellow',   '#FFFF00'],
+        \ ['red',     '#FF0000'],
+        \ ['darkgreen',    '#00FF00'],
+        \ ['White',         '#c0c0c0'],
+        \ ['blue',       '#FF6000'],
+        \ ['cyan', '#00FFFF'],
+        \ ['darkmagenta',    '#CC00FF'],
+        \ ['yellow',   '#FFFF00'],
+        \ ['red',     '#FF0000'],
+        \ ['darkgreen',    '#00FF00'],
+        \ ['White',         '#c0c0c0'],
+        \ ['blue',       '#FF6000'],
+        \ ['cyan', '#00FFFF'],
+        \ ['darkmagenta',    '#CC00FF'],
+        \ ['yellow',   '#FFFF00'],
+        \ ['red',     '#FF0000'],
+        \ ['darkgreen',    '#00FF00'],
+        \ ['White',         '#c0c0c0'],
+        \ ]
+
+    &quot; Update this with the amount of supported colors
+    &quot;let g:rbpt_max = 21
+    let g:rbpt_max = 21
+
+    &quot; Turn rainbow parenthesis script on
+    au VimEnter * RainbowParenthesesToggle
+    &quot; These are necessary to re-load the stuff when syntax changes.
+    au Syntax * RainbowParenthesesLoadRound
+    &quot; I don't anything but ( and ) colored, so don't bother loading these
+    &quot;au Syntax * RainbowParenthesesLoadSquare
+    &quot;au Syntax * RainbowParenthesesLoadBraces
+
+    let vimrc_already_sourced = 1
+
+</pre>
+</div>
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                ELIDED_IP_ADDRESS                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>ELIDED_HIT_COUNT</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>ELIDED_HIT_COUNT</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>

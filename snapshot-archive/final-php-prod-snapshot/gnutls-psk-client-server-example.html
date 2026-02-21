@@ -1,0 +1,927 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>GnuTLS Pre-Shared Key (PSK) Client-Server Example Code</title>
+<meta name="description" content="How to establish an SSL/TLS connection with GnuTLS and PSK authentication." />
+<meta name="keywords" content="gnutls, ssl, tls, https, client, server, psk, authentication" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" >            <div class="upvotearrows">
+                    <div class="upvoteuparrow">
+            <form 
+                action="/gnutls-psk-client-server-example.htm" 
+                method="post"
+                onsubmit="return upvote.submit('gnutlspsk', 'up')"
+                class="upvoteform upvoteUpFormgnutlspsk"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="gnutlspsk" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagegnutlspsk"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountergnutlspsk" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="/gnutls-psk-client-server-example.htm" 
+                method="post"
+                onsubmit="return upvote.submit('gnutlspsk', 'down')"
+                class="upvoteform upvoteDownFormgnutlspsk"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="gnutlspsk" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagegnutlspsk"
+                    />
+                            </form>
+        </div>
+                </div>
+        <h1>GnuTLS Pre-Shared Key Client-Server Example Code</h1>
+
+<p>
+It is very easy to set up a secure TLS connection with pre-shared key
+authentication using GnuTLS. The following code is an example of how to do it.
+The code is heavily documented, so it should be readable even to someone who has
+never worked with GnuTLS before. The code is in the public domain, so feel free
+to do absolutely anything you want with it.
+</p>
+
+<p>
+Here is the <a href="http://www.gnutls.org/manual/gnutls.html">GnuTLS
+Manual</a>, which is a great reference.
+</p>
+
+<h2>Makefile</h2>
+<center><strong><a href="/source/Makefile">Download Makefile</a></strong></center>
+<div class="vimhighlight"><pre id='vimCodeElement'>
+ 1 # Makefile for compiling the GnuTLS pre-shared key client-server example.
+ 2 
+ 3 server: server.c
+ 4         gcc -Wall -Werror -c server.c -o server.o `pkg-config gnutls --cflags`
+ 5         gcc server.o -o server `pkg-config gnutls --libs`
+ 6 
+ 7 client: client.c
+ 8         gcc -Wall -Werror -c client.c -o client.o `pkg-config gnutls --cflags`
+ 9         gcc client.o -o client `pkg-config gnutls --libs`
+10 
+</pre>
+</div>
+<h2>Server</h2>
+<center><strong><a href="/source/server.c">Download server.c</a></strong></center>
+<div class="vimhighlight"><pre id='vimCodeElement'>
+  1 //             GnuTLS pre-shared key (PSK) client-server example.
+  2 //                    This is the SERVER (server.c).
+  3 //
+  4 // This code was written by Taylor Hornby on April 18, 2013. You can find it
+  5 // on the web at:
+  6 //          <a href="https://defuse.ca/gnutls-psk-client-server-example.htm">https://defuse.ca/gnutls-psk-client-server-example.htm</a>
+  7 // 
+  8 // This code is in the public domain. You can do whatever you want with it.
+  9 //
+ 10 // In this simple example,
+ 11 //   1. The server accepts a TCP connection from the client.
+ 12 //   2. The server and client perform the SSL/TLS handshake over the connection.
+ 13 //   3. The server sends the client some data.
+ 14 //   4. The server and client close the SSL/TLS and TCP connection.
+ 15 //   5. The server and the client exit.
+ 16 //
+ 17 // The code is heavily commented so that it can be understood by someone who has
+ 18 // never used GnuTLS before. The GnuTLS manual can be found here:
+ 19 //               <a href="http://www.gnutls.org/manual/gnutls.html">http://www.gnutls.org/manual/gnutls.html</a>
+ 20 
+ 21 // Standard Library stuff
+ 22 #include &lt;stdio.h&gt;
+ 23 #include &lt;stdlib.h&gt;
+ 24 #include &lt;string.h&gt;
+ 25 #include &lt;errno.h&gt;
+ 26 
+ 27 // Stuff for sockets.
+ 28 #include &lt;unistd.h&gt;
+ 29 #include &lt;netinet/in.h&gt;
+ 30 #include &lt;arpa/inet.h&gt;
+ 31 #include &lt;sys/types.h&gt;
+ 32 #include &lt;sys/socket.h&gt;
+ 33 
+ 34 // GnuTLS!
+ 35 #include &lt;gnutls/gnutls.h&gt;
+ 36 
+ 37 // This is the secret key that must be shared (over a secure channel!) between
+ 38 // the client and server. Obviously in a real application it should be in
+ 39 // a configuration file or something and not built-in constant. It also
+ 40 // shouldn't be an ASCII string. Use a good CSPRNG!
+ 41 #define SECRET_KEY &quot;THIS IS THE PRE-SHARED KEY.&quot;
+ 42 // This is the port number that the server will listen on.
+ 43 #define PORT 8050
+ 44 // GnuTLS log level. 9 is the most verbose.
+ 45 #define LOG_LEVEL 0
+ 46 
+ 47 int accept_one_connection(int port);
+ 48 void error_exit(const char *msg);
+ 49 // GnuTLS callbacks.
+ 50 int psk_creds(gnutls_session_t, const char*, gnutls_datum_t*);
+ 51 ssize_t data_push(gnutls_transport_ptr_t, const void*, size_t);
+ 52 ssize_t data_pull(gnutls_transport_ptr_t, void*, size_t);
+ 53 void print_logs(int, const char*);
+ 54 void print_audit_logs(gnutls_session_t, const char*);
+ 55 
+ 56 int main(int argc, char **argv)
+ 57 {
+ 58     // We use the 'res' variable to capture return values, so we can check for
+ 59     // success/failure.
+ 60     int res;
+ 61 
+ 62     // Initialize GnuTLS's global state. You only have to do this once.
+ 63     gnutls_global_init();
+ 64 
+ 65     // Enable logging (for debugging).
+ 66     // Be careful with this in a real application. You don't want to reveal the
+ 67     // logging ELIDED_INFO_WORD to any potential attackers.
+ 68     gnutls_global_set_log_level(LOG_LEVEL);
+ 69     gnutls_global_set_log_function(print_logs);
+ 70     // Enable logging (for auditing).
+ 71     // (commented out because it's not available in my version of GnuTLS)
+ 72     // gnutls_global_set_audit_log_function(print_audit_logs);
+ 73 
+ 74     // A GnuTLS session is like a socket for an SSL/TLS connection.
+ 75     gnutls_session_t session;
+ 76 
+ 77     // Initialize the session for our connection from the client.
+ 78     res = gnutls_init(&amp;session, GNUTLS_SERVER);
+ 79     if (res != GNUTLS_E_SUCCESS) {
+ 80         error_exit(&quot;gnutls_init() failed.\n&quot;);
+ 81     }
+ 82 
+ 83     // Allocate the structure we use to tell GnuTLS what the credentials
+ 84     // (pre-shared key) are.
+ 85     gnutls_psk_server_credentials_t cred;
+ 86     res = gnutls_psk_allocate_server_credentials(&amp;cred);
+ 87     if (res != 0) {
+ 88         error_exit(&quot;gnutls_psk_allocate_server_credentials() failed.\n&quot;);
+ 89     }
+ 90     // GnuTLS will call psk_creds to ask for the key associated with the
+ 91     // client's username.
+ 92     gnutls_psk_set_server_credentials_function(cred, psk_creds);
+ 93     // Pass the &quot;credentials&quot; to the GnuTLS session. GnuTLS does NOT make an
+ 94     // internal copy of the ELIDED_INFO_WORD, so we have to keep the 'cred' structure
+ 95     // in memory (and not modify it) until we're done with this session.
+ 96     res = gnutls_credentials_set(session, GNUTLS_CRD_PSK, cred);
+ 97     if (res != 0) {
+ 98         error_exit(&quot;gnutls_credentials_set() failed.\n&quot;);
+ 99     }
+100 
+101     // Set the cipher suite priorities.
+102     // See section 6.10 of the GnuTLS manuals for a description of this string.
+103     // Run `gnutls-cli -l` to see what your GnuTLS supports.
+104     const char *error = NULL;
+105     // Here we allow all 128+ bit ciphers except RC4 and disable SSL3 and TLS1.0.
+106     res = gnutls_priority_set_direct(
+107         session,
+108         &quot;SECURE128:-VERS-SSL3.0:-VERS-TLS1.0:-ARCFOUR-128:+PSK:+DHE-PSK&quot;,
+109         &amp;error
+110     );
+111     if (res != GNUTLS_E_SUCCESS) {
+112         error_exit(&quot;gnutls_priority_set_direct() failed.\n&quot;);
+113     }
+114 
+115     // Accept a TCP connection.
+116     int connfd = accept_one_connection(PORT);
+117 
+118     // Below we give GnuTLS access to the transport layer. GnuTLS needs a way of
+119     // reading and writing to and from the TCP socket (or whatever transport
+120     // layer you're using). Newer versions of GnuTLS can work directly with
+121     // Berkely sockets (see gnutls_transport_set_int()), but here we use the
+122     // push/pull callbacks as an example.
+123 
+124     // GnuTLS passes a pointer to the send and receive callbacks. Here we
+125     // construct a pointer to the connection's file descriptor which we will
+126     // tell GnuTLS to pass to the callbacks.
+127     int *connfdPtr = malloc(sizeof(int));
+128     *connfdPtr = connfd;
+129     gnutls_transport_set_ptr(session, connfdPtr);
+130 
+131     // Set the callback that allows GnuTLS to PUSH data TO the transport layer
+132     gnutls_transport_set_push_function(session, data_push);
+133     // Set the callback that allows GnuTls to PULL data FROM the tranport layer
+134     gnutls_transport_set_pull_function(session, data_pull);
+135 
+136     // Now we perform the actual SSL/TLS handshake.
+137     // If you wanted to, you could send some data over the tcp socket before
+138     // giving it to GnuTLS and performing the handshake. See the GnuTLS manual
+139     // on STARTTLS for more ELIDED_INFO_WORD.
+140     do {
+141         res = gnutls_handshake(session);
+142         // GnuTLS manual says to keep trying until it returns zero (success) or
+143         // encounters a fatal error.
+144     } while ( res != 0 &amp;&amp; !gnutls_error_is_fatal(res) );
+145     // If there is a fatal error, it is a fatal error for the PROTOCOL, not
+146     // a fatal error for the GnuTLS library. In this example, we just exit. In
+147     // a real application, you would alert the user, try again, etc.
+148     if (gnutls_error_is_fatal(res)) {
+149         error_exit(&quot;Fatal error during handshake.\n&quot;);
+150     }
+151 
+152     // If all went well, we've established a secure connection to the client.
+153     // We can now send some data.
+154     int i;
+155     char buf[100];
+156     for (i = 1; i &lt;= 10; i++) {
+157         sprintf(buf, &quot;Server %d\r\n&quot;, i);
+158         do {
+159             // gnutls_record_send() behaves like send(), so it doesn't always
+160             // send all of the available data. You should check the return value
+161             // and send anything it didn't send (just like you would with
+162             // send()).
+163             res = gnutls_record_send(session, buf, strlen(buf));
+164         } while (res == GNUTLS_E_INTERRUPTED || res == GNUTLS_E_AGAIN);
+165         if (gnutls_error_is_fatal(res)) {
+166             // Again, a fatal error doesn't mean you have to exit, it's just
+167             // a fatal error for the protocol. You should alert the user, retry,
+168             // etc.
+169             error_exit(&quot;Fatal error during send.\n&quot;);
+170         }
+171     }
+172 
+173     // Tear down the SSL/TLS connection. You could just close the TCP socket,
+174     // but this authenticates to the client your intent to close the connection,
+175     // so they can distinguish between you actually wanting to close the
+176     // connection and an attacker forcing it to close. Always do this.
+177     gnutls_bye(session, GNUTLS_SHUT_RDWR);
+178 
+179     // Destroy the session.
+180     gnutls_deinit(session);
+181 
+182     // Close the TCP connection.
+183     close(connfd);
+184     // GnuTLS shouldn't be making calls to the push/pull functions, so it's now
+185     // safe to deallocate the pointer to the socket.
+186     free(connfdPtr);
+187 
+188     // Destroy the structure we used to tell GnuTLS what credentials to use.
+189     // We have to do this after we call gnutls_deinit(), since GnuTLS doesn't
+190     // make an internal copy of the structure.
+191     gnutls_psk_free_server_credentials(cred);
+192 
+193     // Finally, tear down GnuTLS's global state.
+194     gnutls_global_deinit();
+195 
+196     printf(&quot;All done!\n&quot;);
+197     return 0;
+198 }
+199 
+200 // GnuTLS calls this function to get the pre-shared key. The client will tell
+201 // the server its username, and GnuTLS will give us that username. We have to
+202 // return the key that we share with that client. We set this callback with
+203 // gnutls_psk_set_server_credentials_function().
+204 int psk_creds(gnutls_session_t session, const char *username, gnutls_datum_t *key)
+205 {
+206     // For this example, we ignore the username and return the same key every
+207     // time. In a real application, you would look up the key for the username
+208     // and return that. If the username does not exist, return a negative
+209     // number (see the manual).
+210     key-&gt;size = strlen(SECRET_KEY);
+211     key-&gt;data = gnutls_malloc(key-&gt;size);
+212     if (key-&gt;data == NULL) {
+213         return -1;
+214     }
+215     memcpy(key-&gt;data, SECRET_KEY, key-&gt;size);
+216     return 0;
+217 }
+218 
+219 // GnuTLS calls this function to send data through the transport layer. We set
+220 // this callback with gnutls_transport_set_push_function(). It should behave
+221 // like send() (see the manual for specifics).
+222 ssize_t data_push(gnutls_transport_ptr_t ptr, const void* data, size_t len)
+223 {
+224     int sockfd = *(int*)(ptr);
+225     return send(sockfd, data, len, 0);
+226 }
+227 
+228 // GnuTLS calls this function to receive data from the transport layer. We set
+229 // this callback with gnutls_transport_set_pull_function(). It should act like
+230 // recv() (see the manual for specifics).
+231 ssize_t data_pull(gnutls_transport_ptr_t ptr, void* data, size_t maxlen)
+232 {
+233     int sockfd = *(int*)(ptr);
+234     return recv(sockfd, data, maxlen, 0);
+235 }
+236 
+237 // GnuTLS will call this function whenever there is a new debugging log message.
+238 void print_logs(int level, const char* msg)
+239 {
+240     printf(&quot;GnuTLS [%d]: %s&quot;, level, msg);
+241 }
+242 
+243 // GnuTLS will call this function whenever there is a new audit log message.
+244 void print_audit_logs(gnutls_session_t session, const char* message)
+245 {
+246     printf(&quot;GnuTLS Audit: %s&quot;, message);
+247 }
+248 
+249 // Listens on 'port' for a TCP connection. Accepts at most one connection.
+250 int accept_one_connection(int port)
+251 {
+252     int res;
+253     // Listen for a TCP connection.
+254     struct sockaddr_in serv_addr;
+255     int listenfd = socket(AF_INET, SOCK_STREAM, 0);
+256     if (listenfd &lt; 0) {
+257         error_exit(&quot;socket() failed.\n&quot;);
+258     }
+259     int yes = 1;
+260     if (setsockopt(listenfd, SOL_SOCKET, SO_REUSEADDR, &amp;yes, sizeof(int)) == -1) {
+261         error_exit(&quot;setsockopt() failed.\n&quot;);
+262     }
+263     memset(&amp;serv_addr, 0, sizeof(serv_addr));
+264     serv_addr.sin_family = AF_INET;
+265     serv_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+266     serv_addr.sin_port = htons(port);
+267     res = bind(listenfd, (struct sockaddr*)&amp;serv_addr, sizeof(serv_addr));
+268     if (res &lt; 0) {
+269         error_exit(&quot;bind() failed.\n&quot;);
+270     }
+271     res = listen(listenfd, 10);
+272     if (res &lt; 0) {
+273         error_exit(&quot;listen() failed.\n&quot;);
+274     }
+275 
+276     printf(&quot;Waiting for a connection...\n&quot;);
+277 
+278     // Accept a TCP connection.
+279     int connfd = accept(listenfd, (struct sockaddr*)NULL, NULL);
+280     if (connfd &lt; 0) {
+281         error_exit(&quot;accept() failed.\n&quot;);
+282     }
+283 
+284     printf(&quot;A client connected!\n&quot;);
+285 
+286     close(listenfd);
+287 
+288     return connfd;
+289 }
+290 
+291 void error_exit(const char *msg)
+292 {
+293     printf(&quot;ERROR: %s&quot;, msg);
+294     exit(1);
+295 }
+</pre>
+</div>
+<h2>Client</h2>
+<center><strong><a href="/source/client.c">Download client.c</a></strong></center>
+<div class="vimhighlight"><pre id='vimCodeElement'>
+  1 //             GnuTLS pre-shared key (PSK) client-server example.
+  2 //                    This is the CLIENT (client.c).
+  3 //
+  4 // This code was written by Taylor Hornby on April 18, 2013. You can find it
+  5 // on the web at:
+  6 //          <a href="https://defuse.ca/gnutls-psk-client-server-example.htm">https://defuse.ca/gnutls-psk-client-server-example.htm</a>
+  7 // 
+  8 // This code is in the public domain. You can do whatever you want with it.
+  9 //
+ 10 // In this simple example,
+ 11 //   1. The server accepts a TCP connection from the client.
+ 12 //   2. The server and client perform the SSL/TLS handshake over the connection.
+ 13 //   3. The server sends the client some data.
+ 14 //   4. The server and client close the SSL/TLS and TCP connection.
+ 15 //   5. The server and the client exit.
+ 16 //
+ 17 // The code is heavily commented so that it can be understood by someone who has
+ 18 // never used GnuTLS before. The GnuTLS manual can be found here:
+ 19 //               <a href="http://www.gnutls.org/manual/gnutls.html">http://www.gnutls.org/manual/gnutls.html</a>
+ 20 
+ 21 // Standard library stuff
+ 22 #include &lt;stdio.h&gt;
+ 23 #include &lt;stdlib.h&gt;
+ 24 #include &lt;string.h&gt;
+ 25 #include &lt;errno.h&gt;
+ 26 
+ 27 // Stuff for sockets
+ 28 #include &lt;unistd.h&gt;
+ 29 #include &lt;netinet/in.h&gt;
+ 30 #include &lt;arpa/inet.h&gt;
+ 31 #include &lt;sys/types.h&gt;
+ 32 #include &lt;sys/socket.h&gt;
+ 33 
+ 34 // GnuTLS!
+ 35 #include &lt;gnutls/gnutls.h&gt;
+ 36 
+ 37 // This is the secret key that must be shared (over a secure channel!) between
+ 38 // the client and server. Obviously in a real application it should be in
+ 39 // a configuration file or something and not built-in constant. It also
+ 40 // shouldn't be an ASCII string. Use a good CSPRNG!
+ 41 #define SECRET_KEY &quot;THIS IS THE PRE-SHARED KEY.&quot;
+ 42 
+ 43 // IPv4 address of the server which we will connect to.
+ 44 #define SERVER_IP &quot;127.0.0.1&quot;
+ 45 // The TCP port number that the server is running on, which we will connect to.
+ 46 #define SERVER_PORT 8050
+ 47 // GnuTLS log level. 9 is the most verbose.
+ 48 #define LOG_LEVEL 0
+ 49 
+ 50 int make_one_connection(const char *address, int port);
+ 51 void error_exit(const char *msg);
+ 52 // GnuTLS callbacks.
+ 53 int psk_creds(gnutls_session_t, const char*, gnutls_datum_t*);
+ 54 ssize_t data_push(gnutls_transport_ptr_t, const void*, size_t);
+ 55 ssize_t data_pull(gnutls_transport_ptr_t, void*, size_t);
+ 56 void print_logs(int, const char*);
+ 57 void print_audit_logs(gnutls_session_t, const char*);
+ 58 
+ 59 int main(int argc, char **argv)
+ 60 {
+ 61     // We use the 'res' variable to capture return values, so we can check for
+ 62     // success/failure.
+ 63     int res;
+ 64 
+ 65     // Initialize GnuTLS's global state. You only have to do this once.
+ 66     gnutls_global_init();
+ 67 
+ 68     // Enable logging (for debugging).
+ 69     // Be careful with this in a real application. You don't want to reveal the
+ 70     // logging ELIDED_INFO_WORD to any potential attackers.
+ 71     gnutls_global_set_log_level(LOG_LEVEL);
+ 72     gnutls_global_set_log_function(print_logs);
+ 73     // Enable logging (for auditing).
+ 74     // (commented out because it's not available in my version of GnuTLS)
+ 75     // gnutls_global_set_audit_log_function(print_audit_logs);
+ 76 
+ 77     // A GnuTLS session is like a socket for an SSL/TLS connection.
+ 78     gnutls_session_t session;
+ 79 
+ 80     // Initialize the session for our connection to the server.
+ 81     res = gnutls_init(&amp;session, GNUTLS_CLIENT);
+ 82     if (res != GNUTLS_E_SUCCESS) {
+ 83         error_exit(&quot;gnutls_init() failed.\n&quot;);
+ 84     }
+ 85 
+ 86     // Allocate a structure that we use to tell GnuTLS what our &quot;username&quot; and
+ 87     // pre-shared key is.
+ 88     gnutls_psk_client_credentials_t cred;
+ 89     res = gnutls_psk_allocate_client_credentials(&amp;cred);
+ 90     if (res != 0) {
+ 91         error_exit(&quot;gnutls_psk_allocate_client_credentials() failed.\n&quot;);
+ 92     }
+ 93     // Construct the pre-shared key in GnuTLS's 'datum' structure, whose
+ 94     // definition is as follows:
+ 95     //      typedef struct {
+ 96     //          unsigned char *data;
+ 97     //          unsigned int size;
+ 98     //      } gnutls_datum_t;
+ 99     gnutls_datum_t key;
+100     key.size = strlen(SECRET_KEY);
+101     key.data = malloc(key.size);
+102     memcpy(key.data, SECRET_KEY, key.size);
+103     // Put the username and key into the structure we use to tell GnuTLs what
+104     // the credentials are. The example server doesn't care about usernames, so
+105     // we use &quot;Alice&quot; here.
+106     res = gnutls_psk_set_client_credentials(cred, &quot;Alice&quot;, &amp;key, GNUTLS_PSK_KEY_RAW);
+107     memset(key.data, 0, key.size);
+108     free(key.data);
+109     key.data = NULL;
+110     key.size = 0;
+111     // You could instead use a callback to give the credentials to GnuTLS. See
+112     // gnutls_psk_set_client_credentials_function().
+113     if (res != 0) {
+114         error_exit(&quot;gnutls_psk_set_client_credentials() failed.\n&quot;);
+115     }
+116     // Pass our credentials (which contains the username and key) to GnuTLS.
+117     res = gnutls_credentials_set(session, GNUTLS_CRD_PSK, cred);
+118     if (res != 0) {
+119         error_exit(&quot;gnutls_credentials_set() failed.\n&quot;);
+120     }
+121 
+122     // Set the cipher suite priorities.
+123     // See section 6.10 of the GnuTLS manuals for a description of this string.
+124     // Run `gnutls-cli -l` to see what your GnuTLS supports.
+125     const char *error = NULL;
+126     // Here we allow all 128+ bit ciphers except RC4 and disable SSL3 and TLS1.0.
+127     res = gnutls_priority_set_direct(
+128         session,
+129         &quot;SECURE128:-VERS-SSL3.0:-VERS-TLS1.0:-ARCFOUR-128:+PSK:+DHE-PSK&quot;,
+130         &amp;error
+131     );
+132     if (res != GNUTLS_E_SUCCESS) {
+133         error_exit(&quot;gnutls_priority_set_direct() failed.\n&quot;);
+134     }
+135 
+136     // Make a TCP connection to the server.
+137     int connfd = make_one_connection(SERVER_IP, SERVER_PORT);
+138 
+139     // Below we give GnuTLS access to the transport layer. GnuTLS needs a way of
+140     // reading and writing to and from the TCP socket (or whatever transport
+141     // layer you're using). Newer versions of GnuTLS can work directly with
+142     // Berkely sockets (see gnutls_transport_set_int()), but here we use the
+143     // push/pull callbacks as an example.
+144 
+145     // GnuTLS passes a pointer to the send and receive callbacks. Here we
+146     // construct a pointer to the connection's file descriptor which we will
+147     // tell GnuTLS to pass to the callbacks.
+148     int *connfdPtr = malloc(sizeof(int));
+149     *connfdPtr = connfd;
+150     gnutls_transport_set_ptr(session, connfdPtr);
+151 
+152     // Set the callback that allows GnuTLS to PUSH data TO the transport layer
+153     gnutls_transport_set_push_function(session, data_push);
+154     // Set the callback that allows GnuTls to PULL data FROM the tranport layer
+155     gnutls_transport_set_pull_function(session, data_pull);
+156 
+157     // Now we perform the actual SSL/TLS handshake.
+158     // If you wanted to, you could send some data over the tcp socket before
+159     // giving it to GnuTLS and performing the handshake. See the GnuTLS manual
+160     // on STARTTLS for more ELIDED_INFO_WORD.
+161     do {
+162         res = gnutls_handshake(session);
+163     } while ( res != 0 &amp;&amp; !gnutls_error_is_fatal(res) );
+164 
+165     if (gnutls_error_is_fatal(res)) {
+166         error_exit(&quot;Fatal error during handshake.\n&quot;);
+167     }
+168 
+169     // If the handshake worked, we can now receive the data that the server is
+170     // sending to us.
+171     printf(&quot;------- BEGIN DATA FROM SERVER -------\n&quot;);
+172     char buf[100];
+173     res = gnutls_record_recv(session, buf, sizeof(buf));
+174     while (res != 0) {
+175         if (res == GNUTLS_E_REHANDSHAKE) {
+176             error_exit(&quot;Peer wants to re-handshake but we don't support that.\n&quot;);
+177         } else if (gnutls_error_is_fatal(res)) {
+178             error_exit(&quot;Fatal error during read.\n&quot;);
+179         } else if (res &gt; 0) {
+180             fwrite(buf, 1, res, stdout);
+181             fflush(stdout);
+182         }
+183         res = gnutls_record_recv(session, buf, sizeof(buf));
+184     }
+185     printf(&quot;------- END DATA FROM SERVER -------\n&quot;);
+186 
+187     // Tear down the SSL/TLS connection. You could just close the TCP socket,
+188     // but this authenticates to the client your intent to close the connection,
+189     // so they can distinguish between you actually wanting to close the
+190     // connection and an attacker forcing it to close. Always do this.
+191     gnutls_bye(session, GNUTLS_SHUT_RDWR);
+192 
+193     // Destroy the session.
+194     gnutls_deinit(session);
+195 
+196     // Close the TCP connection.
+197     close(connfd);
+198     // GnuTLS shouldn't be making calls to the push/pull functions, so it's now
+199     // safe to deallocate the pointer to the socket.
+200     free(connfdPtr);
+201 
+202     // Destroy the structure we used to tell GnuTLS what credentials to use.
+203     // We have to do this after we call gnutls_deinit(), since GnuTLS doesn't
+204     // make an internal copy of the structure.
+205     gnutls_psk_free_client_credentials(cred);
+206 
+207     // Finally, tear down the GnuTLS's global state.
+208     gnutls_global_deinit();
+209 
+210     printf(&quot;All done!\n&quot;);
+211     return 0;
+212 }
+213 
+214 // GnuTLS calls this function to send data through the transport layer. We set
+215 // this callback with gnutls_transport_set_push_function(). It should behave
+216 // like send() (see the manual for specifics).
+217 ssize_t data_push(gnutls_transport_ptr_t ptr, const void* data, size_t len)
+218 {
+219     int sockfd = *(int*)(ptr);
+220     return send(sockfd, data, len, 0);
+221 }
+222 
+223 // GnuTLS calls this function to receive data from the transport layer. We set
+224 // this callback with gnutls_transport_set_pull_function(). It should act like
+225 // recv() (see the manual for specifics).
+226 ssize_t data_pull(gnutls_transport_ptr_t ptr, void* data, size_t maxlen)
+227 {
+228     int sockfd = *(int*)(ptr);
+229     return recv(sockfd, data, maxlen, 0);
+230 }
+231 
+232 // GnuTLS will call this function whenever there is a new debugging log message.
+233 void print_logs(int level, const char* msg)
+234 {
+235     printf(&quot;GnuTLS [%d]: %s&quot;, level, msg);
+236 }
+237 
+238 // GnuTLS will call this function whenever there is a new audit log message.
+239 void print_audit_logs(gnutls_session_t session, const char* message)
+240 {
+241     printf(&quot;GnuTLS Audit: %s&quot;, message);
+242 }
+243 
+244 // Makes a TCP connection to the given IPv4 address and port number.
+245 int make_one_connection(const char *address, int port)
+246 {
+247     int res;
+248     int connfd = socket(AF_INET, SOCK_STREAM, 0);
+249     struct sockaddr_in serv_addr;
+250     if (connfd &lt; 0) {
+251         error_exit(&quot;socket() failed.\n&quot;);
+252     }
+253     memset(&amp;serv_addr, 0, sizeof(serv_addr));
+254     serv_addr.sin_family = AF_INET;
+255     serv_addr.sin_port = htons(port);
+256     res = inet_pton(AF_INET, address, &amp;serv_addr.sin_addr);
+257     if (res != 1) {
+258         error_exit(&quot;inet_pton() failed.\n&quot;);
+259     }
+260     res = connect(connfd, (struct sockaddr*)&amp;serv_addr, sizeof(serv_addr));
+261     if (res &lt; 0) {
+262         error_exit(&quot;connect() failed.\n&quot;);
+263     }
+264     return connfd;
+265 }
+266 
+267 void error_exit(const char *msg)
+268 {
+269     printf(&quot;ERROR: %s&quot;, msg);
+270     exit(1);
+271 }
+</pre>
+</div>
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                ELIDED_IP_ADDRESS                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>ELIDED_HIT_COUNT</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>ELIDED_HIT_COUNT</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>

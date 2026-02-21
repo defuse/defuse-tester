@@ -95,7 +95,7 @@ async fn main() -> Result<()> {
                             let mut normalized = if args.no_elision {
                                 body.clone()
                             } else {
-                                normalize_html(&body)
+                                normalize_html(&body, !args.normalize_vim_tags)
                             };
 
                             // Optionally normalize vim syntax tags
@@ -146,7 +146,9 @@ async fn main() -> Result<()> {
 }
 
 /// Normalize HTML to elide meaningless differences between prod and local snapshots.
-fn normalize_html(html: &str) -> String {
+/// When `elide_vim_tags` is true, replace entire vim syntax lines with ELIDED_VIM_SYNTAX_LINE.
+/// Pass false when --normalize-vim-tags is used, since that does finer-grained normalization.
+fn normalize_html(html: &str, elide_vim_tags: bool) -> String {
     // Match lines with IPv4 address followed by </td> (IP address display)
     let ip_re = Regex::new(r"(?m)^\s*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\s*</td>$").unwrap();
     let result = ip_re.replace_all(html, "                ELIDED_IP_ADDRESS                </td>");
@@ -155,8 +157,8 @@ fn normalize_html(html: &str) -> String {
     let count_re = Regex::new(r"(?m)^\s*<td>\d+</td>$").unwrap();
     let result = count_re.replace_all(&result, "                <td>ELIDED_HIT_COUNT</td>");
 
-    // Match lines with just whitespace and a number (upvote counts)
-    let upvote_re = Regex::new(r"(?m)^\s+\d+\s*$").unwrap();
+    // Match lines with just whitespace and a number (possibly negative) (upvote counts)
+    let upvote_re = Regex::new(r"(?m)^\s+-?\d+\s*$").unwrap();
     let result = upvote_re.replace_all(&result, "            ELIDED_UPVOTE_COUNT ");
 
     // Normalize apostrophe encoding (&#039; and &#x27; are equivalent)
@@ -171,8 +173,13 @@ fn normalize_html(html: &str) -> String {
     let result = hits_re.replace_all(&result, "");
 
     // Elide vim syntax highlighting lines that differ between vim versions
-    let vim_syntax_re = Regex::new(r#"(?m)^.*<span class="(Identifier|Constant|Special|Statement|LineNr|Comment).*$"#).unwrap();
-    let result = vim_syntax_re.replace_all(&result, "ELIDED_VIM_SYNTAX_LINE");
+    // Skip this when --normalize-vim-tags is used, since that does finer-grained normalization
+    let result = if elide_vim_tags {
+        let vim_syntax_re = Regex::new(r#"(?m)^.*<span class="(Identifier|Constant|Special|Statement|LineNr|Comment).*$"#).unwrap();
+        vim_syntax_re.replace_all(&result, "ELIDED_VIM_SYNTAX_LINE")
+    } else {
+        result.into_owned().into()
+    };
 
     // Elide "information" and "informaion" typo so contact page matches
     let result = result.replace("informaion", "ELIDED_INFO_WORD");
@@ -184,8 +191,9 @@ fn normalize_html(html: &str) -> String {
     let result = result.replace("\\x5F", "_");
 
     // Normalize encfs audit URLs (old vs new naming)
-    // Replace longer string first to avoid partial match
+    // Replace longer strings first to avoid partial match
     let result = result.replace("auditencfsOLD", "ELIDED_ENCFS_AUDIT");
+    let result = result.replace("auditencfsold", "ELIDED_ENCFS_AUDIT");
     let result = result.replace("auditencfs", "ELIDED_ENCFS_AUDIT");
 
     // Normalize absolute production URLs to relative URLs

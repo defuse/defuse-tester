@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>TrueCrypt 7.1a Hashes</title>
+<meta name="description" content="SHA256 and SHA1 hashes of the last version of TrueCrypt." />
+<meta name="keywords" content="TrueCrypt, 7.1a, 7.1, SHA256, MD5, SHA1" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" >            <div class="upvotearrows">
+                    <div class="upvoteuparrow">
+            <form 
+                action="/truecrypt-7.1a-hashes.htm" 
+                method="post"
+                onsubmit="return upvote.submit('truecrypthashes', 'up')"
+                class="upvoteform upvoteUpFormtruecrypthashes"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="truecrypthashes" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagetruecrypthashes"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountertruecrypthashes" >
+            ELIDED_UPVOTE_COUNT 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="/truecrypt-7.1a-hashes.htm" 
+                method="post"
+                onsubmit="return upvote.submit('truecrypthashes', 'down')"
+                class="upvoteform upvoteDownFormtruecrypthashes"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="truecrypthashes" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagetruecrypthashes"
+                    />
+                            </form>
+        </div>
+                </div>
+        <div class="pagedate">
+May 31, 2014
+</div>
+<h1>TrueCrypt 7.1a Hashes</h1>
+
+<p>
+Here are the SHA256, SHA1, and MD5 hashes of all TrueCrypt version 7.1a files.
+The signature of the list can be verified with <a href="/contact.htm">my public
+key.</a> The <kbd>TrueCrypt_v7.1a.zip</kbd> file is <a
+href="https://www.grc.com/misc/truecrypt/truecrypt.htm">GRC's archive of all
+TrueCrypt v7.1a materials</a>.
+</p>
+
+<p style="text-align: center;">
+    <a href="/downloads/truecrypt-hashes.asc">
+    <strong>Download TrueCrypt v7.1a Hashes</strong>
+    </a>
+</p>
+
+<div class="vimhighlight"><pre id='vimCodeElement'>
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+=======================
+TrueCrypt v7.1a Hashes
+=======================
+
+SHA256
+=======
+3f48210cca1c17f433572845586d5e2a1a717a545480d136cb970689a44e3c32  truecrypt-7.1a-linux-console-x64.tar.gz
+d9bbdbdb0b30fcf3f35e0b82aaab7cd01c221b0c5724ab2a9ede7f9d05fb534c  truecrypt-7.1a-linux-console-x64.tar.gz.sig
+7871a40aaca4556d2c6f3377d62347bc38302f4f1ef191e7d07123bdf4a4d008  truecrypt-7.1a-linux-console-x86.tar.gz
+06b4b7608b6f06f68612f694309d8a6e43e4adfbf8e933fb6890c6556e2602c3  truecrypt-7.1a-linux-console-x86.tar.gz.sig
+43f895cfcdbe230907c47b4cd465e5c967bbe741a9b68512c09f809d1a2da1e9  truecrypt-7.1a-linux-x64.tar.gz
+62f95e8d8a7cee3dd1072f54942d39605e2a860031ce56ea0a6e6b832e4ad147  truecrypt-7.1a-linux-x64.tar.gz.sig
+9d292baf87df34598738faef7305cddaa15ea9f174c9923185653fb28f8cfef0  truecrypt-7.1a-linux-x86.tar.gz
+11f2d29b9f6b93be73f1605534c9bc0f9659e2736e1d4e7c08b73c6db6095f9a  truecrypt-7.1a-linux-x86.tar.gz.sig
+04db58b737c05bb6b0b83f1cb37a29edec844b59ff223b9e213ee1f4e287f586  TrueCrypt 7.1a Mac OS X.dmg
+f734cdefc13ab95ddd5aaa27218b1f7fc97b8f256bd09bcb47b3932274469973  TrueCrypt 7.1a Mac OS X.dmg.sig
+e6214e911d0bbededba274a2f8f8d7b3f6f6951e20f1c3a598fc7a23af81c8dc  TrueCrypt 7.1a Source.tar.gz
+3de1be6ff4793c5d7269384a5739bb4c985068b15978d17d5bd71403e0f02177  TrueCrypt 7.1a Source.tar.gz.sig
+9ec1a8002d80a4bfa43cb1d4116fb59c3f00d94407a042556183fe72541ea431  TrueCrypt 7.1a Source.zip
+cadd4333abdaf87ae8d2298789d7485b015bbd55be959e02c9d0c9131ccf3281  TrueCrypt 7.1a Source.zip.sig
+26d4446f040bf6989a19b197f69d0fc2a80fb6fa826750163f396ee904ac4b27  TrueCrypt-Foundation-Public-Key.asc
+e95eca399dfe95500c4de569efc4cc77b75e2b66a864d467df37733ec06a0ff2  TrueCrypt Setup 7.1a.exe
+1f6b9f5e13d1d8fe0070cf60688176e85458ddf602dfb987efa9c08f7140b69b  TrueCrypt Setup 7.1a.exe.sig
+4b87892bf9f217deb28eb67570803664512613aee7cf92df6e31dcca6e26fab7  TrueCrypt_v7.1a.zip
+
+SHA1
+=======
+c2a8c78a23f97ffb17bf47448c9f2daa3c8f80cd  truecrypt-7.1a-linux-console-x64.tar.gz
+078cdd4a58f0342cb872d7456c0ba49e310fcad9  truecrypt-7.1a-linux-console-x64.tar.gz.sig
+a53a7a609a25d9a1e33f720ce5c0265ddd4e8b25  truecrypt-7.1a-linux-console-x86.tar.gz
+66060f9444d5df70b4fcdeb655dc60131fce5ad1  truecrypt-7.1a-linux-console-x86.tar.gz.sig
+086cf24fad36c2c99a6ac32774833c74091acc4d  truecrypt-7.1a-linux-x64.tar.gz
+45f65bf755d9481d8afa0d17de6a034062b7a7bd  truecrypt-7.1a-linux-x64.tar.gz.sig
+0e77b220dbbc6f14101f3f913966f2c818b0f588  truecrypt-7.1a-linux-x86.tar.gz
+9efcd79e963126d6d8ef242857b4fafb06eb8ff0  truecrypt-7.1a-linux-x86.tar.gz.sig
+16e6d7675d63fba9bb75a9983397e3fb610459a1  TrueCrypt 7.1a Mac OS X.dmg
+bbe716da36e1b044310f1ea06965c2c29c96e1ed  TrueCrypt 7.1a Mac OS X.dmg.sig
+d43e0dbe05c04e316447d87413c4f74c68f5de24  TrueCrypt 7.1a Source.tar.gz
+caeb2bb1d5605d1fc960e936a06e52611033788c  TrueCrypt 7.1a Source.tar.gz.sig
+4baa4660bf9369d6eeaeb63426768b74f77afdf2  TrueCrypt 7.1a Source.zip
+952cc187988b4044ca8e249796ba65cc65e235f6  TrueCrypt 7.1a Source.zip.sig
+c871f833d6c115f4b4861eed859ff512e994b9fc  TrueCrypt-Foundation-Public-Key.asc
+7689d038c76bd1df695d295c026961e50e4a62ea  TrueCrypt Setup 7.1a.exe
+e1e3efaeac2fbcdbff0c2c62ac33233bd356edfa  TrueCrypt Setup 7.1a.exe.sig
+1d503ddb5f619ca868ea42bd7435f0dff5975997  TrueCrypt_v7.1a.zip
+
+MD5 ** WARNING: MD5 is not secure! **
+======================================
+eb71d8108afec84d4dc72c523b57763a  truecrypt-7.1a-linux-console-x64.tar.gz
+93607994136af9243c90e990a58afab8  truecrypt-7.1a-linux-console-x64.tar.gz.sig
+218d80bbe69cb63dba124efb62600e0f  truecrypt-7.1a-linux-console-x86.tar.gz
+bd7bd8d6b46e536f53d2d84ce39988c3  truecrypt-7.1a-linux-console-x86.tar.gz.sig
+bb355096348383987447151eecd6dc0e  truecrypt-7.1a-linux-x64.tar.gz
+5e49425dd6f63a5af00b2539f0405884  truecrypt-7.1a-linux-x64.tar.gz.sig
+09355fb2e43cf51697a15421816899be  truecrypt-7.1a-linux-x86.tar.gz
+6d7a585a90aeccece71de2ac1b9d8395  truecrypt-7.1a-linux-x86.tar.gz.sig
+89affdc42966ae5739f673ba5fb4b7c5  TrueCrypt 7.1a Mac OS X.dmg
+c2b6489c433b1210800a27a2554f31a1  TrueCrypt 7.1a Mac OS X.dmg.sig
+102d9652681db11c813610882332ae48  TrueCrypt 7.1a Source.tar.gz
+5bca3d15b35d0725ff3317e568062ad8  TrueCrypt 7.1a Source.tar.gz.sig
+3ca3617ab193af91e25685015dc5e560  TrueCrypt 7.1a Source.zip
+da03d92b896a7f888a030f0eb5511f5d  TrueCrypt 7.1a Source.zip.sig
+41612478ceeee8448b87a5e872f07302  TrueCrypt-Foundation-Public-Key.asc
+7a23ac83a0856c352025a6f7c9cc1526  TrueCrypt Setup 7.1a.exe
+015a30c68450b9559bda52eb2fa0ff3e  TrueCrypt Setup 7.1a.exe.sig
+2c664c527ee622b17da6fcd76979fba4  TrueCrypt_v7.1a.zip
+
+TrueCrypt Key Fingerprint
+==========================
+pub   1024D/F0D6B1E0 2004-06-06
+      Key fingerprint = C5F4 BAC4 A7B2 2DB8 B8F8  5538 E3BA 73CA F0D6 B1E0
+uid                  TrueCrypt Foundation &lt;contact@truecrypt.org&gt;
+sub   4077g/6B136ECF 2004-06-06
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJXa1AUAAoJEDhe4FWhKRU4RjAQAIDmDhnb4+U4eR/Nuxi9PfzQ
+6Phr2oWvr5/EgPXedPt5AergSuGnz6c4pbXJDLKBiKKOOw77iGKV1XOZSVPuOiag
+iN/ZLkLYbB+l3kPWzfHQNhhvXhPQq5G5bQnyqaWoxaiepiYv5t9VTINQjat/vKne
+fA2mhwKWIM9mXMuRAg2411C0IwKyvJ2zOb5q59vK91S+nO+Ur/D2ZrLtVvHCkYW5
+VpWKaLQqGlRKwPx9fVcDB46rmGyGKuQgWFuhX9HxyHnQ5bBy4r/SwYdLryC6F9xJ
+pkiWfxiyS3m+H2OSTbxeVIxTcJu0bOKRckw5J69Sd5M2eY6xWsry8jqGjfDwcINe
+gnTPtrKqGb7+PeTRsV3LIT1g6rXENd+PIatIvUepy828KwW+Ad/seJsNIQrx6qhd
+AePZ/A2kosdv/nktV0Jomym+7kArZuVOpmyhOJWEq077jNXhsOzlTt18aKAf6m+z
+mh3FnMfP/PleT0F4e9EaeiOmVs57CaQ8ZV7t76L3UOk3nyzI/q+QnsVMakmLhiRH
+e/ZGMQJtvYwwgplarnWN3XigMGnuh6vXn4ipcWyNtDBTcXj0BTlWvzBBim5eArO9
+FRI9GimXH3HF5a1ioaL03gnypkVL7yQA+Qdm17OO9dwMdcRfYadbFe21/N31HFk4
+I1J6OuIM0G7Q6ib92vgT
+=csnF
+-----END PGP SIGNATURE-----
+</pre>
+</div>
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                ELIDED_IP_ADDRESS                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>ELIDED_HIT_COUNT</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>ELIDED_HIT_COUNT</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>
