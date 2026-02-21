@@ -200,7 +200,7 @@ async fn referrer_policy_on_all_paths() {
 // HTTPS Redirect (production only)
 // =============================================================================
 
-/// HTTP requests should redirect to HTTPS (301)
+/// HTTP requests should redirect to HTTPS (Caddy uses 308 Permanent Redirect)
 /// Only runs against production URLs, not localhost
 #[tokio::test]
 async fn http_redirects_to_https() {
@@ -212,10 +212,10 @@ async fn http_redirects_to_https() {
     let http_url = url("/").replace("https://", "http://");
     let resp = client().get(&http_url).send().await.unwrap();
 
-    assert_eq!(
-        resp.status().as_u16(),
-        301,
-        "HTTP should redirect with 301, got: {}",
+    let status = resp.status().as_u16();
+    assert!(
+        status == 301 || status == 308,
+        "HTTP should redirect with 301 or 308, got: {}",
         resp.status()
     );
 

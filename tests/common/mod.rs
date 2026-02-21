@@ -193,10 +193,11 @@ pub fn assert_body_does_not_contain(body: &str, needle: &str, context: &str) {
     );
 }
 
-/// Follow 301 redirects from an initial URL until a non-redirect response (up to 10 hops).
-/// Returns the final response URL. Panics if any redirect is not a 301.
+/// Follow permanent redirects from an initial URL until a non-redirect response (up to 10 hops).
+/// Returns the final response URL. Panics if any redirect is not 301 or 308.
 /// Useful for testing multi-hop redirect chains where Caddy and the Rust server
 /// each handle different aspects (HTTP→HTTPS, host canonicalization, URL normalization).
+/// Caddy uses 308 for HTTP→HTTPS; the Rust app uses 301 for URL canonicalization.
 pub async fn follow_redirects(initial_url: &str) -> String {
     let c = client();
     let mut current_url = initial_url.to_string();
@@ -207,17 +208,17 @@ pub async fn follow_redirects(initial_url: &str) -> String {
             .await
             .unwrap_or_else(|e| panic!("Request {} to {} failed: {}", i + 1, current_url, e));
         let status = resp.status().as_u16();
-        if status == 301 {
+        if status == 301 || status == 308 {
             let location = resp
                 .headers()
                 .get("location")
-                .unwrap_or_else(|| panic!("301 redirect {} from {} has no Location header", i + 1, current_url))
+                .unwrap_or_else(|| panic!("{} redirect {} from {} has no Location header", status, i + 1, current_url))
                 .to_str()
                 .unwrap_or_else(|e| panic!("Invalid Location header on redirect {} from {}: {}", i + 1, current_url, e));
             current_url = location.to_string();
         } else if resp.status().is_redirection() {
             panic!(
-                "Request {} to {} returned non-301 redirect ({}). Only 301 redirects are expected.",
+                "Request {} to {} returned unexpected redirect ({}). Only 301/308 redirects are expected.",
                 i + 1, current_url, status
             );
         } else {
