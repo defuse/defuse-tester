@@ -263,8 +263,8 @@ async fn page_about() {
     assert_success(&resp, "about");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("Privacy and Usability Policy"),
-        "Page should contain 'Privacy and Usability Policy'"
+        body.contains("About Taylor Hornby"),
+        "Page should contain 'About Taylor Hornby'"
     );
 }
 
