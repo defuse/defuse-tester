@@ -2528,20 +2528,19 @@ async fn review_period_blocks_then_allows() {
 }
 
 #[tokio::test]
-async fn review_period_custom_value() {
-    // PHP accepts any integer, not just dropdown values
+async fn review_period_rejects_invalid_value() {
     let resp = post_form(
         "/trustedthirdparty.htm",
         &[
             ("makedrawingnumber", "Reserve a Drawing Number"),
-            ("prereview", "3"), // Custom 3-second value
+            ("prereview", "3"), // Not in allowed dropdown values
         ],
     )
     .await;
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("Your Drawing Number Has Been Reserved"),
-        "Should accept custom prereview value"
+        body.contains("Invalid review time"),
+        "Should reject non-dropdown prereview value"
     );
 }
 

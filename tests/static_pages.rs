@@ -217,18 +217,18 @@ async fn project_generating_random_passwords() {
 // =============================================================================
 
 #[tokio::test]
-async fn misc_writing_tips() {
+async fn misc_fractal_zoom() {
     let resp = client()
-        .get(url("/writing-tips.htm"))
+        .get(url("/fractal-zoom.htm"))
         .send()
         .await
         .unwrap();
 
-    assert_success(&resp, "writing-tips");
+    assert_success(&resp, "fractal-zoom");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("re-read the previous sentence"),
-        "Page should contain 're-read the previous sentence'"
+        body.contains("fractal zoom draws you in"),
+        "Page should contain 'fractal zoom draws you in'"
     );
 }
 
@@ -285,17 +285,17 @@ async fn page_contact() {
 }
 
 #[tokio::test]
-async fn page_transparency() {
+async fn page_honestyware() {
     let resp = client()
-        .get(url("/transparency.htm"))
+        .get(url("/honestyware.htm"))
         .send()
         .await
         .unwrap();
 
-    assert_success(&resp, "transparency");
+    assert_success(&resp, "honestyware");
     let body = resp.text().await.unwrap();
     assert!(
-        body.contains("removed things from the pastebin"),
-        "Page should contain 'removed things from the pastebin'"
+        body.contains("Honestyware is a philosophy"),
+        "Page should contain 'Honestyware is a philosophy'"
     );
 }
