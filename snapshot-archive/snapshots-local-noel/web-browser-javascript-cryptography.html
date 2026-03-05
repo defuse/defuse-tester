@@ -1,0 +1,533 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>Web Browser Cryptography is a Good Thing</title>
+<meta name="description" content="Arguments for and against doing cryptography in the browser." />
+<meta name="keywords" content="javascript cryptography, web browser cryptography, browser cryptography, encryption" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" >            <div class="upvotearrows">
+                    <div class="upvoteuparrow">
+            <form 
+                action="/web-browser-javascript-cryptography.htm" 
+                method="post"
+                onsubmit="return upvote.submit('webbrowsercryptography', 'up')"
+                class="upvoteform upvoteUpFormwebbrowsercryptography"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="webbrowsercryptography" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagewebbrowsercryptography"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterwebbrowsercryptography" >
+            352 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="/web-browser-javascript-cryptography.htm" 
+                method="post"
+                onsubmit="return upvote.submit('webbrowsercryptography', 'down')"
+                class="upvoteform upvoteDownFormwebbrowsercryptography"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="webbrowsercryptography" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagewebbrowsercryptography"
+                    />
+                            </form>
+        </div>
+                </div>
+        <div class="pagedate">
+January 23, 2013
+</div>
+<h1>Web Browser Cryptography is a Good Thing</h1>
+
+<p>
+Recently I have seen a lot of security experts objecting to the use of
+Javascript in the browser for cryptography. Most of these objections have been
+raised in response to the release of two websites that implement their cryptography in Javascript: <a href="https://crypto.cat/">Nadim Kobeissi's Cryptocat</a> and <a
+href="https://mega.co.nz/">Kim Dotcom's Mega</a>. In response to the objections,
+I give a very high-level description of a code signing system that could make it safe
+to do cryptography in Javascript, and argue that we should start working at
+making web browser cryptography secure.
+</p>
+
+<h2>Objections to Web Browser Cryptography</h2>
+
+<p>
+The objections fall into three categories, which I will address individually.
+</p>
+
+<ol>
+    <li>
+        <p><strong>The security of a website that does cryptography in Javascript
+        depends on the security of SSL.</strong></p>
+
+        <p>
+        This is currently the case. If an attacker can break SSL, they can
+        modify the Javascript code as it's being sent to the browser and insert
+        some bit of code that leaks all of the cryptographic keys. We have good
+        reasons to doubt the security of SSL, too. The recent Certificate
+        Authority (CA) breaches (DigiNotar, etc.), and the general idea that
+        hundreds of CAs, in countries all around the world, have the power to
+        intercept our SSL connections, are all good reasons to avoid
+        depending on the security of SSL.
+        </p>
+
+
+        <p>
+        It's important to note that it's SSL's PKI&mdash;the entities we've
+        chosen to trust&mdash;that we have problems with, not the SSL protocol
+        itself (although there have been <a
+        href="https://en.wikipedia.org/wiki/Transport_Layer_Security#BEAST_attack">some
+        problems</a> with that too). Therefore, to make Javascript cryptography
+        secure we have to provide code integrity checking without relying on the
+        SSL PKI.
+        </p>
+
+
+        <p>
+        One approach to removing the dependency on SSL's PKI would be to develop
+        a code signing infrastructure for the web. Such an infrastructure would
+        not only be useful for integrity checking cryptography code, but could
+        be used to mitigate XSS attacks. It doesn't need to be very complicated,
+        either. A browser add-on containing the web site owner's public key
+        could verify a signature attached to the code before allowing it to
+        execute. The problem of distributing the web site owner's public key
+        remains, but the code signing keys would be expected to have long lives,
+        so users would have good reason to be very suspicious when the public
+        key changes (unlike SSL). A Trust On First Use (TOFU) model, through
+        SSL, is probably sufficient. Or maybe the keys can be distributed through DNSSEC.
+        </p>
+
+        <p>
+        Such a system would  be very simple and easy to implement for
+        different browsers. It could even be standardized and built directly into
+        our browsers or the HTTP protocol. At the very least, it
+        would be more efficient than moving all of the application's
+        client-side logic into a browser extension that has to be maintained for
+        many different browsers (which is what happened to Cryptocat in response
+        to criticism).
+        </p>
+
+    </li>
+
+
+    <li>
+        <strong>You have to trust the machines serving the Javascript code.</strong>
+
+        <p>
+        This is also currently the case. But if we suppose the code signing
+        system mentioned above exists and is used, the problem becomes,
+        "<strong>You have to trust the people (and machines) who can sign the
+        code.</strong>" Assuming we've acquired the web site owner's
+        public key securely, then this just says we have to trust the web site
+        owner to not sign malicious code and to keep their private key secret.
+        Now we're no worse off than we are for normal software:
+        </p>
+
+        <ul>
+            <li>
+            <p>
+             Windows users have to trust Microsoft to not include malicious code and to
+             ensure no one else can modify the Windows source code.
+            </p>
+            </li>
+            <li>
+            <p>
+            Firefox users have to trust Mozilla to not let any malicious changes
+            into the Firefox source code.
+            </p>
+            </li>
+            <li>
+            <p>
+            And so on...
+            </p>
+            </li>
+        </ul><br />
+
+
+    </li>
+
+    <li>
+        <strong>Javascript is missing important cryptographic primitives.</strong>
+
+
+        <p>
+        There's a <a href="http://www.w3.org/2012/webcrypto/">Web Cryptography
+        Standard</a> on the way, but current browsers are lacking essential
+        cryptographic primitives. Most notable is the lack of
+        cryptographically secure random number generator and efficient (native)
+        implementation of key stretching algorithms like PBKDF2. Obviously if we
+        want to do cryptography in the browser, our browsers will have to start
+        providing these things.
+        </p>
+
+    </li>
+</ol>
+
+
+<h2>Advantages of Web Browser Cryptography</h2>
+
+        <p>
+        We get some significant advantages by implementing a code signing system
+        and doing cryptography in Javascript:
+        </p>
+
+        <ul>
+            <li>
+            <p>
+                Using tools like <a href="https://getfirebug.com/">Firebug</a>,
+                concerned expert users can debug and step through the <em>actual
+                code</em> that is handling their private data. Someone reviewing
+                a program written in C would have to take the extra step to
+                verify that the program they are using was actually compiled
+                from the source code they have reviewed. This won't work if the
+                Javascript code has been obfuscated, but we should never trust obfuscated
+                (or closed-source) cryptography code.
+            </p>
+            </li>
+            <li>
+            <p>
+                Security patches can be deployed quickly. Since the browser is
+                requesting a new copy of the code every time the app gets used,
+                no manual user effort is required to update. This creates
+                a potential vulnerability that doesn't apply to static software:
+                the web site can serve malicious code to only a very small set
+                of users, such as a group of  dissidents. The risk can be
+                reduced by getting the code before telling the website who you
+                are, getting it from a trusted third-party source
+                (which is safe since it's signed), or by implementing the
+                next two points.
+            </p>
+            </li>
+
+            <li>
+            <p>
+                The code signing system could <b>require the signature of more
+                than one entity</b>. For example, it could require a signature
+                from the web site owner as well as signatures from any number of
+                reputable security auditing companies and security researchers.
+                Such a system would give a huge incentive for web site owners to
+                have their code audited. It's almost inevitable that some
+                careless auditors will be let into the system, as is the case
+                with the SSL PKI. But the consequences are not as catastrophic.
+                In the worst case, users are given a false sense of security for
+                a <em>particular</em> website, instead of <em>all</em> websites
+                being made vulnerable by just one bad SSL CA. The more
+                signatures, the better.
+            </p>
+            </li>
+
+            <li>
+            <p>
+                We can create a global 'watchdog' network, analogous to <a
+                href="http://perspectives-project.org/">Perspectives</a> or <a
+                href="https://www.eff.org/observatory">The EFF SSL
+                Observatory</a>, to monitor and permanently record changes made
+                to the code.
+            </p>
+            </li>
+
+
+            <li>
+            <p>
+                The Web is convenient. Everyone has a web browser, so if we can
+                implement secure crypto apps in our browsers, we can get
+                more people to use cryptography.
+            </p>
+            </li>
+        </ul>
+
+<h2>Conclusion</h2>
+
+Being able to do cryptography in the browser opens up a whole new universe of
+web applications. We can create web sites that know nothing about their users,
+and we can get people to use cryptography without forcing them to download
+strange and barely-usable software. The advantages are too great to ignore.
+Therefore, I suggest that instead of bashing those who try to write cryptography
+applications for the web browser, we should work together to make web browser
+cryptography secure.
+
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                127.0.0.1                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>29150</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>11689</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>Online HTML Sanitizer Tool - htmlspecialchars - Defuse Security</title>
+<meta name="description" content="Convert text containing special characters into proper HTML." />
+<meta name="keywords" content="html sanitizer, htmlspecialchars, htmlencode" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" >            <div class="upvotearrows">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/html-sanitize.htm" 
+                method="post"
+                onsubmit="return upvote.submit('onlinehtmlsanitize', 'up')"
+                class="upvoteform upvoteUpFormonlinehtmlsanitize"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="onlinehtmlsanitize" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageonlinehtmlsanitize"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounteronlinehtmlsanitize" >
+            662 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/html-sanitize.htm" 
+                method="post"
+                onsubmit="return upvote.submit('onlinehtmlsanitize', 'down')"
+                class="upvoteform upvoteDownFormonlinehtmlsanitize"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="onlinehtmlsanitize" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageonlinehtmlsanitize"
+                    />
+                            </form>
+        </div>
+                </div>
+        <h1>Online HTML Escape Tool (htmlspecialchars, htmlentities)</h1>
+<p>This tool will take your text and convert all the special characters to their proper HTML codes, so you can paste text with special characters or HTML code onto your website.
+   It has been carefully designed so that the HTML produced by this tool looks and <em>behaves</em> exactly like the original text does in a text editor.
+</p>
+
+        <p><strong>Enter Your Text:</strong></p>
+    
+
+<form action="html-sanitize.htm" method="post">
+    
+    <textarea name="data" rows="15" cols="40" style="width:100%; margin-bottom: 10px;" >
+</textarea><br />
+    <input type="submit" name="sanitize" value="HTML-Escape Text" /> &nbsp;&nbsp;&nbsp;&nbsp;
+    Tab width: <input type="text" name="tw" value="8" size="2" /> &nbsp;&nbsp;&nbsp;&nbsp;
+    <input type="checkbox" name="br" value="yes" checked="checked" />Replace line endings with &lt;br /&gt;
+</form>
+
+<h2>How it works</h2>
+
+<p>Escaping text is a bit tricky when you want it to look exactly the same in HTML as it would look in a text editor.
+ The code this page uses to escape text is presented below. If you read the comments, you'll see that the solution is
+ not as obvious as you might think!
+</p>
+
+<div class="vimhighlight"><pre id='vimCodeElement'>
+<span id="L1" class="LineNr"> 1 </span><span class="Special">&lt;?php</span>
+<span id="L2" class="LineNr"> 2 </span><span class="Type">class</span> HtmlEscape
+<span id="L3" class="LineNr"> 3 </span><span class="Special">{</span>
+<span id="L4" class="LineNr"> 4 </span>    <span class="Type">public</span> <span class="Type">static</span> <span class="PreProc">function</span> escapeText<span class="Special">(</span><span class="Statement">$</span><span class="Identifier">text</span>, <span class="Statement">$</span><span class="Identifier">brTags</span>, <span class="Statement">$</span><span class="Identifier">tabWidth</span><span class="Special">)</span>
+<span id="L5" class="LineNr"> 5 </span>    <span class="Special">{</span>
+<span id="L6" class="LineNr"> 6 </span>        <span class="Comment">// Replace tabs with spaces -- Must be done before htmlspecialchars </span>
+<span id="L7" class="LineNr"> 7 </span>        <span class="Comment">// because the tab width is dependant upon the cursor position.</span>
+<span id="L8" class="LineNr"> 8 </span>        <span class="Statement">$</span><span class="Identifier">esc</span> <span class="Statement">=</span> <span class="Type">self</span><span class="Statement">::</span>tabsToSpaces<span class="Special">(</span><span class="Statement">$</span><span class="Identifier">text</span>, <span class="Statement">$</span><span class="Identifier">tabWidth</span><span class="Special">)</span>;
+<span id="L9" class="LineNr"> 9 </span>
+<span id="L10" class="LineNr">10 </span>        <span class="Comment">// Escape all characters that have a special meaning in HTML</span>
+<span id="L11" class="LineNr">11 </span>        <span class="Statement">$</span><span class="Identifier">esc</span> <span class="Statement">=</span> <span class="Identifier">htmlspecialchars</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">esc</span>, ENT_QUOTES<span class="Special">)</span>;
+<span id="L12" class="LineNr">12 </span>
+<span id="L13" class="LineNr">13 </span>        <span class="Comment">// Replace repeated spaces with &amp;nbsp;</span>
+<span id="L14" class="LineNr">14 </span>        <span class="Comment">//      This is tricky. Spaces cannot simply be replaced with &amp;nbsp;</span>
+<span id="L15" class="LineNr">15 </span>        <span class="Comment">//      because the line of text will not break, so we have to leave</span>
+<span id="L16" class="LineNr">16 </span>        <span class="Comment">//      normal spaces in between pairs of &amp;nbsp; to let the line break.</span>
+<span id="L17" class="LineNr">17 </span>        <span class="Comment">//      The space must come before the &amp;nbsp; because we want three</span>
+<span id="L18" class="LineNr">18 </span>        <span class="Comment">//      spaces in a row to turn into &quot; &amp;nbsp; &quot; not &quot;&amp;nbsp;  &quot; (which</span>
+<span id="L19" class="LineNr">19 </span>        <span class="Comment">//      will look like two spaces in the browser).</span>
+<span id="L20" class="LineNr">20 </span>        <span class="Statement">$</span><span class="Identifier">esc</span> <span class="Statement">=</span> <span class="Identifier">str_replace</span><span class="Special">(</span><span class="Constant">&quot;  &quot;</span>, <span class="Constant">&quot; &amp;nbsp;&quot;</span>, <span class="Statement">$</span><span class="Identifier">esc</span><span class="Special">)</span>;
+<span id="L21" class="LineNr">21 </span>
+<span id="L22" class="LineNr">22 </span>        <span class="Comment">// HTML ignores leading spaces in elements like &lt;p&gt; and &lt;div&gt; so we </span>
+<span id="L23" class="LineNr">23 </span>        <span class="Comment">// have to replace spaces at the beginning of the line with an &amp;nbsp;</span>
+<span id="L24" class="LineNr">24 </span>        <span class="Comment">// 0x20 = ASCII SPACE</span>
+<span id="L25" class="LineNr">25 </span>        <span class="Statement">$</span><span class="Identifier">esc</span> <span class="Statement">=</span> <span class="Identifier">preg_replace</span><span class="Special">(</span><span class="Constant">'/^\x20/m'</span>, <span class="Constant">&quot;&amp;nbsp;&quot;</span>, <span class="Statement">$</span><span class="Identifier">esc</span><span class="Special">)</span>;
+<span id="L26" class="LineNr">26 </span>        <span class="Comment">// The same thing happens when the space is at the end of a line.</span>
+<span id="L27" class="LineNr">27 </span>        <span class="Comment">// Trailing spaces matter when someone copies text from the page.</span>
+<span id="L28" class="LineNr">28 </span>        <span class="Statement">$</span><span class="Identifier">esc</span> <span class="Statement">=</span> <span class="Identifier">preg_replace</span><span class="Special">(</span><span class="Constant">'/\x20(?=\r|\n)/m'</span>, <span class="Constant">&quot;&amp;nbsp;&quot;</span>, <span class="Statement">$</span><span class="Identifier">esc</span><span class="Special">)</span>;
+<span id="L29" class="LineNr">29 </span>
+<span id="L30" class="LineNr">30 </span>        <span class="Statement">if</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">brTags</span><span class="Special">)</span>
+<span id="L31" class="LineNr">31 </span>        <span class="Special">{</span>
+<span id="L32" class="LineNr">32 </span>            <span class="Comment">// To add &lt;br /&gt; tags, we first normalize the line endings to \n</span>
+<span id="L33" class="LineNr">33 </span>            <span class="Comment">// First convert Windows-style CRLF lines to \n</span>
+<span id="L34" class="LineNr">34 </span>            <span class="Statement">$</span><span class="Identifier">esc</span> <span class="Statement">=</span> <span class="Identifier">str_replace</span><span class="Special">(</span><span class="Constant">&quot;</span><span class="Special">\r\n</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Special">\n</span><span class="Constant">&quot;</span>, <span class="Statement">$</span><span class="Identifier">esc</span><span class="Special">)</span>;
+<span id="L35" class="LineNr">35 </span>            <span class="Comment">// Then convert Mac-style CR lines to \n. Order matters here.</span>
+<span id="L36" class="LineNr">36 </span>            <span class="Comment">// If we did this before replacing \r\n, we would replace \r\n with</span>
+<span id="L37" class="LineNr">37 </span>            <span class="Comment">// \n\n, which will be two lines instead of one.</span>
+<span id="L38" class="LineNr">38 </span>            <span class="Statement">$</span><span class="Identifier">esc</span> <span class="Statement">=</span> <span class="Identifier">str_replace</span><span class="Special">(</span><span class="Constant">&quot;</span><span class="Special">\r</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;</span><span class="Special">\n</span><span class="Constant">&quot;</span>, <span class="Statement">$</span><span class="Identifier">esc</span><span class="Special">)</span>;
+<span id="L39" class="LineNr">39 </span>            <span class="Comment">// Then add a &lt;br /&gt; before each \n</span>
+<span id="L40" class="LineNr">40 </span>            <span class="Statement">$</span><span class="Identifier">esc</span> <span class="Statement">=</span> <span class="Identifier">str_replace</span><span class="Special">(</span><span class="Constant">&quot;</span><span class="Special">\n</span><span class="Constant">&quot;</span>, <span class="Constant">&quot;&lt;br /&gt;</span><span class="Special">\n</span><span class="Constant">&quot;</span>, <span class="Statement">$</span><span class="Identifier">esc</span><span class="Special">)</span>;
+<span id="L41" class="LineNr">41 </span>        <span class="Special">}</span>
+<span id="L42" class="LineNr">42 </span>
+<span id="L43" class="LineNr">43 </span>        <span class="Statement">return</span> <span class="Statement">$</span><span class="Identifier">esc</span>;
+<span id="L44" class="LineNr">44 </span>    <span class="Special">}</span>
+<span id="L45" class="LineNr">45 </span>
+<span id="L46" class="LineNr">46 </span>    <span class="Type">private</span> <span class="Type">static</span> <span class="PreProc">function</span> tabsToSpaces<span class="Special">(</span><span class="Statement">$</span><span class="Identifier">text</span>, <span class="Statement">$</span><span class="Identifier">tabWidth</span><span class="Special">)</span>
+<span id="L47" class="LineNr">47 </span>    <span class="Special">{</span>
+<span id="L48" class="LineNr">48 </span>        <span class="Statement">$</span><span class="Identifier">spaces</span> <span class="Statement">=</span> <span class="Constant">&quot;&quot;</span>;
+<span id="L49" class="LineNr">49 </span>        <span class="Statement">$</span><span class="Identifier">cursor</span> <span class="Statement">=</span> <span class="Constant">0</span>;
+<span id="L50" class="LineNr">50 </span>        <span class="Statement">for</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">i</span> <span class="Statement">=</span> <span class="Constant">0</span>; <span class="Statement">$</span><span class="Identifier">i</span> <span class="Statement">&lt;</span> <span class="Identifier">strlen</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">text</span><span class="Special">)</span>; <span class="Statement">$</span><span class="Identifier">i</span><span class="Statement">++</span><span class="Special">)</span>
+<span id="L51" class="LineNr">51 </span>        <span class="Special">{</span>
+<span id="L52" class="LineNr">52 </span>            <span class="Statement">if</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">text</span><span class="Special">[</span><span class="Statement">$</span><span class="Identifier">i</span><span class="Special">]</span> <span class="Statement">==</span> <span class="Constant">&quot;</span><span class="Special">\t</span><span class="Constant">&quot;</span><span class="Special">)</span>
+<span id="L53" class="LineNr">53 </span>            <span class="Special">{</span>
+<span id="L54" class="LineNr">54 </span>                <span class="Comment">// Add spaces until the cursor position is divisible by </span>
+<span id="L55" class="LineNr">55 </span>                <span class="Comment">// $tabWidth, adding at least one space so that if $cursor</span>
+<span id="L56" class="LineNr">56 </span>                <span class="Comment">// is already divisible by $tabWidth, we add $tabWidth spaces.</span>
+<span id="L57" class="LineNr">57 </span>                <span class="Statement">$</span><span class="Identifier">spaces</span> <span class="Statement">.=</span> <span class="Constant">&quot; &quot;</span>;
+<span id="L58" class="LineNr">58 </span>                <span class="Statement">$</span><span class="Identifier">cursor</span><span class="Statement">++</span>;
+<span id="L59" class="LineNr">59 </span>                <span class="Statement">while</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">cursor</span> <span class="Statement">%</span> <span class="Statement">$</span><span class="Identifier">tabWidth</span> <span class="Statement">!=</span> <span class="Constant">0</span><span class="Special">)</span>
+<span id="L60" class="LineNr">60 </span>                <span class="Special">{</span>
+<span id="L61" class="LineNr">61 </span>                    <span class="Statement">$</span><span class="Identifier">spaces</span> <span class="Statement">.=</span> <span class="Constant">&quot; &quot;</span>;
+<span id="L62" class="LineNr">62 </span>                    <span class="Statement">$</span><span class="Identifier">cursor</span><span class="Statement">++</span>;
+<span id="L63" class="LineNr">63 </span>                <span class="Special">}</span>
+<span id="L64" class="LineNr">64 </span>            <span class="Special">}</span>
+<span id="L65" class="LineNr">65 </span>            <span class="Statement">else</span>
+<span id="L66" class="LineNr">66 </span>            <span class="Special">{</span>
+<span id="L67" class="LineNr">67 </span>                <span class="Statement">$</span><span class="Identifier">spaces</span> <span class="Statement">.=</span> <span class="Statement">$</span><span class="Identifier">text</span><span class="Special">[</span><span class="Statement">$</span><span class="Identifier">i</span><span class="Special">]</span>;
+<span id="L68" class="LineNr">68 </span>                <span class="Statement">$</span><span class="Identifier">cursor</span><span class="Statement">++</span>;
+<span id="L69" class="LineNr">69 </span>                <span class="Comment">// Reset the cursor position to zero on CR or LF</span>
+<span id="L70" class="LineNr">70 </span>                <span class="Statement">if</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">text</span><span class="Special">[</span><span class="Statement">$</span><span class="Identifier">i</span><span class="Special">]</span> <span class="Statement">==</span> <span class="Constant">&quot;</span><span class="Special">\n</span><span class="Constant">&quot;</span> <span class="Statement">||</span> <span class="Statement">$</span><span class="Identifier">text</span><span class="Special">[</span><span class="Statement">$</span><span class="Identifier">i</span><span class="Special">]</span> <span class="Statement">==</span> <span class="Constant">&quot;</span><span class="Special">\r</span><span class="Constant">&quot;</span><span class="Special">)</span>
+<span id="L71" class="LineNr">71 </span>                    <span class="Statement">$</span><span class="Identifier">cursor</span> <span class="Statement">=</span> <span class="Constant">0</span>;
+<span id="L72" class="LineNr">72 </span>            <span class="Special">}</span>
+<span id="L73" class="LineNr">73 </span>        <span class="Special">}</span>
+<span id="L74" class="LineNr">74 </span>        <span class="Statement">return</span> <span class="Statement">$</span><span class="Identifier">spaces</span>;
+<span id="L75" class="LineNr">75 </span>    <span class="Special">}</span>
+<span id="L76" class="LineNr">76 </span><span class="Special">}</span>
+<span id="L77" class="LineNr">77 </span><span class="Special">?&gt;</span>
+</pre>
+</div>
+
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                198.48.158.54                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>171722</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>59598</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>

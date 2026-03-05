@@ -1,0 +1,860 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>My .vimrc - Defuse Security</title>
+<meta name="description" content="My Vim configuration file" />
+<meta name="keywords" content="vim, vimrc, vim configuration" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" >            <div class="upvotearrows">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/vimrc.htm" 
+                method="post"
+                onsubmit="return upvote.submit('myvimrc', 'up')"
+                class="upvoteform upvoteUpFormmyvimrc"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="myvimrc" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagemyvimrc"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCountermyvimrc" >
+            485 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/vimrc.htm" 
+                method="post"
+                onsubmit="return upvote.submit('myvimrc', 'down')"
+                class="upvoteform upvoteDownFormmyvimrc"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="myvimrc" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagemyvimrc"
+                    />
+                            </form>
+        </div>
+                </div>
+        <h1>My .vimrc</h1>
+
+<p>
+    This page is updated with the .vimrc on my PC at home every midnight.
+    The file can be downloaded without formatting <a href="/upload/vim/vimrc">here</a>.
+    The color scheme I use for gVim is
+    <a href="https://vimcolorschemetest.googlecode.com/svn/colors/dw_cyan.vim">dw_cyan</a>, and I
+    use <a href="https://github.com/nanotech/jellybeans.vim">jellybeans</a> for command-line Vim.
+</p>
+
+<p>
+    Download my entire .vim directory <a href="/upload/vim/vim.zip">here</a>.
+</p>
+
+<p>
+    You can also find my entire <a href="https://github.com/defuse/vim">Vim configuration on
+    GitHub</a>.
+</p>
+
+<p>
+   If you would like a list of my favourite .vimrc lines, see my blog post
+  <a href="https://defuse.ca/blog/random-vimrc-tips.html">Random vimrc tips</a>.
+</p>
+
+<h2>Screenshots</h2>
+<p style="text-align: center;"><i>These screenshots are not updated automatically, and may be out of date.</i></p>
+<center>
+<img src="/images/vim.png" alt="My Vim configuration (gVim)"/> <br /><br />
+<img src="/images/vim-cli.png" alt="My Vim configuration (command-line Vim)"/>
+</center>
+
+<h2>Synchronization Script</h2>
+
+<div class="vimhighlight"><pre id='vimCodeElement'>
+<span class="Comment">#!/bin/bash</span>
+
+<span class="Comment"># Script for pulling Taylor's vim config from <a href="https://defuse.ca/vimrc.htm">https://defuse.ca/vimrc.htm</a></span>
+<span class="Comment"># This will destroy the current user's vim configuration (~/.vim, ~/.vimrc)</span>
+<span class="Comment"># and replace it with Havoc's.</span>
+
+<span class="Comment"># Use unique temp file names so the script can be run by many users at the</span>
+<span class="Comment"># same time.</span>
+<span class="Identifier">TMPID</span>=<span class="Statement">&quot;</span><span class="PreProc">$RANDOM</span><span class="PreProc">$(</span><span class="Special">whoami</span><span class="PreProc">)</span><span class="Statement">&quot;</span>
+
+<span class="Comment"># Grab the vimrc</span>
+wget <span class="Special">-O</span> ~/.vimrc <a href="https://defuse.ca/upload/vim/vimrc">https://defuse.ca/upload/vim/vimrc</a>
+
+<span class="Comment"># Grab the .vim folder, extract it in /tmp, then move to ~</span>
+wget <span class="Special">-O</span> /tmp/vimupdate_<span class="PreProc">$TMPID</span>.zip <a href="https://defuse.ca/upload/vim/vim.zip">https://defuse.ca/upload/vim/vim.zip</a>
+unzip <span class="Special">-o</span> /tmp/vimupdate_<span class="PreProc">$TMPID</span>.zip <span class="Special">-d</span> /tmp/vimupdate_<span class="PreProc">$TMPID</span>
+<span class="Statement">rm</span> <span class="Special">-rf</span> ~/.vim/*
+<span class="Statement">mv</span> /tmp/vimupdate_<span class="PreProc">$TMPID</span>/* ~/.vim/
+
+<span class="Comment"># Clean up the temporary files</span>
+<span class="Statement">rm</span> <span class="Special">-f</span> /tmp/vimupdate_<span class="PreProc">$TMPID</span>.zip
+<span class="Statement">rm</span> <span class="Special">-rf</span> /tmp/vimupdate_<span class="PreProc">$TMPID</span>
+</pre>
+</div>
+<h2>~/.vimrc</h2>
+
+<div class="vimhighlight"><pre id='vimCodeElement'>
+<span class="Comment">&quot; ============= FUNCTIONALITY =============</span>
+<span class="Comment">    &quot; This is not a virus. It is required by pathogen.vim, which does something</span>
+<span class="Comment">    &quot; or other with plugins.</span>
+    <span class="Statement">execute</span> <span class="Identifier">pathogen#infect</span><span class="Special">()</span>
+
+    <span class="Statement">set</span> <span class="PreProc">nocompatible</span>
+
+<span class="Comment">    &quot; Don't leak shit to the .viminfo file in my home directory.</span>
+    <span class="Statement">set</span> <span class="PreProc">viminfo</span>=<span class="Constant">&quot;NONE&quot;</span>
+
+<span class="Comment">    &quot; Make j,k move by screen lines instead of file lines.</span>
+<span class="Comment">    &quot;</span> <span class="PreProc">WARNING:</span><span class="Comment"> If you use this vimrc, make sure you understand the implications</span>
+<span class="Comment">    &quot; of the following two mappings, especially if you use macros frequently.</span>
+<span class="Comment">    &quot; A temporary workaround for writing macros is to go into insert mode, use</span>
+<span class="Comment">    &quot; the up/down arrow keys, then exit to normal mode.</span>
+    <span class="Statement">map</span> j gj
+    <span class="Statement">map</span> k gk
+
+<span class="Comment">    &quot;</span> <span class="Todo">TODO</span><span class="PreProc">:</span><span class="Comment"> Uncomment these lines to enable clipboard-over-ssh with a headless</span>
+<span class="Comment">    &quot; server. Both ends must have xclip installed and X forwarding must be ON.</span>
+<span class="Comment">    &quot; Add 'ForwardX11 yes' to /etc/ssh/ssh_config to avoid having to type</span>
+<span class="Comment">    &quot; ssh -X so much.</span>
+<span class="Comment">    &quot;vmap &quot;+y :!xclip -f -sel clip&lt;CR&gt;</span>
+<span class="Comment">    &quot;map &quot;+p :r!xclip -o -sel clip&lt;CR&gt;</span>
+
+<span class="Comment">    &quot; backspace and cursor keys wrap to previous/next line</span>
+<span class="Comment">    &quot;set backspace=indent,eol,start whichwrap+=&lt;,&gt;,[,]</span>
+
+<span class="Comment">    &quot; backspace in Visual mode deletes selection</span>
+    <span class="Statement">vnoremap</span> <span class="Special">&lt;</span><span class="Special">BS</span><span class="Special">&gt;</span> d
+
+<span class="Comment">    &quot; Alt-Space is System menu</span>
+    <span class="Statement">if</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">&quot;gui</span><span class="Constant">&quot;</span><span class="Special">)</span>
+      <span class="Statement">noremap</span> <span class="Special">&lt;</span><span class="Special">M-Space</span><span class="Special">&gt;</span> :simalt ~<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+      <span class="Statement">inoremap</span> <span class="Special">&lt;</span><span class="Special">M-Space</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-O</span><span class="Special">&gt;</span>:simalt ~<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+      <span class="Statement">cnoremap</span> <span class="Special">&lt;</span><span class="Special">M-Space</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-C</span><span class="Special">&gt;</span>:simalt ~<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+    <span class="Statement">endif</span>
+
+<span class="Comment">    &quot; Make indenting and unindenting in visual mode retain the selection so</span>
+<span class="Comment">    &quot; you don't have to re-select or type gv every time.</span>
+    <span class="Statement">vnoremap</span> &gt; &gt;<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>gv
+    <span class="Statement">vnoremap</span> &lt; &lt;<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>gv
+
+<span class="Comment">    &quot; Make CTRL+u and CTRL+d less confusing</span>
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">C-u</span><span class="Special">&gt;</span> 10<span class="Special">&lt;</span><span class="Special">C-Y</span><span class="Special">&gt;</span>10k
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">C-d</span><span class="Special">&gt;</span> 10<span class="Special">&lt;</span><span class="Special">C-E</span><span class="Special">&gt;</span>10j
+<span class="Comment">    &quot; Scroll the /screen/ with ALT+{j,k}</span>
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">A-j</span><span class="Special">&gt;</span> 2<span class="Special">&lt;</span><span class="Special">C-E</span><span class="Special">&gt;</span>
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">A-k</span><span class="Special">&gt;</span> 2<span class="Special">&lt;</span><span class="Special">C-Y</span><span class="Special">&gt;</span>
+
+<span class="Comment">    &quot; Switch windows quickly with CTRL+{h,j,k,l}</span>
+<span class="Comment">    &quot; This breaks backspace in a terminal, but I never use backspace in normal mode</span>
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">C-h</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-W</span><span class="Special">&gt;</span>h
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">C-j</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-W</span><span class="Special">&gt;</span>j
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">C-k</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-W</span><span class="Special">&gt;</span>k
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">C-l</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">C-W</span><span class="Special">&gt;</span>l
+<span class="Comment">    &quot; This would break in a terminal where ^H is backspace.</span>
+    <span class="Statement">if</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">&quot;gui_running</span><span class="Constant">&quot;</span><span class="Special">)</span>
+        <span class="Statement">imap</span> <span class="Special">&lt;</span><span class="Special">C-h</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;&lt;</span><span class="Special">C-W</span><span class="Special">&gt;</span>h
+    <span class="Statement">endif</span>
+    <span class="Statement">imap</span> <span class="Special">&lt;</span><span class="Special">C-j</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;&lt;</span><span class="Special">C-W</span><span class="Special">&gt;</span>j
+    <span class="Statement">imap</span> <span class="Special">&lt;</span><span class="Special">C-k</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;&lt;</span><span class="Special">C-W</span><span class="Special">&gt;</span>k
+    <span class="Statement">imap</span> <span class="Special">&lt;</span><span class="Special">C-l</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;&lt;</span><span class="Special">C-W</span><span class="Special">&gt;</span>l
+
+<span class="Comment">    &quot; Quickly switch between buffers with CTRL+b</span>
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">C-b</span><span class="Special">&gt;</span> :b#<span class="Special">&lt;</span><span class="Special">Cr</span><span class="Special">&gt;</span>
+
+<span class="Comment">    &quot; Easy save from any mode</span>
+    <span class="Statement">imap</span> <span class="Special">&lt;</span><span class="Special">C-</span><span class="Special">\&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;</span>:w<span class="Special">&lt;</span><span class="Special">Cr</span><span class="Special">&gt;</span>
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">C-</span><span class="Special">\&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;</span>:w<span class="Special">&lt;</span><span class="Special">Cr</span><span class="Special">&gt;</span>
+<span class="Comment">    &quot; So both C-[ and C-] are equivalent to &lt;Esc&gt; (widen the target area)</span>
+<span class="Comment">    &quot; Note that in normal mode, C-] means follow link, so you should train </span>
+<span class="Comment">    &quot; yourself to use C-[, this is just here in case you screw up once.</span>
+    <span class="Statement">imap</span> <span class="Special">&lt;</span><span class="Special">C-]</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;</span>
+    <span class="Statement">vmap</span> <span class="Special">&lt;</span><span class="Special">C-]</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;</span>
+
+<span class="Comment">    &quot;</span> <span class="Todo">FIXME</span><span class="PreProc">:</span><span class="Comment"> this breaks c-u for scrolling</span>
+<span class="Comment">    &quot; </span><span class="Constant">&quot; Make &lt;C-y&gt; behave as &quot;</span><span class="Comment">+y so that in visual mode it copies to the clipboard</span>
+<span class="Comment">    &quot; &quot; and in normal mode it sets it up to copy the next movement.</span>
+<span class="Comment">    &quot; vmap &lt;C-y&gt; &quot;+y</span>
+<span class="Comment">    &quot; nmap &lt;C-y&gt; &quot;+y</span>
+<span class="Comment">    &quot; &quot; Can't use C-p for paste since it overlaps with CtrlP plugin and completion</span>
+<span class="Comment">    &quot; &quot; so paste from the clipboard by doing a C-y in insert mode.</span>
+<span class="Comment">    &quot; &quot;</span> <span class="Todo">FIXME</span><span class="PreProc">:</span><span class="Comment"> sometimes the stuff is in * and sometimes its in &quot; wtf...</span>
+<span class="Comment">    &quot; imap &lt;C-y&gt; &lt;F5&gt;&lt;C-r&gt;*&lt;F5&gt;</span>
+<span class="Comment">    &quot; &quot;</span> <span class="PreProc">Note:</span><span class="Comment"> &lt;F5&gt; is the paste toggle set below.</span>
+
+    <span class="Statement">set</span> <span class="PreProc">listchars</span>=tab<span class="Statement">:</span>&gt;-<span class="Statement">,</span>eol<span class="Statement">:</span>$
+    <span class="Statement">set</span> <span class="PreProc">foldmethod</span>=marker
+    <span class="Statement">set</span> <span class="PreProc">tabstop</span>=4
+    <span class="Statement">set</span> <span class="PreProc">shiftwidth</span>=4
+    <span class="Statement">set</span> <span class="PreProc">autoindent</span>
+    <span class="Statement">set</span> <span class="PreProc">expandtab</span>
+<span class="Comment">    &quot; Allow middle-click pasting of large texts in terminal</span>
+    <span class="Statement">set</span> <span class="PreProc">pastetoggle</span>=<span class="Special">&lt;</span><span class="Special">F5</span><span class="Special">&gt;</span>
+<span class="Comment">    &quot; Clear paste mode when going back to normal mode</span>
+    <span class="Statement">au</span> <span class="Type">InsertLeave</span> * <span class="Statement">set</span> <span class="PreProc">nopaste</span>
+    <span class="Statement">set</span> <span class="PreProc">sidescrolloff</span>=20
+    <span class="Statement">set</span> <span class="PreProc">wrap</span> <span class="PreProc">linebreak</span> <span class="PreProc">textwidth</span>=0
+<span class="Comment">    &quot; Automatic indentation based on file type</span>
+    <span class="Statement">filetype</span> <span class="Type">indent</span> <span class="Type">on</span>
+    <span class="Statement">filetype</span> <span class="Type">plugin</span> <span class="Type">on</span>
+    <span class="Statement">set</span> <span class="PreProc">backspace</span>=2
+    <span class="Statement">set</span> <span class="PreProc">history</span>=1000
+<span class="Comment">    &quot; First tab completes as much as possible and shows the list if there is</span>
+<span class="Comment">    &quot; more than one matching item. Next tabs iterate through the list.</span>
+    <span class="Statement">set</span> <span class="PreProc">wildmode</span>=list<span class="Statement">:</span>longest<span class="Statement">,</span>full
+    <span class="Statement">set</span> <span class="PreProc">wildmenu</span>
+    <span class="Statement">set</span> <span class="PreProc">incsearch</span>
+    <span class="Statement">set</span> <span class="PreProc">hidden</span>
+    <span class="Statement">set</span> <span class="PreProc">splitright</span>
+    <span class="Statement">set</span> <span class="PreProc">splitbelow</span>
+    <span class="Statement">set</span> <span class="PreProc">shiftround</span>
+    <span class="Statement">set</span> <span class="PreProc">nostartofline</span>
+    <span class="Statement">set</span> <span class="PreProc">smarttab</span>
+
+    <span class="Statement">set</span> <span class="PreProc">nobackup</span>
+    <span class="Statement">set</span> <span class="PreProc">nowb</span>
+    <span class="Statement">set</span> <span class="PreProc">noswapfile</span>
+
+<span class="Comment">    &quot; By default, J and gq put two spaces after a period.</span>
+<span class="Comment">    &quot; I like one space after a period, so turn that off.</span>
+    <span class="Statement">set</span> <span class="PreProc">nojoinspaces</span>
+
+<span class="Comment">    &quot; More intuitive selecting in visual mode</span>
+    <span class="Statement">set</span> <span class="PreProc">selection</span>=exclusive
+
+<span class="Comment">    &quot; Visual mode pressing * or # searches for the current selection</span>
+<span class="Comment">    &quot; Super useful! From an idea by Michael Naumann</span>
+    <span class="Statement">vnoremap</span> <span class="Special">&lt;</span><span class="Special">silent</span><span class="Special">&gt;</span> * :call VisualSelection('f')<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+    <span class="Statement">vnoremap</span> <span class="Special">&lt;</span><span class="Special">silent</span><span class="Special">&gt;</span> # :call VisualSelection('b')<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+
+<span class="Comment">    &quot; Double slash -&gt; Case insensitive search</span>
+    <span class="Statement">map</span> // /\c
+    <span class="Statement">map</span> ?? ?\c
+
+<span class="Comment">    &quot; Easy access to NERDTree</span>
+    <span class="Statement">nmap</span> ,e :NERDTreeToggle<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+    <span class="Statement">if</span><span class="Special">(</span><span class="Statement">!</span><span class="Identifier">exists</span><span class="Special">(</span><span class="Constant">'vimrc_already_sourced'</span><span class="Special">))</span>
+        <span class="Statement">command</span> Nt NERDTree
+        <span class="Statement">command</span> Nc NERDTreeClose
+    <span class="Statement">endif</span>
+
+<span class="Comment">    &quot; Fix annoying surround.vim message</span>
+    <span class="Statement">vmap</span> s S
+
+<span class="Comment">    &quot;let g:EasyMotion_leader_key = '&lt;Leader&gt;'</span>
+    <span class="Statement">let</span> <span class="Identifier">g:EasyMotion_leader_key</span> <span class="Statement">=</span> <span class="Constant">'z'</span>
+
+<span class="Comment">    &quot; ----------------------- Diff Commands ---------------------------------</span>
+    <span class="Statement">function</span>! <span class="Special">s:</span>DiffWithSaved<span class="Special">()</span>
+      <span class="Statement">let</span> <span class="Identifier">filetype</span><span class="Statement">=</span>&amp;ft
+      <span class="Statement">diffthis</span>
+      <span class="Statement">vnew</span> | <span class="Statement">r</span> <span class="Comment"># | normal! 1Gdd</span>
+      <span class="Statement">diffthis</span>
+      <span class="Statement">exe</span> <span class="Constant">&quot;setlocal bt=nofile bh=wipe nobl noswf ro ft=</span><span class="Constant">&quot;</span> <span class="Statement">.</span> <span class="Identifier">filetype</span>
+    <span class="Statement">endfunction</span>
+    <span class="Statement">com</span><span class="Statement">!</span> DiffSaved <span class="Identifier">call</span> s:DiffWithSaved()
+
+    <span class="Statement">function</span>! <span class="Special">s:</span>DiffWithCVSCheckedOut<span class="Special">()</span>
+      <span class="Statement">let</span> <span class="Identifier">filetype</span><span class="Statement">=</span>&amp;ft
+      <span class="Statement">diffthis</span>
+      <span class="Statement">vnew</span> | <span class="Statement">r</span> <span class="Statement">!</span>cvs <span class="Statement">up</span> <span class="Statement">-</span><span class="Statement">pr</span> BASE #
+      <span class="Constant">1</span>,<span class="Constant">6</span>d
+      <span class="Statement">diffthis</span>
+      <span class="Statement">exe</span> <span class="Constant">&quot;setlocal bt=nofile bh=wipe nobl noswf ro ft=</span><span class="Constant">&quot;</span> <span class="Statement">.</span> <span class="Identifier">filetype</span>
+    <span class="Statement">endfunction</span>
+    <span class="Statement">com</span><span class="Statement">!</span> DiffCVS <span class="Identifier">call</span> s:DiffWithCVSCheckedOut()
+
+    <span class="Statement">function</span>! <span class="Special">s:</span>DiffWithSVNCheckedOut<span class="Special">()</span>
+      <span class="Statement">let</span> <span class="Identifier">filetype</span><span class="Statement">=</span>&amp;ft
+      <span class="Statement">diffthis</span>
+      <span class="Statement">vnew</span> | <span class="Statement">exe</span> <span class="Constant">&quot;%!svn cat </span><span class="Constant">&quot;</span> <span class="Statement">.</span> <span class="Identifier">expand</span><span class="Special">(</span><span class="Constant">&quot;#:p:h</span><span class="Constant">&quot;</span><span class="Special">)</span>
+      <span class="Statement">diffthis</span>
+      <span class="Statement">exe</span> <span class="Constant">&quot;setlocal bt=nofile bh=wipe nobl noswf ro ft=</span><span class="Constant">&quot;</span> <span class="Statement">.</span> <span class="Identifier">filetype</span>
+    <span class="Statement">endfunction</span>
+    <span class="Statement">com</span><span class="Statement">!</span> DiffSVN <span class="Identifier">call</span> s:DiffWithSVNCheckedOut()
+<span class="Comment">    &quot; ----------------------- End Diff Commands ------------------------------</span>
+
+<span class="Comment">    &quot; tab navigation like firefox</span>
+    <span class="Statement">nmap</span> <span class="Special">&lt;</span><span class="Special">C-S-tab</span><span class="Special">&gt;</span> :tabprevious<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+    <span class="Statement">nmap</span> <span class="Special">&lt;</span><span class="Special">C-tab</span><span class="Special">&gt;</span> :tabnext<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">C-S-tab</span><span class="Special">&gt;</span> :tabprevious<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+    <span class="Statement">map</span> <span class="Special">&lt;</span><span class="Special">C-tab</span><span class="Special">&gt;</span> :tabnext<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+    <span class="Statement">imap</span> <span class="Special">&lt;</span><span class="Special">C-S-tab</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;</span>:tabprevious<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>i
+    <span class="Statement">imap</span> <span class="Special">&lt;</span><span class="Special">C-tab</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;</span>:tabnext<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>i
+<span class="Comment">    &quot;nmap &lt;C-t&gt; :tabnew&lt;CR&gt;</span>
+<span class="Comment">    &quot;imap &lt;C-t&gt; &lt;Esc&gt;:tabnew&lt;CR&gt;</span>
+
+<span class="Comment">    &quot; TAB on select indents:</span>
+<span class="Comment">    &quot;</span> <span class="PreProc">Note:</span><span class="Comment"> Using &gt; and &lt; is a lot easier!</span>
+    <span class="Statement">smap</span> <span class="Special">&lt;</span><span class="Special">Tab</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;</span>:'&lt;,'&gt; &gt; <span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+    <span class="Statement">vmap</span> <span class="Special">&lt;</span><span class="Special">Tab</span><span class="Special">&gt;</span> <span class="Special">&lt;</span><span class="Special">Esc</span><span class="Special">&gt;</span>:'&lt;,'&gt; &gt; <span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>gv
+
+<span class="Comment">    &quot; Omnicomplete</span>
+<span class="Comment">    &quot;</span> <span class="Todo">TODO</span><span class="PreProc">:</span><span class="Comment"> Windows needs CTAGS <a href="http://vim.wikia.com/wiki/Omni_completion">http://vim.wikia.com/wiki/Omni_completion</a></span>
+<span class="Comment">    &quot; apt-get install exuberant-ctags</span>
+<span class="Comment">    &quot; set ofu=syntaxcomplete#Complete</span>
+
+<span class="Comment">    &quot; Don't auto-wrap long lines that are already longer</span>
+    <span class="Statement">set</span> <span class="PreProc">formatoptions</span>+=l
+<span class="Comment">    &quot; Don't wrap before a one-letter word.</span>
+    <span class="Statement">set</span> <span class="PreProc">formatoptions</span>+=1
+    <span class="Statement">set</span> <span class="PreProc">lbr</span>
+
+    <span class="Statement">set</span> <span class="PreProc">ttyfast</span>
+
+<span class="Comment">    &quot; ---- PRINTING ----</span>
+    <span class="Statement">set</span> <span class="PreProc">popt</span>=left<span class="Statement">:</span>1in<span class="Statement">,</span>right<span class="Statement">:</span>1in<span class="Statement">,</span>top<span class="Statement">:</span>1in<span class="Statement">,</span>bottom<span class="Statement">:</span>1in<span class="Statement">,</span>header<span class="Statement">:</span>2<span class="Statement">,</span>syntax<span class="Statement">:</span>a<span class="Statement">,</span>paper<span class="Statement">:</span>letter
+<span class="Comment">    &quot; On PostScript systems, Vim ignores the font but NOT the size.</span>
+<span class="Comment">    &quot; So this will make us print in 8-pt (but not necessarily courier)</span>
+    <span class="Statement">set</span> <span class="PreProc">printfont</span>=courier<span class="Statement">:</span>h8
+    <span class="Statement">set</span> <span class="PreProc">printoptions</span>+=duplex<span class="Statement">:</span>off
+<span class="Comment">    &quot;set printoptions+=duplex:long</span>
+
+<span class="Comment">    &quot; Make snipmate HTML snippets work in php and eruby files</span>
+    <span class="Statement">au</span> <span class="Type">BufRead</span>,<span class="Type">BufNewFile</span> *.php <span class="Statement">set</span> <span class="PreProc">filetype</span>=php.html
+    <span class="Statement">au</span> <span class="Type">BufRead</span>,<span class="Type">BufNewFile</span> *.erb <span class="Statement">set</span> <span class="PreProc">filetype</span>=eruby.html
+    <span class="Statement">au</span> <span class="Type">BufRead</span>,<span class="Type">BufNewFile</span> *.md <span class="Statement">set</span> <span class="PreProc">filetype</span>=markdown
+
+    <span class="Statement">set</span> <span class="PreProc">iskeyword</span> +=-<span class="Statement">,</span>_
+
+<span class="Comment">    &quot; Use unix line endings (LF) unless the file already has DOS line endings</span>
+    <span class="Statement">set</span> <span class="PreProc">fileformats</span>=unix<span class="Statement">,</span>dos
+<span class="Comment">    &quot; Set the initial buffer to unix line endings</span>
+    <span class="Statement">set</span> <span class="PreProc">fileformat</span>=unix
+
+<span class="Comment">    &quot; Don't comment the new line when pressing o or O on a commented line</span>
+<span class="Comment">    &quot; This block must come after the other filetype lines in this file.</span>
+    <span class="Statement">set</span> <span class="PreProc">formatoptions</span> -=o
+    <span class="Statement">augroup</span> myft
+      <span class="Statement">au</span><span class="Statement">!</span>
+      <span class="Statement">au</span> <span class="Type">FileType</span> * <span class="Statement">setlocal</span> <span class="PreProc">formatoptions</span>-=o
+    <span class="Statement">augroup</span> END
+
+<span class="Comment">    &quot; Use strong encryption</span>
+    <span class="Statement">set</span> <span class="PreProc">cm</span>=blowfish
+
+<span class="Comment">    &quot; Use vim's current working directory but fall back to the file directory</span>
+<span class="Comment">    &quot; if it's way off.</span>
+    <span class="Statement">let</span> <span class="Identifier">g:ctrlp_working_path_mode</span> <span class="Statement">=</span> <span class="Constant">'a'</span>
+
+<span class="Comment">    &quot; Fast buffer search</span>
+    <span class="Statement">nmap</span> ; :CtrlPBuffer<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+    <span class="Statement">nmap</span> ,b :CtrlP<span class="Special">&lt;</span><span class="Special">CR</span><span class="Special">&gt;</span>
+
+    <span class="Statement">set</span> <span class="PreProc">wildignore</span>+=*.aux<span class="Statement">,</span>*.log<span class="Statement">,</span>*.class
+    <span class="Statement">let</span> <span class="Identifier">g:ctrlp_custom_ignore</span> <span class="Statement">=</span> <span class="Special">{</span>
+<span class="Special">        \</span> <span class="Constant">'dir'</span>: <span class="Constant">'\v[\/]\.(git|hg|svn)$'</span>,
+<span class="Special">        \</span> <span class="Constant">'file'</span>: <span class="Constant">'\v\.(exe|so|dll|class|aux|log)$'</span>,
+<span class="Special">      \</span> <span class="Special">}</span>
+
+    <span class="Statement">set</span> <span class="PreProc">tw</span>=80
+
+<span class="Comment">    &quot; Highlight other references to the variable under the cursor</span>
+<span class="Comment">    &quot; autocmd CursorMoved * exe printf('match NonText /\V\&lt;%s\&gt;/', escape(expand('&lt;cword&gt;'), '/\'))</span>
+
+    <span class="Statement">autocmd</span> <span class="Type">BufNewFile</span>,<span class="Type">BufReadPost</span> *.ino,*.pde <span class="Statement">set</span> <span class="PreProc">filetype</span>=cpp
+
+<span class="Comment">    &quot; Make sure we don't syntax check when a file is open as doing so might lead</span>
+<span class="Comment">    &quot; to vulnerabilities or performance issues.</span>
+    <span class="Statement">let</span> <span class="Identifier">g:syntastic_check_on_open</span> <span class="Statement">=</span> <span class="Constant">0</span>
+<span class="Comment">    &quot; Always stick detected errors into the location list.</span>
+    <span class="Statement">let</span> <span class="Identifier">g:syntastic_always_populate_loc_list</span><span class="Statement">=</span><span class="Constant">1</span>
+<span class="Comment">    &quot; Automatically open when errors are detected and close when there are none.</span>
+    <span class="Statement">let</span> <span class="Identifier">g:syntastic_auto_loc_list</span><span class="Statement">=</span><span class="Constant">1</span>
+<span class="Comment">    &quot; Default only to 5 lines instead of 10 (better when in the terminal)</span>
+    <span class="Statement">let</span> <span class="Identifier">g:syntastic_loc_list_height</span> <span class="Statement">=</span> <span class="Constant">5</span>
+
+<span class="Comment">    &quot; For easy updating of work standup log</span>
+    <span class="Statement">command</span> Standup <span class="Statement">!</span>git commit <span class="Error">-a</span> <span class="Error">-m</span> <span class="Constant">&quot;update Taylor's standup log</span><span class="Constant">&quot;</span>; git push
+
+<span class="Comment">    &quot; Important for security (modlines are 'not guaranteed to be 100% secure')</span>
+<span class="Comment">    &quot; according to the manual.</span>
+    <span class="Statement">set</span> <span class="PreProc">modelines</span>=0
+    <span class="Statement">set</span> <span class="PreProc">nomodeline</span>
+
+<span class="Comment">&quot; ================ VISUAL =================</span>
+
+    <span class="Statement">colorscheme</span> dw_cyan
+    <span class="Statement">set</span> <span class="PreProc">background</span>=dark
+    <span class="Statement">syntax</span> <span class="Type">on</span>
+
+<span class="Comment">    &quot; gnome-terminal really does support 256 colors, and jellybeans looks nice</span>
+<span class="Comment">    &quot;in 256 colors. The &amp;t_Co==8 is a hack to detect gnome-terminal vs</span>
+<span class="Comment">    &quot;console2 (which does not support 256 color)</span>
+    <span class="Statement">if</span> <span class="Statement">!</span><span class="Identifier">has</span><span class="Special">(</span><span class="Constant">&quot;gui_running</span><span class="Constant">&quot;</span><span class="Special">)</span> <span class="Statement">&amp;&amp;</span> &amp;t_Co<span class="Statement">==</span><span class="Constant">8</span>
+        <span class="Statement">set</span> <span class="PreProc">t_Co</span>=256
+        <span class="Statement">colorscheme</span> jellybeans
+<span class="Comment">        &quot; Make spelling mistake highlighting easier on the eyes.</span>
+        <span class="Statement">hi</span> <span class="Statement">clear</span> SpellBad
+        <span class="Statement">hi</span> <span class="Type">SpellBad</span> <span class="Type">cterm</span>=<span class="PreProc">underline</span> <span class="Type">ctermfg</span>=red
+        <span class="Statement">hi</span> <span class="Statement">clear</span> SpellCap
+        <span class="Statement">hi</span> <span class="Type">SpellCap</span> <span class="Type">cterm</span>=<span class="PreProc">underline</span> <span class="Type">ctermfg</span>=blue
+        <span class="Statement">hi</span> <span class="Statement">clear</span> SpellLocal
+        <span class="Statement">hi</span> <span class="Type">SpellLocal</span> <span class="Type">cterm</span>=<span class="PreProc">underline</span> <span class="Type">ctermfg</span>=blue
+        <span class="Statement">hi</span> <span class="Statement">clear</span> SpellRare
+        <span class="Statement">hi</span> <span class="Type">SpellRare</span> <span class="Type">cterm</span>=<span class="PreProc">underline</span> <span class="Type">ctermfg</span>=blue
+    <span class="Statement">else</span>
+<span class="Comment">        &quot; dw_cyan modifications</span>
+        <span class="Statement">hi</span> <span class="Type">CursorLine</span> <span class="Type">cterm</span>=<span class="PreProc">NONE</span> <span class="Type">ctermbg</span>=black <span class="Type">guibg</span>=<span class="Constant">#101520</span>
+        <span class="Statement">hi</span> <span class="Type">CursorColumn</span> <span class="Type">cterm</span>=<span class="PreProc">NONE</span> <span class="Type">ctermbg</span>=black <span class="Type">guibg</span>=<span class="Constant">#101520</span>
+        <span class="Statement">highlight</span> <span class="Type">Cursor</span> <span class="Type">guifg</span>=<span class="Type">black</span> <span class="Type">guibg</span>=<span class="Type">yellow</span>
+        <span class="Statement">highlight</span> <span class="Type">iCursor</span> <span class="Type">guifg</span>=<span class="Type">black</span> <span class="Type">guibg</span>=<span class="Type">yellow</span>
+        <span class="Statement">set</span> <span class="PreProc">guicursor</span>+=a<span class="Statement">:</span>blinkon0
+    <span class="Statement">end</span>
+
+    <span class="Statement">if</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">&quot;gui_running</span><span class="Constant">&quot;</span><span class="Special">)</span>
+<span class="Comment">        &quot; Make statusline color depend on the current mode</span>
+<span class="Comment">        &quot;</span> <span class="Todo">TODO</span><span class="PreProc">:</span><span class="Comment"> make visual/select mode dark green</span>
+        <span class="Statement">function</span>! InsertStatuslineColor<span class="Special">(</span>mode<span class="Special">)</span>
+        <span class="Statement">if</span> <span class="Identifier">a:mode</span> <span class="Statement">==</span> <span class="Constant">'i'</span>
+            <span class="Statement">hi</span> <span class="Type">statusline</span> <span class="Type">guibg</span>=<span class="Constant">#005151</span> <span class="Type">ctermbg</span>=darkgray
+        <span class="Statement">elseif</span> <span class="Identifier">a:mode</span> <span class="Statement">==</span> <span class="Constant">'r'</span>
+            <span class="Statement">hi</span> <span class="Type">statusline</span> <span class="Type">guibg</span>=<span class="Constant">#000071</span>
+        <span class="Statement">else</span>
+            <span class="Statement">hi</span> <span class="Type">statusline</span> <span class="Type">guibg</span>=<span class="Constant">#710000</span>
+        <span class="Statement">endif</span>
+        <span class="Statement">endfunction</span>
+
+        <span class="Statement">au</span> <span class="Type">InsertEnter</span> * <span class="Statement">call</span> InsertStatuslineColor<span class="Special">(</span>v:insertmode<span class="Special">)</span>
+<span class="Comment">        &quot; Default status line color (the following two 'hi' should be the same)</span>
+        <span class="Statement">au</span> <span class="Type">InsertLeave</span> * <span class="Statement">hi</span> <span class="Type">StatusLine</span> <span class="Type">cterm</span>=<span class="PreProc">NONE</span> <span class="Type">ctermbg</span>=<span class="PreProc">NONE</span> <span class="Type">ctermfg</span>=gray <span class="Type">guibg</span>=<span class="Constant">#202020</span> <span class="Type">guifg</span>=<span class="Type">white</span>
+    <span class="Statement">end</span>
+    <span class="Statement">hi</span> <span class="Type">StatusLine</span> <span class="Type">cterm</span>=<span class="PreProc">NONE</span> <span class="Type">ctermbg</span>=<span class="PreProc">NONE</span> <span class="Type">ctermfg</span>=gray <span class="Type">guibg</span>=<span class="Constant">#202020</span> <span class="Type">guifg</span>=<span class="Type">white</span>
+
+<span class="Comment">    &quot; Highlight column 80 (color set here because most themes don't specify it)</span>
+    <span class="Statement">if</span> <span class="Identifier">v:version</span> <span class="Statement">&gt;=</span> <span class="Constant">703</span>
+        <span class="Statement">set</span> <span class="PreProc">cc</span>=80
+        <span class="Statement">hi</span> <span class="Type">ColorColumn</span> <span class="Type">ctermbg</span>=Gray <span class="Type">ctermfg</span>=Black <span class="Type">guibg</span>=<span class="Constant">#404040</span>
+        <span class="Statement">if</span><span class="Special">(</span><span class="Statement">!</span><span class="Identifier">exists</span><span class="Special">(</span><span class="Constant">'vimrc_already_sourced'</span><span class="Special">))</span>
+            <span class="Statement">command</span> Skinny <span class="Statement">set</span> <span class="PreProc">cc</span>=73
+            <span class="Statement">command</span> Wide <span class="Statement">set</span> <span class="PreProc">cc</span>=80
+        <span class="Statement">endif</span>
+    <span class="Statement">endif</span>
+
+<span class="Comment">    &quot; Highlight unwanted whitespace</span>
+    <span class="Statement">highlight</span> <span class="Type">TrailingWhitespace</span> <span class="Type">ctermbg</span>=red <span class="Type">guibg</span>=<span class="Type">red</span>
+    <span class="Statement">highlight</span> <span class="Type">TabWhitespace</span> <span class="Type">ctermbg</span>=darkgreen <span class="Type">guibg</span>=<span class="Type">darkgreen</span>
+    <span class="Statement">highlight</span> <span class="Type">DoubleSpaceAfterPeriod</span> <span class="Type">ctermbg</span>=red <span class="Type">guibg</span>=<span class="Type">red</span>
+    <span class="Statement">autocmd</span> <span class="Type">Syntax</span> * <span class="Statement">syn</span> <span class="Type">match</span> <span class="Type">TrailingWhitespace</span> <span class="Constant">/\s\+$/</span>
+    <span class="Statement">autocmd</span> <span class="Type">Syntax</span> * <span class="Statement">syn</span> <span class="Type">match</span> <span class="Type">TabWhitespace</span> <span class="Constant">/</span><span class="Constant">[\t]</span><span class="Constant">/</span>
+    <span class="Statement">autocmd</span> <span class="Type">Syntax</span> * <span class="Statement">syn</span> <span class="Type">match</span> <span class="Type">DoubleSpaceAfterPeriod</span> <span class="Constant">/\.  /</span>
+
+<span class="Comment">    &quot; Highlight the line the cursor is on</span>
+    <span class="Statement">set</span> <span class="PreProc">cursorline</span>
+
+<span class="Comment">    &quot; Always show the last line on the screen, even when it's too long (gets</span>
+<span class="Comment">    &quot; rid of the annoying @@@@@ crap)</span>
+    <span class="Statement">set</span> <span class="PreProc">display</span>+=lastline
+
+<span class="Comment">    &quot; Always show the status line</span>
+    <span class="Statement">set</span> <span class="PreProc">laststatus</span>=2
+<span class="Comment">    &quot; Status line content</span>
+<span class="Comment">    &quot;set statusline=%n:\ %F\ [%{&amp;ff}]%y%m%h%w%r\ %=char=0x%B\ \ \ x=%v\ y=%l/%L\ -\ %p%%\ </span>
+    <span class="Statement">set</span> statusline<span class="Statement">=</span><span class="Constant">%</span><span class="Statement">n</span>:\ <span class="Constant">%</span>F\ [%<span class="Special">{</span>&amp;ff<span class="Special">}</span>]<span class="Constant">%</span><span class="Statement">y</span><span class="Constant">%</span><span class="Statement">m</span><span class="Constant">%</span><span class="Statement">h</span><span class="Constant">%</span><span class="Statement">w</span><span class="Constant">%</span><span class="Statement">r</span>\ %<span class="Statement">=</span>[char:\ <span class="Constant">0</span>x<span class="Constant">%</span>B]\ \[column:\ <span class="Constant">%</span><span class="Statement">v</span>]\ [line:\ <span class="Constant">%</span><span class="Statement">l</span>\ of\ <span class="Constant">%</span>L\ \<span class="Special">(</span>%p%%\<span class="Special">)</span>]\
+
+<span class="Comment">    &quot; Make the default window size bigger</span>
+    <span class="Statement">if</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">&quot;gui_running</span><span class="Constant">&quot;</span><span class="Special">)</span> <span class="Statement">&amp;&amp;</span> <span class="Statement">!</span><span class="Identifier">exists</span><span class="Special">(</span><span class="Constant">'vimrc_already_sourced'</span><span class="Special">)</span>
+        <span class="Statement">set</span> <span class="PreProc">lines</span>=32 <span class="PreProc">columns</span>=120
+    <span class="Statement">endif</span>
+
+<span class="Comment">    &quot; Use forward slashes in windows</span>
+    <span class="Statement">set</span> <span class="PreProc">shellslash</span>
+
+<span class="Comment">    &quot; No annoying flashes</span>
+    <span class="Statement">set</span> <span class="PreProc">novb</span>
+
+<span class="Comment">    &quot; Fix GNOME disappearing mouse bug</span>
+    <span class="Statement">set</span> <span class="PreProc">nomousehide</span>
+
+    <span class="Statement">set</span> <span class="PreProc">mouse</span>=nicr
+
+<span class="Comment">    &quot;Hide the toolbar</span>
+    <span class="Statement">set</span> <span class="PreProc">guioptions</span>-=T
+<span class="Comment">    &quot; Hide the menu bar</span>
+    <span class="Statement">set</span> <span class="PreProc">guioptions</span>-=m
+<span class="Comment">    &quot; Scroll bars are for noobs</span>
+    <span class="Statement">set</span> <span class="PreProc">guioptions</span>-=r
+    <span class="Statement">set</span> <span class="PreProc">guioptions</span>-=l
+    <span class="Statement">set</span> <span class="PreProc">guioptions</span>-=L
+<span class="Comment">    &quot; Make visual selection copy to the middle click buffer.</span>
+<span class="Comment">    &quot; If enabled on Windows, this will make selection copy to the Windows</span>
+<span class="Comment">    &quot; clipboard, which can be a pain if you need to select something and</span>
+<span class="Comment">    &quot; delete it before pasting.</span>
+    <span class="Statement">if</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">&quot;unix</span><span class="Constant">&quot;</span><span class="Special">)</span>
+      <span class="Statement">set</span> <span class="PreProc">guioptions</span>+=a
+    <span class="Statement">endif</span>
+<span class="Comment">    &quot; When in gui mode, don't open an entire messagebox to ask a question</span>
+    <span class="Statement">set</span> <span class="PreProc">guioptions</span>+=c
+
+<span class="Comment">    &quot; Quickly jump to opening brace and back to avoid mistakes</span>
+    <span class="Statement">set</span> <span class="PreProc">showmatch</span>
+    <span class="Statement">set</span> <span class="PreProc">matchtime</span>=1
+
+<span class="Comment">    &quot; Line numbers</span>
+    <span class="Statement">set</span> <span class="PreProc">nu</span>
+
+    <span class="Statement">if</span> <span class="Identifier">has</span><span class="Special">(</span><span class="Constant">&quot;unix</span><span class="Constant">&quot;</span><span class="Special">)</span>
+        <span class="Statement">set</span> <span class="PreProc">guifont</span>=Monospace\ 8
+    <span class="Statement">else</span>
+        <span class="Statement">set</span> <span class="PreProc">guifont</span>=Lucida_Console<span class="Statement">:</span>h10<span class="Statement">:</span>cANSI
+    <span class="Statement">endif</span>
+
+<span class="Comment">    &quot; $ for change command instead of deleting word then insert</span>
+    <span class="Statement">set</span> <span class="PreProc">cpoptions</span>+=$
+
+<span class="Comment">    &quot; Highlight search terms</span>
+    <span class="Statement">set</span> <span class="PreProc">hlsearch</span>
+
+<span class="Comment">    &quot; Skip the splash screen</span>
+    <span class="Statement">set</span> <span class="PreProc">shortmess</span>+=I
+
+<span class="Comment">    &quot; Don't update the display while executing macros</span>
+    <span class="Statement">set</span> <span class="PreProc">lazyredraw</span>
+
+<span class="Comment">    &quot; When the page starts to scroll, keep the cursor 4 lines from the top and 8</span>
+<span class="Comment">    &quot; lines from the bottom</span>
+    <span class="Statement">set</span> <span class="PreProc">scrolloff</span>=4
+
+<span class="Comment">    &quot; Show the command as it's being typed in the lower right</span>
+    <span class="Statement">set</span> <span class="PreProc">showcmd</span>
+
+<span class="Comment">    &quot; Spell checking</span>
+    <span class="Statement">setglobal</span> <span class="PreProc">spell</span> <span class="PreProc">spelllang</span>=en_ca
+<span class="Comment">    &quot; By default spelling is off...</span>
+    <span class="Statement">set</span> <span class="PreProc">nospell</span>
+<span class="Comment">    &quot; ...but enable it for the English text files I use a lot.</span>
+    <span class="Statement">au</span> <span class="Type">BufRead</span>,<span class="Type">BufNewFile</span>,<span class="Type">BufWrite</span> *.txt,*.tex,*.latex <span class="Statement">set</span> <span class="PreProc">spell</span>
+
+<span class="Comment">    &quot; Keep more context when editing PHP files so Vim doesn't try to highlight</span>
+<span class="Comment">    &quot; PHP as HTML and vice-versa.</span>
+    <span class="Statement">let</span> <span class="Identifier">php_minlines</span><span class="Statement">=</span><span class="Constant">500</span>
+
+<span class="Comment">    &quot; Rainbow parentheses colors.</span>
+<span class="Comment">    &quot; Left column is for terminal environment.</span>
+<span class="Comment">    &quot; Right column is for GUI environment.</span>
+<span class="Comment">    &quot; Outermost is determined by last.</span>
+    <span class="Statement">let</span> <span class="Identifier">g:rbpt_colorpairs</span> <span class="Statement">=</span> [
+<span class="Special">        \</span> [<span class="Constant">'blue'</span>,       <span class="Constant">'#FF6000'</span>],
+<span class="Special">        \</span> [<span class="Constant">'cyan'</span>, <span class="Constant">'#00FFFF'</span>],
+<span class="Special">        \</span> [<span class="Constant">'darkmagenta'</span>,    <span class="Constant">'#CC00FF'</span>],
+<span class="Special">        \</span> [<span class="Constant">'yellow'</span>,   <span class="Constant">'#FFFF00'</span>],
+<span class="Special">        \</span> [<span class="Constant">'red'</span>,     <span class="Constant">'#FF0000'</span>],
+<span class="Special">        \</span> [<span class="Constant">'darkgreen'</span>,    <span class="Constant">'#00FF00'</span>],
+<span class="Special">        \</span> [<span class="Constant">'White'</span>,         <span class="Constant">'#c0c0c0'</span>],
+<span class="Special">        \</span> [<span class="Constant">'blue'</span>,       <span class="Constant">'#FF6000'</span>],
+<span class="Special">        \</span> [<span class="Constant">'cyan'</span>, <span class="Constant">'#00FFFF'</span>],
+<span class="Special">        \</span> [<span class="Constant">'darkmagenta'</span>,    <span class="Constant">'#CC00FF'</span>],
+<span class="Special">        \</span> [<span class="Constant">'yellow'</span>,   <span class="Constant">'#FFFF00'</span>],
+<span class="Special">        \</span> [<span class="Constant">'red'</span>,     <span class="Constant">'#FF0000'</span>],
+<span class="Special">        \</span> [<span class="Constant">'darkgreen'</span>,    <span class="Constant">'#00FF00'</span>],
+<span class="Special">        \</span> [<span class="Constant">'White'</span>,         <span class="Constant">'#c0c0c0'</span>],
+<span class="Special">        \</span> [<span class="Constant">'blue'</span>,       <span class="Constant">'#FF6000'</span>],
+<span class="Special">        \</span> [<span class="Constant">'cyan'</span>, <span class="Constant">'#00FFFF'</span>],
+<span class="Special">        \</span> [<span class="Constant">'darkmagenta'</span>,    <span class="Constant">'#CC00FF'</span>],
+<span class="Special">        \</span> [<span class="Constant">'yellow'</span>,   <span class="Constant">'#FFFF00'</span>],
+<span class="Special">        \</span> [<span class="Constant">'red'</span>,     <span class="Constant">'#FF0000'</span>],
+<span class="Special">        \</span> [<span class="Constant">'darkgreen'</span>,    <span class="Constant">'#00FF00'</span>],
+<span class="Special">        \</span> [<span class="Constant">'White'</span>,         <span class="Constant">'#c0c0c0'</span>],
+<span class="Special">        \</span> ]
+
+<span class="Comment">    &quot; Update this with the amount of supported colors</span>
+<span class="Comment">    &quot;let g:rbpt_max = 21</span>
+    <span class="Statement">let</span> <span class="Identifier">g:rbpt_max</span> <span class="Statement">=</span> <span class="Constant">21</span>
+
+<span class="Comment">    &quot; Turn rainbow parenthesis script on</span>
+    <span class="Statement">au</span> <span class="Type">VimEnter</span> * RainbowParenthesesToggle
+<span class="Comment">    &quot; These are necessary to re-load the stuff when syntax changes.</span>
+    <span class="Statement">au</span> <span class="Type">Syntax</span> * RainbowParenthesesLoadRound
+<span class="Comment">    &quot; I don't anything but ( and ) colored, so don't bother loading these</span>
+<span class="Comment">    &quot;au Syntax * RainbowParenthesesLoadSquare</span>
+<span class="Comment">    &quot;au Syntax * RainbowParenthesesLoadBraces</span>
+
+    <span class="Statement">let</span> <span class="Identifier">vimrc_already_sourced</span> <span class="Statement">=</span> <span class="Constant">1</span>
+
+</pre>
+</div>
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                198.48.158.54                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>43318</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>21076</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>

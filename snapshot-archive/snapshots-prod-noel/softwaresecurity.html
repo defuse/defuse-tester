@@ -1,0 +1,432 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>Software Security - Bypassing KeyScrambler and Avira - Defuse Security</title>
+<meta name="description" content="The fundamental flaw in the software security model. Bypassing KeyScrambler and Avira" />
+<meta name="keywords" content="software security, antivirus, keyscrambler, antivir" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" ><h1>The Fundamental Flaw in the Software Security Model</h1>
+
+<div style="color: white; font-size: 16px; background-color: #080078; padding: 10px; margin: 10px; border: solid black 5px;">
+    <center>This page is unscientific.</center>
+    <br />
+    <div style="font-size: 8pt;">
+        <p>
+        This was one of the first articles I wrote for my website. It does not conform to the
+        scientific standards I try to set for myself now. In particular, I did not adequiately
+        verify that I had everything configured correctly, nor did I investigate why the software's
+        behaviour seemed to contradict its settings. So take it with a grain of salt.
+        </p>
+
+        <p>
+        This page has been removed from the navigation menu. I am keeping it here in case someone
+        finds it through a search engine and really wants to read it.
+        </p>
+    </div>
+    <br />
+</div>
+
+<p>
+All personal security software suffers from a fundamental problem. That is, malware installed on a system has the ability to circumvent most security products, whether it is an antivirus, personal firewall, keylogging prevention software, or a combination of all three. Security cannot come from a single solution, but from user behavior. 
+</p>
+
+<p>
+This article describes an attack on KeyScrambler and Antivir. I would like to stress that this article does not intend to say that there is anything wrong with the products that are mentioned, but with <i>all</i> security software. Both products do their best to protect their users from unknown threats, but as the title suggests, this is a fundamental problem that can be used to exploit any form of personal security software.
+</p>
+
+<h2>Test Case - KeyScrambler</h2>
+<a href="http://www.qfxsoftware.com/" rel="nofollow">KeyScrambler's Homepage</a><br /><br />
+<p>
+To demonstrate my view on all software security products, I will demonstrate how to subvert KeyScrambler. KeyScrambler is a windows application that encrypts your keystrokes so key loggers can't see them. It uses a device driver to insert itself into the kernel (the most powerful code in the operating system) and intercept your keystrokes at the earliest possible point, encrypt them, then decrypt them before they are sent to the application. 
+</p>
+
+<h2>Test System</h2>
+<ul>
+<li>Dell Dimension 9200</li>
+<li>Windows 7 64 bit, UAC Disabled</li>
+<li>Running KeyScrambler Premium v2.6.0</li>
+<li>AV: Microsoft Security Essentials</li>
+</ul>
+<br />
+<h2>Video</h2>
+<iframe title="YouTube video player" class="youtube-player" width="480" height="390" src="https://www.youtube.com/embed/zdengulwX8Q" frameborder="0" ></iframe>
+<br /><br />
+<h2>How it works</h2>
+<p>The first step in the attack is enticing the user to download a Trojan horse. The Trojan poses as an application installer, which when executed appears to be installing software, but really disables KeyScrambler. It also gets the user to reboot their computer, which is necessary to fully disable KeyScrambler.
+</p>
+<h3>How KeyScrambler is disabled</h3>
+<p>
+When the Trojan horse is run, the first thing it does is mark the KeyScrambler.exe file in the "Program Files" folder for deletion on reboot. This file controls the loading and unloading of KeyScrambler, and provides the tray icon that shows KeyScrambler's status. Windows will delete KeyScrambler.exe when the system is restarted, and KeyScrambler is disabled.
+</p>
+<p>
+Now that KeyScrambler is gone, we have to make sure the user doesn't notice. The second thing the Trojan horse does is drop a "dummy" version of KeyScrambler onto the hard drive. It then adds the registry entries that are required to run the fake KeyScrambler at startup. The fake KeyScrambler is a simple C# application; it's just a system tray icon that looks exactly like the real KeyScrambler. It allows the user to enable and disable it, and it will show "encrypted" keystrokes when the user types. The user has no way of knowing that it's fake, other than using a keylogger test such as the popular AKLT (Anti-Keylogger Tester).
+</p>
+<p>
+The fake KeyScrambler will continue to run at startup, and the real KeyScrambler will remain disabled. All forms of malware now have access to the user's unencrypted keystrokes.
+</p>
+<h2>Test Case #2 - Avira Antivir</h2>
+<p>
+A problem exists in all antivirus software; they can't detect new forms of malware. The Trojan horse used in the KeyScrambler attack is not detected by any of the leading antivirus products, and even old malware can be crypted to create a fully undetected piece. That being the biggest flaw antivirus software, it's not the only problem. The fundamental flaw in the software security model applies even to professional antivirus software. To demonstrate, I will explain how Avira's Antivir (the free home edition) can be disabled while the user still believes that their files are being scanned.
+</p>
+
+<p>All it takes is a quick edit of the config file, which on Windows XP can be found at:
+<br />
+C:\Documents and Settings\All Users\Application Data\Avira\AntiVir Desktop\CONFIG\AVWIN<br /><br />
+In the default config, scanning all files is enabled:
+</p>
+<pre>
+ScanAllFiles=1
+</pre>
+<a href="http://pastebin.com/BRgPBu0D">Full Default Config</a>
+<p>
+However, the config file is just sitting there unprotected, so we can modify our Trojan horse to disable antivir. The changes to the file are simple:
+</p>
+<pre>
+ScanAllFiles=0
+ScanDiffExtension=-,-?HT*,-386,-ACM,-ADE,-ADP,-ANI,-APP,-ASD,-ASF,-ASP,-ASX,-AWX,....
+</pre>
+
+<a href="http://pastebin.com/WHHrXAu2">Full Disabled Config</a>
+<p>
+The 'ScanDiffExtension' line contains a list of file extensions to exclude from scanning. Excluding all file extensions in the default file extension list then restarting antivir effectively stops antivir from scanning anything. Even when the user manually scans a file, Antivir will look like it has scanned the file and tell the user that it hasn't found any malware. For the user to realize that Antivir is disabled, they would have to open the user interface, go into the settings, and notice that 'Use file extension list' option was checked, instead of the 'All files' option.
+</p>
+<p>Avira contacted me with the following information:<br /><br />
+
+<i>It seems to be, that you have try your Tests with Avira AntiVir in Version 9.<br /><br />
+
+In this Version was no Configuration File Protection on x64 System included.<br /><br />
+
+So please, do your test again, because in Avira AntiVir Version 10 is the Configuration File are protected and no other Process can be write or modified this File.</i>
+<br /><br />
+It turns out that I actually am using version 10:<br />
+<img src="images/avira.png" alt="Avira version 10"/>
+<br /><br />
+They also said:<br /><br />
+<i>
+Notice:<br />
+If you disable the self protection then is the protection off and you can edit the Configuration File.<br />
+
+The self protection for "Protect processes from unwanted termination" and "Protect files and registry entries from manipulation" is per Default active.<br /><br />
+
+You find this Setting here:<br /><br />
+
+* Open AntiVir<br />
+* Click in Configuration<br />
+* Activate the Expert Mode<br />
+* NAvigate to Standard configuration --> General --> Security<br />
+</i><br />
+I also double checked the configuration as recommended by them and couldn't even find the feature. I later realized that it is because I hadn't installed the self protection option. Either way, the problem still exists. Even if they protected the file, all it would take is a program to load a rootkit to do the job.</p>
+
+<img src="images/avsettings.png" alt="Avira settings"/>
+<br /><br />
+<a href="http://pastebin.com/taTEK8GW">Full Email</a>
+
+<h2>Conclusion</h2>
+<p>
+Combining these two test cases shows how even though the user was trying to protect himself with security software, his security was still compromised by a simple social engineering attack. It would be easy for the developers of KeyScrambler and Antivir to remediate these specific attacks. However, this attack represents a fundamental problem with security software. The problem is not KeyScrambler or Antivir, but with ALL software based security products. If malware exists on a system, it can do anything it wants. As Steve Gibson of GRC.com has said many times, a system can no longer be trusted after it has been infected by malware. 
+</p>
+<p>
+As software developers create new ways of protecting the users, hackers will find new ways to get around the protections, and so begins the same cat and mouse game that antivirus software vendors play with malware developers. The fact is that protecting the user from online danger cannot be accomplished through software, although it can help, the only true way to protect yourself is to develop an attitude about security. Antivirus companies need to stop advertising their products as a first line of defense, and teach their users that there is that there is no one click solution to security. It is a process, and it will require some degree of work to become secure. Security software will only give the user a false sense of security, which will make them likley to download potential malware in the first place.
+</p>
+<p>To provide a strong defense against malware, you should:</p>
+<ul>
+<li>Never download anything unless you trust the source, especially not programs.</li>
+<li>Never click links from strangers.</li>
+<li>Never accept files from strangers.</li>
+<li>Disable scripting in your browser. For example, use the NoScript add-on for Firefox.</li>
+<li>Make sure no vulnerable services are running on your computer. Close or stealth all 65535 ports.</li>
+</ul>
+<p>Only <i>after</i> you are doing that, you can bring in software as a second line of defense:</p>
+
+<ul>
+<li>Install a personal firewall that monitors application activity.</li>
+<li>Install antivirus software.</li>
+<li>Use a product like KeyScrambler</li>
+</ul>
+
+<h2>Note on KeyScrambler</h2>
+<p>In the writing of this article, KeyScrambler was used as a test case to describe the fundamental problem with security software. Even though it can be circumvented, I believe KeyScrambler is actually taking a step in the right direction. Giving us the option of having a second layer of security is a good thing. I would like to say that the developers of KeyScrambler are responsible, and have acknowledged this problem. When I contacted them about the problem, I received a well thought out and knowledgeable reply. They obviously take great pride in their software and care about their user's security over all - something I would like to see more of from the big antivirus companies.
+</p>
+
+<p>Source code and binary for these attacks will NOT be released.</p>
+
+
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                198.48.158.54                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>5673</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>4571</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>

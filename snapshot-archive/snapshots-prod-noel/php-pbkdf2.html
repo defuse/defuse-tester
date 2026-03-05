@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>PBKDF2 Password Hashing for PHP</title>
+<meta name="description" content="Standards compliant PBKDF2 implementation for PHP." />
+<meta name="keywords" content="pbkdf2 for php, key derivation, password hashing" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" >            <div class="upvotearrows">
+                    <div class="upvoteuparrow">
+            <form 
+                action="https://defuse.ca:443/php-pbkdf2.htm" 
+                method="post"
+                onsubmit="return upvote.submit('phppbkdf2', 'up')"
+                class="upvoteform upvoteUpFormphppbkdf2"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="phppbkdf2" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImagephppbkdf2"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounterphppbkdf2" >
+            1311 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="https://defuse.ca:443/php-pbkdf2.htm" 
+                method="post"
+                onsubmit="return upvote.submit('phppbkdf2', 'down')"
+                class="upvoteform upvoteDownFormphppbkdf2"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="phppbkdf2" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImagephppbkdf2"
+                    />
+                            </form>
+        </div>
+                </div>
+        <h1>PBKDF2 For PHP</h1>
+
+<p>
+PBKDF2 (Password-Based Key Derivation Function) is a <a href="http://en.wikipedia.org/wiki/Key_stretching">key stretching</a> algorithm.
+It can be used to hash passwords in a computationally intensive manner, so that dictionary and
+brute-force attacks are less effective. See <a
+href="http://crackstation.net/hashing-security.htm">CrackStation's Hashing Security Article</a> for
+instructions on implementing salted password hashing.</p>
+
+<p>
+The following code is a PBKDF2 implementation in PHP. It complies with the
+<a href="https://www.ietf.org/rfc/rfc6070.txt">PBKDF2 test vectors in RFC 6070</a>.
+Performance improvements to the original code were provided by <a href="http://www.variations-of-shadow.com/">variations-of-shadow.com</a>.
+</p>
+
+
+<h2>Benchmarks</h2>
+
+<p>
+The following benchmarks demonstrate the running time for various iteration counts, using the SHA256
+hash function. The benchmarks
+were run on an AMD Phenom 9600 2.3GHz CPU.
+</p>
+
+<div class="code">
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; 1 iteration : 0.000149 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; 2 iterations: 0.000036 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; 4 iterations: 0.000038 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; 8 iterations: 0.000052 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;16 iterations: 0.000090 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;32 iterations: 0.000157 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;64 iterations: 0.000297 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp; 128 iterations: 0.000623 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp; 256 iterations: 0.001141 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp; 512 iterations: 0.002258 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp;1024 iterations: 0.004594 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp;2048 iterations: 0.009575 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp;4096 iterations: 0.018386 seconds<br />
+&nbsp;&nbsp; &nbsp; &nbsp;8192 iterations: 0.036070 seconds<br />
+&nbsp;&nbsp; &nbsp; 16384 iterations: 0.073297 seconds<br />
+&nbsp;&nbsp; &nbsp; 32768 iterations: 0.145324 seconds<br />
+&nbsp;&nbsp; &nbsp; 65536 iterations: 0.294785 seconds<br />
+&nbsp;&nbsp; &nbsp;131072 iterations: 0.577492 seconds<br />
+&nbsp;&nbsp; &nbsp;262144 iterations: 1.173854 seconds<br />
+&nbsp;&nbsp; &nbsp;524288 iterations: 2.334627 seconds<br />
+&nbsp;&nbsp; 1048576 iterations: 4.688382 seconds<br />
+&nbsp;&nbsp; 2097152 iterations: 9.249891 seconds<br />
+&nbsp;&nbsp; 4194304 iterations: 18.69492 seconds<br />
+&nbsp;&nbsp; 8388608 iterations: 36.90171 seconds<br />
+&nbsp;&nbsp;16777216 iterations: 75.31797 seconds
+</div>
+
+<h2>Source Code</h2>
+
+<div style="text-align: center; padding-bottom: 10px;">
+    <a href="https://github.com/defuse/password-hashing"><strong>Source Code on GitHub</strong></a>
+</div>
+
+<div class="vimhighlight"><pre id='vimCodeElement'>
+<span class="Special">&lt;?php</span>
+<span class="Comment">/*</span>
+<span class="Comment"> * PBKDF2 key derivation function as defined by RSA's PKCS #5: <a href="https://www.ietf.org/rfc/rfc2898.txt">https://www.ietf.org/rfc/rfc2898.txt</a></span>
+<span class="Comment"> * $algorithm - The hash algorithm to use. Recommended: SHA256</span>
+<span class="Comment"> * $password - The password.</span>
+<span class="Comment"> * $salt - A salt that is unique to the password.</span>
+<span class="Comment"> * $count - Iteration count. Higher is better, but slower. Recommended: At least 1000.</span>
+<span class="Comment"> * $key_length - The length of the derived key in bytes.</span>
+<span class="Comment"> * $raw_output - If true, the key is returned in raw binary format. Hex encoded otherwise.</span>
+<span class="Comment"> * Returns: A $key_length-byte key derived from the password and salt.</span>
+<span class="Comment"> *</span>
+<span class="Comment"> * Test vectors can be found here: <a href="https://www.ietf.org/rfc/rfc6070.txt">https://www.ietf.org/rfc/rfc6070.txt</a></span>
+<span class="Comment"> *</span>
+<span class="Comment"> * This implementation of PBKDF2 was originally created by <a href="https://defuse.ca">https://defuse.ca</a></span>
+<span class="Comment"> * With improvements by <a href="http://www.variations-of-shadow.com">http://www.variations-of-shadow.com</a></span>
+<span class="Comment"> */</span>
+<span class="PreProc">function</span> pbkdf2<span class="Special">(</span><span class="Statement">$</span><span class="Identifier">algorithm</span>, <span class="Statement">$</span><span class="Identifier">password</span>, <span class="Statement">$</span><span class="Identifier">salt</span>, <span class="Statement">$</span><span class="Identifier">count</span>, <span class="Statement">$</span><span class="Identifier">key_length</span>, <span class="Statement">$</span><span class="Identifier">raw_output</span> <span class="Statement">=</span> <span class="Constant">false</span><span class="Special">)</span>
+<span class="Special">{</span>
+    <span class="Statement">$</span><span class="Identifier">algorithm</span> <span class="Statement">=</span> <span class="Identifier">strtolower</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">algorithm</span><span class="Special">)</span>;
+    <span class="Statement">if</span><span class="Special">(</span><span class="Statement">!</span><span class="Identifier">in_array</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">algorithm</span>, hash_algos<span class="Special">()</span>, <span class="Constant">true</span><span class="Special">))</span>
+        <span class="Statement">trigger_error</span><span class="Special">(</span><span class="Constant">'PBKDF2 ERROR: Invalid hash algorithm.'</span>, <span class="Constant">E_USER_ERROR</span><span class="Special">)</span>;
+    <span class="Statement">if</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">count</span> <span class="Statement">&lt;=</span> <span class="Constant">0</span> <span class="Statement">||</span> <span class="Statement">$</span><span class="Identifier">key_length</span> <span class="Statement">&lt;=</span> <span class="Constant">0</span><span class="Special">)</span>
+        <span class="Statement">trigger_error</span><span class="Special">(</span><span class="Constant">'PBKDF2 ERROR: Invalid parameters.'</span>, <span class="Constant">E_USER_ERROR</span><span class="Special">)</span>;
+
+    <span class="Statement">if</span> <span class="Special">(</span><span class="Identifier">function_exists</span><span class="Special">(</span><span class="Constant">&quot;hash_pbkdf2&quot;</span><span class="Special">))</span> <span class="Special">{</span>
+        <span class="Comment">// The output length is in NIBBLES (4-bits) if $raw_output is false!</span>
+        <span class="Statement">if</span> <span class="Special">(</span><span class="Statement">!</span><span class="Statement">$</span><span class="Identifier">raw_output</span><span class="Special">)</span> <span class="Special">{</span>
+            <span class="Statement">$</span><span class="Identifier">key_length</span> <span class="Statement">=</span> <span class="Statement">$</span><span class="Identifier">key_length</span> <span class="Statement">*</span> <span class="Constant">2</span>;
+        <span class="Special">}</span>
+        <span class="Statement">return</span> hash_pbkdf2<span class="Special">(</span><span class="Statement">$</span><span class="Identifier">algorithm</span>, <span class="Statement">$</span><span class="Identifier">password</span>, <span class="Statement">$</span><span class="Identifier">salt</span>, <span class="Statement">$</span><span class="Identifier">count</span>, <span class="Statement">$</span><span class="Identifier">key_length</span>, <span class="Statement">$</span><span class="Identifier">raw_output</span><span class="Special">)</span>;
+    <span class="Special">}</span>
+
+    <span class="Statement">$</span><span class="Identifier">hash_length</span> <span class="Statement">=</span> <span class="Identifier">strlen</span><span class="Special">(</span>hash<span class="Special">(</span><span class="Statement">$</span><span class="Identifier">algorithm</span>, <span class="Constant">&quot;&quot;</span>, <span class="Constant">true</span><span class="Special">))</span>;
+    <span class="Statement">$</span><span class="Identifier">block_count</span> <span class="Statement">=</span> <span class="Identifier">ceil</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">key_length</span> <span class="Statement">/</span> <span class="Statement">$</span><span class="Identifier">hash_length</span><span class="Special">)</span>;
+
+    <span class="Statement">$</span><span class="Identifier">output</span> <span class="Statement">=</span> <span class="Constant">&quot;&quot;</span>;
+    <span class="Statement">for</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">i</span> <span class="Statement">=</span> <span class="Constant">1</span>; <span class="Statement">$</span><span class="Identifier">i</span> <span class="Statement">&lt;=</span> <span class="Statement">$</span><span class="Identifier">block_count</span>; <span class="Statement">$</span><span class="Identifier">i</span><span class="Statement">++</span><span class="Special">)</span> <span class="Special">{</span>
+        <span class="Comment">// $i encoded as 4 bytes, big endian.</span>
+        <span class="Statement">$</span><span class="Identifier">last</span> <span class="Statement">=</span> <span class="Statement">$</span><span class="Identifier">salt</span> <span class="Statement">.</span> <span class="Identifier">pack</span><span class="Special">(</span><span class="Constant">&quot;N&quot;</span>, <span class="Statement">$</span><span class="Identifier">i</span><span class="Special">)</span>;
+        <span class="Comment">// first iteration</span>
+        <span class="Statement">$</span><span class="Identifier">last</span> <span class="Statement">=</span> <span class="Statement">$</span><span class="Identifier">xorsum</span> <span class="Statement">=</span> hash_hmac<span class="Special">(</span><span class="Statement">$</span><span class="Identifier">algorithm</span>, <span class="Statement">$</span><span class="Identifier">last</span>, <span class="Statement">$</span><span class="Identifier">password</span>, <span class="Constant">true</span><span class="Special">)</span>;
+        <span class="Comment">// perform the other $count - 1 iterations</span>
+        <span class="Statement">for</span> <span class="Special">(</span><span class="Statement">$</span><span class="Identifier">j</span> <span class="Statement">=</span> <span class="Constant">1</span>; <span class="Statement">$</span><span class="Identifier">j</span> <span class="Statement">&lt;</span> <span class="Statement">$</span><span class="Identifier">count</span>; <span class="Statement">$</span><span class="Identifier">j</span><span class="Statement">++</span><span class="Special">)</span> <span class="Special">{</span>
+            <span class="Statement">$</span><span class="Identifier">xorsum</span> <span class="Statement">^=</span> <span class="Special">(</span><span class="Statement">$</span><span class="Identifier">last</span> <span class="Statement">=</span> hash_hmac<span class="Special">(</span><span class="Statement">$</span><span class="Identifier">algorithm</span>, <span class="Statement">$</span><span class="Identifier">last</span>, <span class="Statement">$</span><span class="Identifier">password</span>, <span class="Constant">true</span><span class="Special">))</span>;
+        <span class="Special">}</span>
+        <span class="Statement">$</span><span class="Identifier">output</span> <span class="Statement">.=</span> <span class="Statement">$</span><span class="Identifier">xorsum</span>;
+    <span class="Special">}</span>
+
+    <span class="Statement">if</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">raw_output</span><span class="Special">)</span>
+        <span class="Statement">return</span> <span class="Identifier">substr</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">output</span>, <span class="Constant">0</span>, <span class="Statement">$</span><span class="Identifier">key_length</span><span class="Special">)</span>;
+    <span class="Statement">else</span>
+        <span class="Statement">return</span> <span class="Identifier">bin2hex</span><span class="Special">(</span><span class="Identifier">substr</span><span class="Special">(</span><span class="Statement">$</span><span class="Identifier">output</span>, <span class="Constant">0</span>, <span class="Statement">$</span><span class="Identifier">key_length</span><span class="Special">))</span>;
+<span class="Special">}</span>
+<span class="Special">?&gt;</span>
+</pre>
+</div>
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                198.48.158.54                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>162688</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>93672</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>

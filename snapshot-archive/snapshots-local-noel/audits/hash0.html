@@ -1,0 +1,650 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>Hash0 Security Audit</title>
+<meta name="description" content="Security audit of the Hash0 password system" />
+<meta name="keywords" content="hash0, security audit, cryptography, passwords" />
+<meta name="google-site-verification" content="LjgndE9fyTkxbPz8aMFyJQFSS3cQiXIrYchE_b2VXlg" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="/js/upvote.js"></script>
+<link rel="stylesheet" media="all" type="text/css" href="/main.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/mainmenu.css" />
+<link rel="stylesheet" media="all" type="text/css" href="/vimhl.css" />
+<link rel="stylesheet" media="print" type="text/css" href="/print.css" />
+<!--[if !IE 7]>
+	<style type="text/css">
+		#wrap {display:table;height:100%}
+	</style>
+<![endif]-->
+</head>
+<body  >
+<div id="wrap">
+
+<!-- This menuing system was made by Steve Gibson at GRC.COM 
+            see more at http://www.grc.com/menudemo.htm -->
+
+
+<div class="menuminwidth0"><div class="menuminwidth1"><div class="menuminwidth2">
+<div id="masthead">
+    <div style="font-size:30px;"><img src="/images/1by1.gif" alt="Defuse Security Research and Development" /></div>
+    <div id="sm">
+        <a href="https://twitter.com/defusesec" title="Follow @DefuseSec on twitter!">
+            <img id="twitterlogo" src="/images/twitter.png" alt="Follow me on twitter!" height="25" width="30" />
+            Twitter
+        </a>
+        &nbsp;&middot;&nbsp;
+        <a href="https://github.com/defuse" title="Defuse Security's GitHub">GitHub</a>
+    </div>
+</div>
+
+<div class="menu">
+
+<ul>
+    <li class="headerlink" ><a href="/">Home<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul class="leftbutton">
+            <li><a href="/about.htm">&nbsp;About Defuse</a></li>
+            <li><a href="/contact.htm">&nbsp;Contact</a></li>
+            <li><a href="/security-contact-vulnerability-disclosure.htm">&nbsp;Vulnerability Disclosure</a></li>
+            <li><a href="https://bqp.io/" >&nbsp;Blog</a></li>
+            <li><a href="https://twitter.com/#!/defusesec" >&nbsp;Twitter</a></li>
+            <li><a href="https://github.com/defuse" >&nbsp;GitHub</a></li>
+            <li><a href="https://z.cash/">&nbsp;Zcash (Zerocash)</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/services.htm">Services<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/software-security-auditing.htm">&nbsp;Security Auditing</a></li>
+            <li><a href="/pastebin.htm">&nbsp;Encrypted Pastebin</a></li>
+            <li><a href="/quantum-computer-time-capsule.htm">&nbsp;Time Capsule</a></li>
+            <li><a href="/trustedthirdparty.htm">&nbsp;TRENT - Trusted RNG</a></li>
+            <li><a href="/big-number-calculator.htm">&nbsp;Big Number Calculator</a></li>
+            <li><a href="/online-x86-assembler.htm">&nbsp;Online x86 Assembler</a></li>
+            <li><a href="/checksums.htm">&nbsp;Checksum Calculator</a></li>
+            <li><a href="/html-sanitize.htm">&nbsp;HTML Sanitizer</a></li>
+            <li><a href="http://crackstation.net/">&nbsp;CrackStation.net</a></li>
+        </ul>
+    <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Software<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/passgen.htm">&nbsp;Password Generator</a></li>
+            <li><a href="/helloworld-cms.htm">&nbsp;HelloWorld! Secure CMS</a></li>
+            <li><a href="/php-hash-cracker.htm">&nbsp;PHP Hash Cracker</a></li>
+            <li><a href="/backup-verify-script.htm">&nbsp;Backup Checker</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Projects &amp; Code<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/web-browser-negative-feedback.htm">&nbsp;Insecure Feedback</a></li>
+            <li><a href="/bochs-images.htm">&nbsp;Bochs Disk Images</a></li>
+            <li><a href="/gnutls-psk-client-server-example.htm">&nbsp;GnuTLS PSK Example</a></li>
+            <li><a href="/secure-php-encryption.htm">&nbsp;Encryption in PHP</a></li>
+            <li><a href="/email-spoofing-in-ruby.htm">&nbsp;Ruby Email Spoofing</a></li>
+            <li><a href="/syntax-highlighting-in-php-with-vim.htm">&nbsp;PHP &amp; Vim Highlighting</a></li>
+            <li><a href="/php-hit-counter.htm">&nbsp;PHP Hit Counter</a></li>
+            <li><a href="/generating-random-passwords.htm">&nbsp;PHP Random Passwords</a></li>
+            <li><a href="/php-pbkdf2.htm">&nbsp;PBKDF2 For PHP</a></li>
+            <li><a href="/force-print-background.htm">&nbsp;Force Print BG Color</a></li>
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Research<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="#"><span class="drop"><span>Vulns &amp; Exploits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/side-channel-attacks-on-everyday-applications.htm">Side Channels (BHUSA 2016)</a></li>
+                    <li><a href="/in-browser-port-scanning.htm">&nbsp;Browser Port Scanner</a></li>
+                    <li><a href="/sockstress.htm">&nbsp;Sockstress</a></li>
+                    <li><a href="/instruction-filters.htm">&nbsp;Instruction Filters</a></li>
+                    <li><a href="/flush-reload-side-channel.htm">&nbsp;FLUSH+RELOAD</a></li>
+                    <li><a href="/exploiting-cpp-vtables.htm">&nbsp;C++ VTABLES</a></li>        
+                    <li><a href="/cracking-synergy-bad-cryptography.htm">&nbsp;Cracking Synergy</a></li>
+                    <li><a href="/mitigating-breach-tls-attack-in-php.htm">&nbsp;PHP BREACH Defense</a></li>
+                    <li><a href="/race-conditions-in-web-applications.htm">&nbsp;Race Conditions</a></li>        
+                    <li><a href="/filesystem-events-ntfs-permissions.htm">&nbsp;File-System Events</a></li>
+                    <li><a href="/onedetection.htm">&nbsp;PUP Confusion</a></li>
+                    <li><a href="/side-channels-in-encoding-functions.htm">&nbsp;Encoding Side Channels</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Crypto</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/blind-birthday-attack.htm">&nbsp;Blind Birthday Attack</a></li>
+                    <li><a href="/manual-random-number-generator.htm">&nbsp;Paper Coin TRNG</a></li>
+                    <li><a href="/cbcmodeiv.htm">&nbsp;CBC Mode IV Security</a></li>
+                    <li><a href="/eotp.htm">&nbsp;EOTP</a></li>
+                    <li><a href="/truecrypt-plausible-deniability-useless-by-game-theory.htm">&nbsp;TrueCrypt &amp; Game Theory</a></li>        
+                    <li><a href="/web-browser-javascript-cryptography.htm">&nbsp;Browser Cryptography</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Passwords</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/password-hashing-after-phc.htm">&nbsp;Hash Caching</a></li>
+                    <li><a href="/password-policy-hall-of-shame.htm">&nbsp;Password Hall of Shame</a></li>        
+                    <li><a href="http://crackstation.net/hashing-security.html">&nbsp;Salted Password Hashing</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Audits</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/audits/encfs.htm">&nbsp;EncFS</a></li>
+                    <li><a href="/audits/ecryptfs.htm">&nbsp;eCryptfs</a></li>
+                    <li><a href="/audits/zerobin.htm">&nbsp;ZeroBin</a></li>
+                    <li><a href="/audits/pefs.htm">&nbsp;PEFS</a></li>
+                    <li><a href="/audits/hash0.htm">&nbsp;Hash0</a></li>
+                    <li><a href="/audits/gocryptfs.htm">&nbsp;Gocryptfs</a></li>
+                    <li><a href="https://leastauthority.com/blog/least_authority_performs_security_audit_for_globaleaks.html">&nbsp;GlobaLeaks</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>
+            <li><a href="#"><span class="drop"><span>Theory</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/concentration-bounds-from-parallel-repetition-theorems.htm">&nbsp;My Master's Thesis</a></li>
+                    <li><a href="/how-do-we-model-this-robot.htm">&nbsp;Robot Modelling</a></li>
+                    <li><a href="/is-security-local.htm">&nbsp;Is Security Local?</a></li>
+                    <li><a href="/plausible-reason-p-noteq-np-is-hard-to-prove.htm">&nbsp;Why It's Hard To Prove P!=NP</a></li>
+                    <li><a href="/godel-second-incompleteness-theorem-by-turing-machines.htm">&nbsp;Gödel's Second Theorem</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+            <li><a href="#"><span class="drop"><span>Other</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/triangle-of-secure-code-delivery.htm">&nbsp;Secure Code Delivery</a></li>
+                    <li><a href="/bochs-hacking-guide.htm">&nbsp;Hacking Bochs</a></li>
+                    <li><a href="/web-application-security.htm">&nbsp;Website Security</a></li>        
+                    <li><a href="/bitcoin-pool-ddos.htm">&nbsp;BitCoin Centralization</a></li>
+                    <li><a href="/microsoft-reads-your-skype-messages.htm">&nbsp;Skype Spying</a></li>        
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+<ul>
+    <li class="headerlink" ><a href="/projects.htm">Miscellaneous<img class="downimg" src="/images/downarrow.gif" alt="&#9660;"/><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+        <ul>
+            <li><a href="/fractal-zoom.htm">&nbsp;Fractal Zoom</a></li>
+            <li><a href="/advice-to-aspiring-computer-engineers.htm">&nbsp;Advice for CS Students</a></li>
+            <li><a href="/new-york-times-algebra.htm">&nbsp;NYT Algebra</a></li>
+            <li><a href="/transparency.htm">&nbsp;Transparency</a></li>
+            <li><a href="/reading-list.htm">&nbsp;Reading List</a></li>
+            <li><a href="/x-plane-combat.htm">&nbsp;X-Plane Combat</a></li>
+            <li><a href="/the-universe-is-made-of-cheese.htm">&nbsp;Cheese Universe</a></li>
+            <li><a href="/vimrc.htm">&nbsp;My Vim Configuration</a></li>
+            <li><a href="/asuskeyboarddefect.htm">&nbsp;ASUS G51 Keyboard</a></li>
+            <li><a href="/honestyware.htm">&nbsp;Honestyware</a></li>
+            <li><a href="/online-free-computer-science-education.htm">&nbsp;CS Education</a></li>
+            <li><a href="/rules-for-working-with-me.htm">&nbsp;Working With Me</a></li>
+            <li><a href="/contributors.htm">&nbsp;Contributors</a></li>
+            <li><a href="/centripetal-acceleration.htm">&nbsp;Centripetal Accel.</a></li>
+            <li><a href="#"><span class="drop"><span>Mirrors</span>&raquo;</span><!--[if gt IE 6]><!--></a><!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->
+                <ul>
+                    <li><a href="/pocorgtfo.htm">&nbsp;PoC || GTFO Mirror</a></li>
+                    <li><a href="/truecrypt-7.1a-hashes.htm">&nbsp;TrueCrypt Hashes</a></li>
+                </ul>
+
+                <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+            </li>        
+        </ul>
+        <!--[if lte IE 6]></td></tr></table></a><![endif]-->
+    </li>
+</ul>
+
+
+</div> <!-- close "menu" div -->
+<hr style="display:none" />
+</div></div></div> <!-- close the "minwidth" wrappers -->
+<!-- End of menu -->
+
+<!--[if !IE]>-->
+<div id="undergrad"></div>
+<!--<![endif]-->
+
+<!--[If gt IE 6]>
+<div id="undergrad"></div>
+<![endif]-->
+
+<div id="content" >            <div class="upvotearrows">
+                    <div class="upvoteuparrow">
+            <form 
+                action="/audits/hash0.htm" 
+                method="post"
+                onsubmit="return upvote.submit('audithashzero', 'up')"
+                class="upvoteform upvoteUpFormaudithashzero"
+            >
+                <input type="hidden" name="upvotes_direction" value="up" />
+                <input type="hidden" name="upvotes_id" value="audithashzero" />
+                                    <input
+                        type="image" src="/images/upvote.gif" alt="Upvote"
+                        name="upvoteUpImageaudithashzero"
+                    />
+                            </form>
+        </div>
+            <div class="upvotecount upvoteCounteraudithashzero" >
+            111 
+        </div>
+            <div class="upvotedownarrow">
+            <form 
+                action="/audits/hash0.htm" 
+                method="post"
+                onsubmit="return upvote.submit('audithashzero', 'down')"
+                class="upvoteform upvoteDownFormaudithashzero"
+            >
+                <input type="hidden" name="upvotes_direction" value="down" />
+                <input type="hidden" name="upvotes_id" value="audithashzero" />
+                                    <input 
+                        type="image" src="/images/downvote.gif" alt="Downvote"
+                        name="upvoteDownImageaudithashzero"
+                    />
+                            </form>
+        </div>
+                </div>
+        <div class="pagedate">
+April 13, 2014
+</div>
+<h1>Hash0 Security Audit</h1>
+
+<p>
+This is the result of a 5-hour security audit of
+<a href="https://github.com/dannysu/hash0">Hash0</a>, which is a tool for
+turning a master password into unique passwords for websites based on the domain
+name (like pwdhash). Thanks to Hash0's author Danny Su for funding this audit.
+</p>
+
+<pre>
+-----------------------------------------------------------------------
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Security Audit of Hash0
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Taylor Hornby
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;April 13, &nbsp;2014
+-----------------------------------------------------------------------
+
+1. Introduction
+
+&nbsp;&nbsp; This report is the result of a 5-hour audit of Hash0 [1]. Hash0 is
+&nbsp;&nbsp; a tool for generating different passwords for websites based on
+&nbsp;&nbsp; a master password, similar to pwdhash [2] and hashpass [3].
+
+&nbsp;&nbsp; The audit scope and threat model are discussed in sections 1.2 and
+&nbsp;&nbsp; 1.3 respectively. Section 2 gives an overview of Hash0&#039;s
+&nbsp;&nbsp; cryptography. Section 3 presents security issues found during the
+&nbsp;&nbsp; audit. Section 4 recommends improvements. Section 5 lists future
+&nbsp;&nbsp; work, and Section 6 concludes.
+
+1.2 Audit Scope
+
+&nbsp;&nbsp; This audit focused on the implementation and design of Hash0&#039;s
+&nbsp;&nbsp; cryptography, and did not explicitly check for other kinds of
+&nbsp;&nbsp; vulnerabilities.
+
+&nbsp;&nbsp; While some light review of the supporting libraries was performed,
+&nbsp;&nbsp; the audit focused on code unique to Hash0 and did not include
+&nbsp;&nbsp; significant time reviewing the PasswordMaker, SJCL, or CryptoJS
+&nbsp;&nbsp; libraries.
+
+&nbsp;&nbsp; The SHA1 of the commit that was reviewed is:
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;09338e4f0f453e8ad95859e0f882cf7c7d54aa26
+
+1.3 Threat Model
+
+&nbsp;&nbsp; There are three types of entities involved in every use of Hash0:
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;1. The User
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;The User is the person using the Hash0 software. The User
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;knows the master password and uses Hash0 to generate
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;site-specific passwords from the one master password.
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;2. The Storage Provider
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;The Storage Provider is responsible for storing metadata
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;like the salts and synchronization settings. We assume this
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;entity is controlled by the adversary.
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;3. The Website
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;This is the website the user is using Hash0 to generate
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;a password for. The website provides a standard username and
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;password login interface and is not necessarily aware that
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Hash0 is being used. We assume this entity is controlled by
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;the adversary.
+
+&nbsp;&nbsp; The following list summarizes some kinds of attacks that would be
+&nbsp;&nbsp; considered security flaws in Hash0.
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;- Attacks that leak useful information about the Master Password
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;to any entity other than the User, even when the attacker can
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;see many generated passwords.
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;- Attacks that leak passwords for one Website to any entity
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;other than the User or the intended Website.
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;- Attacks that cause weak passwords to be generated.
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;- Attacks that speed up the recovery of the master key from
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;derived data (ciphertext, generated passwords, etc).
+
+2. Cryptography Design
+
+&nbsp;&nbsp; Given a master password, Hash0 runs it through 100 iterations PBKDF2
+&nbsp;&nbsp; with the salt &quot;saltysnacks&quot; to produce 512 bits of output*. That
+&nbsp;&nbsp; output is used as a key to HMAC the string &quot;zerobin1337&quot;. The HMAC
+&nbsp;&nbsp; output is converted to a 30-character password, called the
+&nbsp;&nbsp; &quot;encryption password&quot;, with a base conversion algorithm. This
+&nbsp;&nbsp; password is used for encrypting and decrypting data stored by the
+&nbsp;&nbsp; Storage Provider.
+
+&nbsp;&nbsp; The data stored by the Storage Provider is encrypted and decrypted
+&nbsp;&nbsp; using SJCL&#039;s encrypt() and decrypt() convenience functions, with the
+&nbsp;&nbsp; default parameters. The default is to derive an 128-bit key from the
+&nbsp;&nbsp; password with PBKDF2 then encrypt the data with AES in CCM mode,
+&nbsp;&nbsp; which is an authenticated encryption mode.
+
+&nbsp;&nbsp; To generate a password for a website, Hash0 runs the master password
+&nbsp;&nbsp; through 100 iterations of PBKDF2 with a random salt** to generate 512
+&nbsp;&nbsp; bits of output. &nbsp;That output is used as a key to HMAC the string
+&nbsp;&nbsp; which is the domain name of the website prefixed to the password
+&nbsp;&nbsp; number (used to generate multiple passwords for the same website).
+&nbsp;&nbsp; The HMAC output is converted to a password of configurable length
+&nbsp;&nbsp; using a base conversion algorithm.
+
+&nbsp;&nbsp; * - The PBKDF2 output is encoded in hex and is used as the HMAC key
+&nbsp;&nbsp; &nbsp; &nbsp; without being decoded.
+
+&nbsp;&nbsp; **- The salt may be the empty string if the Storage Provider URL is
+&nbsp;&nbsp; &nbsp; &nbsp; not configured. See Issue 3.7. The salt is encoded (and used) as
+&nbsp;&nbsp; &nbsp; &nbsp; a 128-bit hex string.
+
+3. Issues
+
+&nbsp;&nbsp; This section lists the issues discovered during the audit. We do not
+&nbsp;&nbsp; attempt to assign criticality or exploitability ratings to the
+&nbsp;&nbsp; issues.
+
+3.1 Encryption is Stored in LocalStorage
+
+&nbsp;&nbsp; The encryption key, which is used to encrypt and decrypt the data
+&nbsp;&nbsp; stored by the Storage Provider, is stored in localStorage. Unless the
+&nbsp;&nbsp; browser is in private browsing mode, it will be written to disk. It
+&nbsp;&nbsp; should be kept it memory.
+
+&nbsp;&nbsp; The Hash0 author was aware of this issue before this audit began.
+
+3.2 Salts Generated with Math.random()
+
+&nbsp;&nbsp; The salts are generated with CryptoJS&#039;s WordArray.random(), which
+&nbsp;&nbsp; uses Math.random(). This is insecure. Salts must be generated with
+&nbsp;&nbsp; a CSPRNG.
+
+&nbsp;&nbsp; Use window.crypto.getRandomValues() or the SJCL cryptographic random
+&nbsp;&nbsp; number generator.
+
+&nbsp;&nbsp; The Hash0 author was aware of this issue before this audit began.
+
+3.3 Low PBKDF2 Iteration Count
+
+&nbsp;&nbsp; Only 100 iterations of PBKDF2 are used when deriving the encryption
+&nbsp;&nbsp; password or a website password. This low value was explicitly chosen
+&nbsp;&nbsp; for performance reasons. According to these benchmarks...
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;https://wiki.mozilla.org/SJCL_PBKDF2_Benchmark
+
+&nbsp;&nbsp; ...most platforms can support many more iterations. The iteration
+&nbsp;&nbsp; count should be increased to 1000.
+
+&nbsp;&nbsp; This is probably because 1000 iterations of PBKDF2 actually are being
+&nbsp;&nbsp; used, but not in the right place. SJCL&#039;s encrypt() and decrypt()
+&nbsp;&nbsp; functions compute 1000 iterations of PBKDF2 to turn the passed string
+&nbsp;&nbsp; into a key. To avoid this, pass a key (bitArray), not a string, to
+&nbsp;&nbsp; encrypt() and decrypt().
+
+&nbsp;&nbsp; The Hash0 author was aware of this issue before the audit began.
+
+3.4 Corrupted Ciphertext Exception is Not Caught
+
+&nbsp;&nbsp; The SJCL decrypt() function will throw sjcl.exception.corrupt if the
+&nbsp;&nbsp; key is wrong or if an attacker has tampered with the ciphertext.
+&nbsp;&nbsp; Hash0 does not handle this case, and simply crashes without giving
+&nbsp;&nbsp; the user any explanation.
+
+&nbsp;&nbsp; This exception should be caught, and the user should be told that
+&nbsp;&nbsp; either the password they entered was wrong, or an attacker has
+&nbsp;&nbsp; tampered with the data saved by the Storage Provider.
+
+3.5 Encryption Password Derived with Constant Salt
+
+&nbsp;&nbsp; The encryption password is derived from the master password with
+&nbsp;&nbsp; a constant salt:
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;generatePassword(
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&#039;on&#039;, 30, &#039;zerobin&#039;, &#039;1337&#039;, &#039;saltysnacks&#039;, password
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;);
+
+&nbsp;&nbsp; This is insecure, because the same master password will always
+&nbsp;&nbsp; generate the same encryption password, so rainbow tables and lookup
+&nbsp;&nbsp; tables can be used to crack the encrypted data.
+
+&nbsp;&nbsp; Fixing this is left as future work. See Section 5.3.
+
+3.6 Migration Code Always Runs
+
+&nbsp;&nbsp; This is not a security issue. The code to prompt the user if they
+&nbsp;&nbsp; want to migrate will always run, because the &quot;if&quot; statement&#039;s
+&nbsp;&nbsp; condition will always be true:
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;var password = $(&#039;#setup_master&#039;).val();
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;localStorage[&#039;encryptionPassword&#039;] = // ... snipped ...
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;var url = $(&#039;#setup_url&#039;).val();
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;localStorage[&#039;settingsURL&#039;] = url;
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;// Check if there is existing settings
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if (defined(localStorage[&#039;settingsURL&#039;]) &amp;&amp;
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;defined(localStorage[&#039;encryptionPassword&#039;])) {
+
+3.7 Empty Salt Used Without Warning
+
+&nbsp;&nbsp; If the URL to the Storage Provider is not provided or is empty, an
+&nbsp;&nbsp; empty salt is used:
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;if (!defined(localStorage[&#039;encryptionPassword&#039;]) ||
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;!defined(localStorage[&#039;settingsURL&#039;]) ||
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;localStorage[&#039;settingsURL&#039;] == &#039;&#039;) {
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;salt = &#039;&#039;;
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;} else {
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;...
+
+&nbsp;&nbsp; Instead of using an empty salt, display an error (refuse to generate
+&nbsp;&nbsp; passwords), or warn the user and ask them to opt-in to using the
+&nbsp;&nbsp; empty salt.
+
+3.8 HMAC Key is a Hex String
+
+&nbsp;&nbsp; When deriving the encryption password or a website password, the
+&nbsp;&nbsp; string used for the HMAC key is hex-encoded. This does not cause any
+&nbsp;&nbsp; immediate weaknesses, however using a key that isn&#039;t uniformly
+&nbsp;&nbsp; distributed is not ideal and probably breaks some of HMAC&#039;s security
+&nbsp;&nbsp; proofs.
+
+3.9 Salt is a Hex String
+
+&nbsp;&nbsp; The salt passed to PBKDF2 is a hex string. While this doesn&#039;t cause
+&nbsp;&nbsp; any immediate security problems, it is not ideal.
+
+3.10 Password is Output Before Settings are Saved
+
+&nbsp;&nbsp; When generating a website password, the password is shown to the user
+&nbsp;&nbsp; before the settings are uploaded. This means an attacker who can
+&nbsp;&nbsp; prevent the settings from being uploaded (e.g. by a DoS attack) can
+&nbsp;&nbsp; cause password reuse in some cases:
+
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;1. User generates a password for example.org.
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;2. Example.org&#039;s password database is breached.
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;3. User generates a new password, but the upload fails.
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;4. Example.org&#039;s password database is breached again.
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;5. User generates a new password, but this time it&#039;s the same as
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; the one generated in (4) because the upload with the
+&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; incremented number failed.
+
+3.11 Browser Tab Race Conditions
+
+&nbsp;&nbsp; Because of a TOCTTOU bug, it&#039;s possible for the password to be
+&nbsp;&nbsp; entered in to the wrong tab.&nbsp;
+&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; The init() function first obtains the password for the current param
+&nbsp;&nbsp; (domain), and then, AFTER it already has the password, it inserts it
+&nbsp;&nbsp; into the current tab. The tab might have changed in between.
+&nbsp;&nbsp; &nbsp;
+&nbsp;&nbsp; A malicious website could potentially &quot;steal focus&quot; at just the right
+&nbsp;&nbsp; time to steal a password that was intended for another website.
+
+&nbsp;&nbsp; To fix this, make sure that the tab the password is going to be
+&nbsp;&nbsp; inserted into is the same as the one that was the source of param.
+
+4. Recommendations
+
+4.1 Unit Tests
+
+&nbsp;&nbsp; Hash0 could benefit from unit tests, especially of important
+&nbsp;&nbsp; functions like initWithUrl() and generatePassword().
+
+4.2 Use PBKDF2 alone, not PBKDF2 then HMAC
+
+&nbsp;&nbsp; It doesn&#039;t seem necessary to use PBKDF2 to generate a key then to use
+&nbsp;&nbsp; HMAC on top of that to apply the param and number. It would be better
+&nbsp;&nbsp; to encode everything unambiguously into the PBKDF2 salt.
+
+4.3 Do Not Use Passwords as Intermediate Keys
+
+&nbsp;&nbsp; Hash0 is somewhat strange in that instead of deriving an encryption
+&nbsp;&nbsp; key from the password, it derives another &quot;encryption password.&quot; This
+&nbsp;&nbsp; is inefficient at best, and error-prone at worst. Stick to binary
+&nbsp;&nbsp; keys whenever possible.
+
+5. Future Work
+
+5.1 Side Channel Attacks
+
+&nbsp;&nbsp; Some of the code seems vulnerable to side-channel attacks. For
+&nbsp;&nbsp; example, passwordmaker/hashutils.js uses charAt() to get the
+&nbsp;&nbsp; character at an index into the character set, where the index is
+&nbsp;&nbsp; a secret.
+
+&nbsp;&nbsp; It could be possible for other scripts running in the browser, or
+&nbsp;&nbsp; other processes running on the system (as other users), to extract
+&nbsp;&nbsp; the key this way.
+
+5.2 URL Reliability
+
+&nbsp;&nbsp; This audit did not fully explore all possible problems with the URL
+&nbsp;&nbsp; used to find the domain name not matching up with the actual URL of
+&nbsp;&nbsp; the page. Is it possible for a page to lie about its URL, so that
+&nbsp;&nbsp; Hash0 is fooled into giving it the password for another website?
+
+5.3 Salting the Master Password
+
+&nbsp;&nbsp; The encryption key is derived from the master key with a fixed salt.
+&nbsp;&nbsp; Obviously, a random salt should be used instead. More time is needed
+&nbsp;&nbsp; to design a secure solution.
+
+5.4 Storage Provider Replaying Old Data
+
+&nbsp;&nbsp; What exactly happens when the Storage Provider replays an old
+&nbsp;&nbsp; ciphertext? &nbsp;This will cause old passwords to be generated, and
+&nbsp;&nbsp; possibly some passwords re-used. What kind of risk does this pose to
+&nbsp;&nbsp; the user?
+
+6. Conclusion
+
+&nbsp;&nbsp; No fatal flaws in Hash0 were identified. However, there is room for
+&nbsp;&nbsp; improvement. The most significant issues are 3.1, 3.2, 3.4, and 3.5.
+&nbsp;&nbsp; 3.11 may be very important as well, depending on how exploitable it
+&nbsp;&nbsp; is in practice (something this audit did not investigate).
+
+7. References
+
+[1] https://github.com/dannysu/hash0
+[2] https://www.pwdhash.com/
+[3] http://www.hashapass.com/en/index.html
+</pre>
+
+</div>
+</div> <!-- Wrap -->
+        <div id="footerwrapper">
+        <div id="footerborder"></div>
+        <div id="footer">
+
+        <div style="float: right;">
+        <table>
+            <tr>
+                <th>Your IP:</th>
+                <td>
+                127.0.0.1                </td>
+            </tr>
+            <tr>
+                <th>DNT Header:&nbsp;&nbsp;&nbsp;</th>
+                <td>Disabled</td>            </tr>
+        </table>
+        </div>
+
+                <table>
+            <tr>
+                <th>Page Hits:</th>
+                <td>74009</td>
+            </tr>
+            <tr>
+                <th>Unique Hits:</th>
+                <td>9210</td>
+            </tr>
+        </table>
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0; vertical-align: bottom;" src="/images/cc-by-sa.png" /></a>
+         <a href="/about.htm">Defuse Security</a> | 
+        <a href="/pastebin.htm">Secure Pastebin</a> | 
+        <a href="/passgen.htm">Password Generator</a> |
+        <a href="http://crackstation.net/" rel="external">&raquo; CrackStation</a>
+        </div> <!-- end footer -->
+        </div> <!-- footerwrapper -->
+        <!-- Piwik -->
+<!-- disabled piwik/matomo temporarily cuz it's broken
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u=(("https:" == document.location.protocol) ? "https" : "http") + "://defuse.ca/piwik/";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 1]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+    g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+
+</script>
+<noscript><p><img src="https://defuse.ca/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+-->
+<!-- End Piwik Code -->
+
+</body>
+</html>
