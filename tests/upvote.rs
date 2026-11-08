@@ -6,7 +6,8 @@
 mod common;
 
 use common::url;
-use quick_xml::events::Event;
+use quick_xml::escape::resolve_predefined_entity;
+use quick_xml::events::{BytesRef, Event};
 use quick_xml::Reader;
 use reqwest::Client;
 use scraper::{Html, Selector};
@@ -143,38 +144,87 @@ impl VoteClient for FormClient {
 // Response Parsing
 // =============================================================================
 
+/// The child elements of `<response>`, in the order defuse-rust's `xml_response` writes them.
+const RESPONSE_FIELDS: [&str; 4] = ["status", "uparrow", "downarrow", "total"];
+
+/// Where `parse_xml_response` is in the document.
+enum ParseState {
+    BeforeResponse,
+    InResponse,
+    /// Inside the `RESPONSE_FIELDS[fields.len()]` element, collecting its text.
+    InField(Vec<TextPiece>),
+    AfterResponse,
+}
+
+/// One piece of an element's text. quick-xml reports `&...;` references as separate
+/// GeneralRef events, so an element's text arrives as raw text and resolved references.
+enum TextPiece {
+    Raw(String),
+    Reference(String),
+}
+
 /// Parse XML response from /upvote.php
+///
+/// Accepts only the exact shape defuse-rust's `xml_response` produces: an optional XML
+/// declaration, then `<response>` containing `<status>`, `<uparrow>`, `<downarrow>` and
+/// `<total>` exactly once each, in that order, holding only text, with only whitespace
+/// between elements. Anything else panics. For every response it accepts, it gives the same
+/// result the quick-xml 0.37 parser it replaced did. That parser silently tolerated
+/// comments, duplicate or missing elements and stray text, so this one is never more
+/// lenient than it.
 fn parse_xml_response(xml: &str) -> VoteState {
     let mut reader = Reader::from_str(xml);
-    reader.config_mut().trim_text(true);
-
-    let mut status = String::new();
-    let mut uparrow = String::new();
-    let mut downarrow = String::new();
-    let mut total = String::new();
-    let mut current_tag = String::new();
+    let mut fields: Vec<String> = Vec::new();
+    let mut state = ParseState::BeforeResponse;
 
     loop {
-        match reader.read_event() {
-            Ok(Event::Start(e)) => {
-                current_tag = String::from_utf8_lossy(e.name().as_ref()).to_string();
+        let event = reader
+            .read_event()
+            .unwrap_or_else(|e| panic!("Error parsing XML: {}", e));
+        state = match (state, event) {
+            (ParseState::BeforeResponse, Event::Decl(_)) => ParseState::BeforeResponse,
+            (ParseState::BeforeResponse, Event::Start(e)) if e.name().as_ref() == "response" => {
+                ParseState::InResponse
             }
-            Ok(Event::Text(e)) => {
-                let text = e.unescape().unwrap_or_default().to_string();
-                match current_tag.as_str() {
-                    "status" => status = text,
-                    "uparrow" => uparrow = text,
-                    "downarrow" => downarrow = text,
-                    "total" => total = text,
-                    _ => {}
-                }
+            (ParseState::InResponse, Event::Start(e))
+                if fields.len() < RESPONSE_FIELDS.len()
+                    && e.name().as_ref() == RESPONSE_FIELDS[fields.len()] =>
+            {
+                ParseState::InField(Vec::new())
             }
-            Ok(Event::Eof) => break,
-            Err(e) => panic!("Error parsing XML: {}", e),
-            _ => {}
-        }
+            (ParseState::InField(mut pieces), Event::Text(e)) => {
+                pieces.push(TextPiece::Raw(e.to_string()));
+                ParseState::InField(pieces)
+            }
+            (ParseState::InField(mut pieces), Event::GeneralRef(e)) => {
+                pieces.push(TextPiece::Reference(resolve_reference(&e)));
+                ParseState::InField(pieces)
+            }
+            (ParseState::InField(pieces), Event::End(e))
+                if e.name().as_ref() == RESPONSE_FIELDS[fields.len()] =>
+            {
+                fields.push(element_text(pieces));
+                ParseState::InResponse
+            }
+            (ParseState::InResponse, Event::End(e))
+                if fields.len() == RESPONSE_FIELDS.len() && e.name().as_ref() == "response" =>
+            {
+                ParseState::AfterResponse
+            }
+            (ParseState::AfterResponse, Event::Eof) => break,
+            (
+                state @ (ParseState::BeforeResponse
+                | ParseState::InResponse
+                | ParseState::AfterResponse),
+                Event::Text(e),
+            ) if e.chars().all(is_xml_whitespace) => state,
+            (_, other) => panic!("Unexpected XML in upvote response: {:?}", other),
+        };
     }
 
+    let [status, uparrow, downarrow, total]: [String; 4] = fields
+        .try_into()
+        .expect("AfterResponse is only reached once all four fields are read");
     assert_eq!(status, "pass", "Expected status=pass, got: {}", status);
 
     VoteState {
@@ -182,6 +232,192 @@ fn parse_xml_response(xml: &str) -> VoteState {
         downarrow: downarrow == "Y",
         total: total.parse().expect("Failed to parse total as i32"),
     }
+}
+
+/// XML whitespace, as quick-xml 0.37's `trim_text` defined it (not Unicode whitespace).
+fn is_xml_whitespace(character: char) -> bool {
+    matches!(character, ' ' | '\t' | '\r' | '\n')
+}
+
+/// Join an element's pieces, trimmed the way quick-xml 0.37's `trim_text(true)` trimmed
+/// the raw text before unescaping it: XML whitespace is removed from the very start and
+/// end of the raw text only, never from what a reference such as `&#32;` resolves to.
+fn element_text(pieces: Vec<TextPiece>) -> String {
+    let piece_count = pieces.len();
+    pieces
+        .into_iter()
+        .enumerate()
+        .map(|(index, piece)| match piece {
+            TextPiece::Reference(resolved) => resolved,
+            TextPiece::Raw(raw) => {
+                let mut text = raw.as_str();
+                if index == 0 {
+                    text = text.trim_start_matches(is_xml_whitespace);
+                }
+                if index + 1 == piece_count {
+                    text = text.trim_end_matches(is_xml_whitespace);
+                }
+                text.to_string()
+            }
+        })
+        .collect()
+}
+
+/// Resolve a `&...;` reference: a character reference or one of the five predefined XML
+/// entities, which is what quick-xml 0.37's `BytesText::unescape` used to resolve.
+fn resolve_reference(reference: &BytesRef) -> String {
+    match reference
+        .resolve_char_ref()
+        .expect("Invalid character reference in XML")
+    {
+        Some(character) => character.to_string(),
+        None => resolve_predefined_entity(reference)
+            .unwrap_or_else(|| panic!("Unknown entity reference in XML: &{};", &**reference))
+            .to_string(),
+    }
+}
+
+// Offline tests for the XML parser above (no server needed).
+
+/// Same shape as defuse-rust's `xml_response` in src/upvote.rs.
+fn upvote_xml(status: &str, uparrow: &str, downarrow: &str, total: &str) -> String {
+    format!(
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<response>\n\
+         <status>{status}</status>\n<uparrow>{uparrow}</uparrow>\n\
+         <downarrow>{downarrow}</downarrow>\n<total>{total}</total>\n</response>\n"
+    )
+}
+
+#[test]
+fn parse_xml_response_reads_plain_values() {
+    assert_eq!(
+        parse_xml_response(&upvote_xml("pass", "Y", "N", "-3")),
+        VoteState { uparrow: true, downarrow: false, total: -3 }
+    );
+    assert_eq!(
+        parse_xml_response(&upvote_xml("pass", "N", "Y", "12")),
+        VoteState { uparrow: false, downarrow: true, total: 12 }
+    );
+}
+
+#[test]
+fn parse_xml_response_joins_text_split_by_references() {
+    // Character and predefined-entity references arrive as separate events and
+    // must be stitched back into the element's text.
+    assert_eq!(
+        parse_xml_response(&upvote_xml("p&#97;s&#x73;", "&#89;", "N", "&#45;4&#50;")),
+        VoteState { uparrow: true, downarrow: false, total: -42 }
+    );
+}
+
+#[test]
+fn parse_xml_response_trims_whole_element_text() {
+    assert_eq!(
+        parse_xml_response(&upvote_xml(" pass\n", "\n  Y  ", "N", "\t&#45;7 ")),
+        VoteState { uparrow: true, downarrow: false, total: -7 }
+    );
+}
+
+#[test]
+#[should_panic(expected = "Expected status=pass, got: it&'s \"bad\" <x>")]
+fn parse_xml_response_resolves_predefined_entities_in_status() {
+    parse_xml_response(&upvote_xml("it&amp;&apos;s &quot;bad&quot; &lt;x&gt;", "N", "N", "0"));
+}
+
+#[test]
+#[should_panic(expected = "Unknown entity reference in XML: &nbsp;")]
+fn parse_xml_response_rejects_unknown_entities() {
+    parse_xml_response(&upvote_xml("pass&nbsp;", "N", "N", "0"));
+}
+
+#[test]
+#[should_panic(expected = "Invalid character reference in XML")]
+fn parse_xml_response_rejects_invalid_character_references() {
+    parse_xml_response(&upvote_xml("pass", "&#0;", "N", "0"));
+}
+
+#[test]
+#[should_panic(expected = "Error parsing XML")]
+fn parse_xml_response_rejects_malformed_xml() {
+    parse_xml_response("<response><status>pass</uparrow></response>");
+}
+
+#[test]
+#[should_panic(expected = "Expected status=pass, got:  pass")]
+fn parse_xml_response_does_not_trim_whitespace_from_references() {
+    // `&#32;` is a space produced by a reference, not raw whitespace.
+    parse_xml_response(&upvote_xml("&#32;pass", "N", "N", "0"));
+}
+
+#[test]
+#[should_panic(expected = "Expected status=pass, got: \u{a0}pass")]
+fn parse_xml_response_does_not_trim_non_xml_whitespace() {
+    // U+00A0 is Unicode whitespace but not XML whitespace.
+    parse_xml_response(&upvote_xml("\u{a0}pass", "N", "N", "0"));
+}
+
+#[test]
+#[should_panic(expected = "Unexpected XML in upvote response: Comment(")]
+fn parse_xml_response_rejects_comments() {
+    parse_xml_response(&upvote_xml("pa<!--c-->ss", "N", "N", "0"));
+}
+
+#[test]
+#[should_panic(expected = "Unexpected XML in upvote response: CData(")]
+fn parse_xml_response_rejects_cdata() {
+    parse_xml_response(&upvote_xml("<![CDATA[pass]]>", "N", "N", "0"));
+}
+
+#[test]
+#[should_panic(expected = "Unexpected XML in upvote response: Empty(")]
+fn parse_xml_response_rejects_nested_elements() {
+    parse_xml_response(&upvote_xml("pa<b/>ss", "N", "N", "0"));
+}
+
+#[test]
+#[should_panic(expected = "Unexpected XML in upvote response: Start(")]
+fn parse_xml_response_rejects_duplicate_elements() {
+    let xml = upvote_xml("pass", "N", "N", "1").replace("</total>", "</total><total>2</total>");
+    parse_xml_response(&xml);
+}
+
+#[test]
+#[should_panic(expected = "Unexpected XML in upvote response: Start(")]
+fn parse_xml_response_rejects_out_of_order_elements() {
+    parse_xml_response("<response><uparrow>Y</uparrow><status>pass</status></response>");
+}
+
+#[test]
+#[should_panic(expected = "Unexpected XML in upvote response: End(")]
+fn parse_xml_response_rejects_missing_elements() {
+    parse_xml_response(
+        "<response><status>pass</status><uparrow>Y</uparrow><downarrow>N</downarrow></response>",
+    );
+}
+
+#[test]
+#[should_panic(expected = "Unexpected XML in upvote response: Text(")]
+fn parse_xml_response_rejects_stray_text_between_elements() {
+    let xml = upvote_xml("pass", "N", "N", "0").replace("</status>", "</status>junk");
+    parse_xml_response(&xml);
+}
+
+#[test]
+#[should_panic(expected = "Unexpected XML in upvote response: Text(")]
+fn parse_xml_response_rejects_text_after_response() {
+    parse_xml_response(&(upvote_xml("pass", "N", "N", "0") + "extra"));
+}
+
+#[test]
+#[should_panic(expected = "Unexpected XML in upvote response: Start(")]
+fn parse_xml_response_rejects_wrong_root_element() {
+    parse_xml_response("<other><status>pass</status></other>");
+}
+
+#[test]
+#[should_panic(expected = "Unexpected XML in upvote response: Eof")]
+fn parse_xml_response_rejects_empty_input() {
+    parse_xml_response("");
 }
 
 /// Parse HTML response from form POST to extract vote state
